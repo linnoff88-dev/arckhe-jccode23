@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3.3 Scripts y referencias auxiliares | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124, 58, 237, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha3/modulo-3-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha3/modulo-3-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha3/modulo-3-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/modulo-3-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha3/modulo-3-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-3-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Skills (T3)</a>
+<span>/</span>
+<span class="text-purple-400">Módulo 3.3</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">📂 Scripts y referencias auxiliares</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Estructura completa de una skill profesional: carpeta scripts/ con helpers de bash, archivos reference.md, .env.example para las claves, divulgación progresiva y reglas estrictas inquebrantables.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Intermedio</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Práctico</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: scripts/ -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">⚙️ Carpeta scripts/: automatización con shell</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La subcarpeta <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">scripts/</code> contiene los ejecutables que el agente invoca mediante Bash. Cada script es atómico: una responsabilidad, una salida clara.</p>
+<!-- SVG: arquitetura da skill com scripts -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Estructura profesional de una skill: SKILL.md orquesta scripts atómicos en scripts/, documentación en references/ y claves en .env" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 580 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m33-glow"><fegaussianblur result="b4" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b4"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<pattern height="18" id="m33-dots" patternunits="userSpaceOnUse" width="18" x="0" y="0"><circle cx="1" cy="1" fill="#374151" r="0.8"></circle></pattern>
+<rect fill="url(#m33-dots)" height="200" opacity="0.35" width="580"></rect>
+<!-- SKILL.md centro -->
+<rect fill="#1a1230" filter="url(#m33-glow)" height="50" rx="10" stroke="#a855f7" stroke-width="2" width="140" x="220" y="75"></rect>
+<text fill="#c084fc" font-size="11" font-weight="600" text-anchor="middle" x="290" y="97">SKILL.md</text>
+<text fill="#9ca3af" font-size="9" text-anchor="middle" x="290" y="113">orquestador</text>
+<!-- scripts/ (esquerda) -->
+<rect fill="#1a1230" height="35" rx="7" stroke="#c084fc" stroke-width="1.5" width="120" x="30" y="30"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="90" y="48">scripts/check.sh</text>
+<rect fill="#1a1230" height="35" rx="7" stroke="#c084fc" stroke-width="1.5" width="120" x="30" y="75"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="90" y="93">scripts/analyze.sh</text>
+<rect fill="#1a1230" height="35" rx="7" stroke="#c084fc" stroke-width="1.5" width="120" x="30" y="120"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="90" y="138">scripts/generate.sh</text>
+<!-- Setas scripts → SKILL.md -->
+<line stroke="#c084fc" stroke-dasharray="4,2" stroke-width="1.5" x1="150" x2="218" y1="47" y2="87"></line>
+<line stroke="#c084fc" stroke-dasharray="4,2" stroke-width="1.5" x1="150" x2="218" y1="92" y2="100"></line>
+<line stroke="#c084fc" stroke-dasharray="4,2" stroke-width="1.5" x1="150" x2="218" y1="137" y2="113"></line>
+<!-- references/ (direita) -->
+<rect fill="#0e1b26" height="35" rx="7" stroke="#38bdf8" stroke-width="1.5" width="130" x="430" y="30"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="495" y="48">reference.md</text>
+<rect fill="#0e1b26" height="35" rx="7" stroke="#38bdf8" stroke-width="1.5" width="130" x="430" y="75"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="495" y="93">prompting/model-routing</text>
+<rect fill="#0e1b26" height="35" rx="7" stroke="#4b5563" stroke-width="1.5" width="130" x="430" y="120"></rect>
+<text fill="#9ca3af" font-size="9.5" font-weight="600" text-anchor="middle" x="495" y="138">.env.example</text>
+<!-- Setas SKILL.md → references -->
+<line stroke="#38bdf8" stroke-dasharray="4,2" stroke-width="1.5" x1="360" x2="428" y1="87" y2="47"></line>
+<line stroke="#38bdf8" stroke-dasharray="4,2" stroke-width="1.5" x1="360" x2="428" y1="100" y2="92"></line>
+<line stroke="#6b7280" stroke-dasharray="4,2" stroke-width="1.5" x1="360" x2="428" y1="113" y2="137"></line>
+<text fill="#4b5563" font-size="8.5" text-anchor="middle" x="290" y="185">SKILL.md sigue siendo corto — scripts y referencias se cargan bajo demanda</text>
+</svg>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Ejemplo: script atómico check-deps.sh</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-neutral-500">#!/bin/bash</span>
+<span class="text-neutral-500"># check-deps.sh — verifica dependências antes de executar</span>
+<span class="text-neutral-500"># Uso: bash scripts/check-deps.sh</span>
+
+<span class="text-purple-300">set -e</span>
+
+<span class="text-neutral-400">echo "Verificando dependências..."</span>
+
+<span class="text-neutral-400"># Verifica ffmpeg</span>
+<span class="text-yellow-300">if ! command -v ffmpeg &amp;&gt;/dev/null; then</span>
+  <span class="text-red-300">echo "❌ ffmpeg não encontrado. Instale: brew install ffmpeg"</span>
+  <span class="text-red-300">exit 1</span>
+<span class="text-yellow-300">fi</span>
+
+<span class="text-neutral-400"># Verifica .env</span>
+<span class="text-yellow-300">if [ ! -f .env ]; then</span>
+  <span class="text-red-300">echo "❌ .env não encontrado. Copie .env.example e preencha."</span>
+  <span class="text-red-300">exit 1</span>
+<span class="text-yellow-300">fi</span>
+
+<span class="text-emerald-300">echo "✅ Tudo pronto!"</span></code></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Scripts bien redactados</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Una responsabilidad por archivo</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Nombre con verbo-sustantivo (check-deps, analyze-video)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Shebang en la primera línea</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Salida clara con ✅/❌</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>set -e para fallar rápido</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Scripts problemáticos</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Script monolítico de 500 líneas</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Código inline en SKILL.md</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>API key hardcodeada en el script</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sin manejo de errores</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nombre genérico (script.sh, run.sh)</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Atómico</div><div class="text-xs text-neutral-500 mt-1">1 script = 1 tarea</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Verbo-sust.</div><div class="text-xs text-neutral-500 mt-1">nombre descriptivo</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">chmod +x</div><div class="text-xs text-neutral-500 mt-1">ejecutable</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Prefijo</div><div class="text-xs text-neutral-500 mt-1">arcads_*, n8n_*</div></div>
+</div>
+</section>
+<!-- TÓPICO 2: reference.md -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📚 Archivos reference.md</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">References son los "manuales detallados" de la skill — contienen todo lo que sería demasiado extenso para el SKILL.md principal. El agente los consulta bajo demanda, cuando necesita información detallada.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">Qué va en references/</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-purple-400 font-semibold mb-2">📄 reference.md</div>
+<ul class="space-y-1 text-neutral-400">
+<li>• Especificaciones completas de la API</li>
+<li>• Tablas de parámetros</li>
+<li>• Ejemplos de response JSON</li>
+<li>• Códigos de error y manejo</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-blue-400 font-semibold mb-2">📁 prompting/</div>
+<ul class="space-y-1 text-neutral-400">
+<li>• Fórmulas de copywriting</li>
+<li>• Reglas de análisis de contenido</li>
+<li>• Lógica de enrutamiento</li>
+<li>• Templates de prompt</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="text-emerald-400 font-semibold mb-2">📋 MASTER_COMPLETO.md</div>
+<ul class="space-y-1 text-neutral-400">
+<li>• Templates HTML completos</li>
+<li>• Sistema de colores y tipografía</li>
+<li>• Componentes reutilizables</li>
+<li>• Listas de verificación de revisión</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Cómo SKILL.md hace referencia a los archivos externos</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-purple-300">## Referências</span>
+
+<span class="text-neutral-400">Sempre leia estes arquivos antes de criar ou editar qualquer página:</span>
+
+<span class="text-emerald-300">1. **`references/MASTER_COMPLETO.md`**</span>
+<span class="text-neutral-300">   Templates HTML completos, CSS e JavaScript obrigatórios.</span>
+<span class="text-neutral-300">   Contém tudo que você precisa para construir qualquer página.</span>
+
+<span class="text-emerald-300">2. **`references/CHECKLIST_REVISAO.md`**</span>
+<span class="text-neutral-300">   Checklist para verificar a página antes de entregar.</span>
+
+<span class="text-emerald-300">3. **`references/SVG-FUTURISTA.md`**</span>
+<span class="text-neutral-300">   Leia SEMPRE que for criar um módulo de conteúdo.</span>
+
+<span class="text-neutral-500"># O SKILL.md menciona, mas não duplica. Detalhes ficam nas refs.</span></code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Regla de oro: mencionar, no duplicar</h3>
+<p class="text-neutral-300 text-sm">El SKILL.md solo debe <strong>apuntar</strong> para los references — nunca copies su contenido. La duplicación crea inconsistencias: cuando actualizas el reference, el SKILL.md queda desactualizado sin que te des cuenta.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">A pedido</div><div class="text-xs text-neutral-500 mt-1">leídos cuando sea necesario</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Sin límite</div><div class="text-xs text-neutral-500 mt-1">pueden ser extensos</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Mencionado</div><div class="text-xs text-neutral-500 mt-1">enlace en SKILL.md</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">No está duplicado</div><div class="text-xs text-neutral-500 mt-1">fuente única de verdad</div></div>
+</div>
+</section>
+<!-- TÓPICO 3: .env.example -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🔑 .env.example: secretos fuera del código</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El archivo <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">.env.example</code> es el estándar de la industria para documentar variables de entorno sin exponer valores reales.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Ejemplo: .env.example para una skill con API externa</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-neutral-500"># .env.example — copie para .env e preencha com valores reais</span>
+<span class="text-neutral-500"># NUNCA faça commit do arquivo .env</span>
+
+<span class="text-neutral-500"># Arcads API</span>
+<span class="text-purple-300">ARCADS_API_KEY</span>=<span class="text-neutral-400">sua_chave_arcads_aqui</span>
+<span class="text-purple-300">ARCADS_BASE_URL</span>=<span class="text-emerald-300">https://api.arcads.ai/v1</span>
+
+<span class="text-neutral-500"># Configurações opcionais</span>
+<span class="text-purple-300">ARCADS_DEFAULT_MODEL</span>=<span class="text-emerald-300">seedance-2.0</span>
+<span class="text-purple-300">ARCADS_TIMEOUT_SECONDS</span>=<span class="text-emerald-300">300</span>
+
+<span class="text-neutral-500"># Diretórios de trabalho</span>
+<span class="text-purple-300">WORK_DIR</span>=<span class="text-emerald-300">./tmp/arcads</span>
+<span class="text-purple-300">OUTPUT_DIR</span>=<span class="text-emerald-300">./output</span></code></pre>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Regla estricta de seguridad</h3>
+<p class="text-neutral-300 text-sm mb-3">Una clave de API expuesta en un commit público puede generar pérdidas en minutos. Sigue estas reglas sin excepción:</p>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span><strong class="text-red-400">NUNCA</strong> haz commit del archivo <code class="bg-dark-800 px-1 rounded">.env</code> real</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span><strong class="text-red-400">NUNCA</strong> registra las variables de entorno en la salida o en la depuración</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span><strong class="text-red-400">SIEMPRE</strong> agrega <code class="bg-dark-800 px-1 rounded">.env</code> al .gitignore</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span><strong class="text-red-400">SIEMPRE</strong> usa <code class="bg-dark-800 px-1 rounded">$VARIAVEL</code> en los scripts, nunca como valor literal</span></li>
+</ul>
+</div>
+<!-- Timeline: ciclo de setup do .env -->
+<h3 class="text-lg font-semibold mb-4 text-purple-400">Ciclo de configuración para nuevos usuarios</h3>
+<div class="space-y-5 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">1</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Clona / instala la skill</h4>
+<p class="text-sm text-neutral-400">El .env.example ya está en la carpeta. El usuario ve lo que necesita configurar.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">2</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1"><code class="font-mono text-xs">cp .env.example .env</code></h4>
+<p class="text-sm text-neutral-400">Copia la plantilla. El .env real nunca va al repositorio.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center"><span class="text-purple-400 font-bold">3</span></div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Completa los valores reales</h4>
+<p class="text-sm text-neutral-400">Edita el .env con la API key real. El script check.sh verifica que esté completo antes de usar la skill.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">.env.example</div><div class="text-xs text-neutral-500 mt-1">en el repositorio</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">.env</div><div class="text-xs text-neutral-500 mt-1">en .gitignore</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">$VARIAVEL</div><div class="text-xs text-neutral-500 mt-1">en los scripts</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">check.sh</div><div class="text-xs text-neutral-500 mt-1">verifica antes</div></div>
+</div>
+</section>
+<!-- TÓPICO 4: Progressive disclosure -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔽 Divulgación progresiva</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed"><strong class="text-purple-400">Progressive disclosure</strong> es el principio de mostrar primero lo esencial y revelar detalles a pedido. Aplicado a las skills: SKILL.md breve + references detallados + scripts especializados.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">Los 3 niveles de detalle</h3>
+<div class="space-y-4">
+<div class="flex items-center space-x-4 p-4 bg-dark-800 rounded-lg border border-purple-500/20">
+<div class="text-2xl">📄</div>
+<div class="flex-1">
+<div class="font-semibold text-purple-400">Nivel 1 — SKILL.md</div>
+<div class="text-sm text-neutral-400">Flujo principal, reglas críticas, referencias. Se lee SIEMPRE. 50-150 líneas.</div>
+</div>
+<div class="text-xs text-purple-400 font-semibold">SIEMPRE</div>
+</div>
+<div class="flex items-center space-x-4 p-4 bg-dark-800 rounded-lg border border-dark-600">
+<div class="text-2xl">📚</div>
+<div class="flex-1">
+<div class="font-semibold text-blue-400">Nivel 2 — references/</div>
+<div class="text-sm text-neutral-400">Specs detalladas, tablas e historial. Se lee cuando el agente necesita información detallada.</div>
+</div>
+<div class="text-xs text-blue-400 font-semibold">A PEDIDO</div>
+</div>
+<div class="flex items-center space-x-4 p-4 bg-dark-800 rounded-lg border border-dark-600">
+<div class="text-2xl">⚙️</div>
+<div class="flex-1">
+<div class="font-semibold text-emerald-400">Nivel 3 — scripts/</div>
+<div class="text-sm text-neutral-400">Implementación concreta. Se ejecuta cuando el agente necesita realizar una acción.</div>
+</div>
+<div class="text-xs text-emerald-400 font-semibold">AL EJECUTAR</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Por qué la progresividad ahorra tokens</h3>
+<p class="text-neutral-300 text-sm">Un SKILL.md de 500 líneas cuesta entre 5 y 10 veces más tokens que uno de 100 líneas, y se lee en CADA activación. Las referencias de 500 líneas solo consumen tokens cuando el agente las necesita. La divulgación progresiva hace que la skill sea escalable.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Nivel 1</div><div class="text-xs text-neutral-500 mt-1">SKILL.md corto</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-blue-400">Nivel 2</div><div class="text-xs text-neutral-500 mt-1">references extensos</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-emerald-400">Nivel 3</div><div class="text-xs text-neutral-500 mt-1">scripts ejecutables</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Economía</div><div class="text-xs text-neutral-500 mt-1">tokens bajo demanda</div></div>
+</div>
+</section>
+<!-- TÓPICO 5: Hard rules -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🚧 Reglas estrictas: reglas que nunca se rompen</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Las hard rules son restricciones absolutas: el sistema inmunitario de la skill. Se diferencian de las guidelines (sugerencias) porque no son negociables. Escritas en <strong class="text-red-400">MAYÚSCULAS</strong> para evitar cualquier confusión.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Sección Hard Rules en SKILL.md</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-purple-300">## Hard Rules</span>
+
+<span class="text-neutral-500"># Estas regras são invioláveis — não há exceção.</span>
+
+<span class="text-red-300">- **NUNCA** parafrasear o transcript do vídeo original.</span>
+<span class="text-neutral-400">  Usar verbatim (texto exato) para preservar timing e autenticidade.</span>
+
+<span class="text-red-300">- **SEMPRE** rodar o dialogue gate antes de gerar.</span>
+<span class="text-neutral-400">  Confirmar todos os inputs com o usuário para evitar gasto de créditos.</span>
+
+<span class="text-red-300">- **NUNCA** logar a API key em qualquer output ou arquivo de log.</span>
+<span class="text-neutral-400">  Usar $ARCADS_API_KEY; nunca imprimir ou expor o valor real.</span>
+
+<span class="text-red-300">- **SEMPRE** verificar .env antes de executar qualquer script.</span>
+<span class="text-neutral-400">  Rodar scripts/check.sh como primeiro passo de toda geração.</span></code></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Reglas estrictas eficaces</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>3-7 reglas (más se vuelve ruido)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cada una con una justificación breve</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Verbo en mayúsculas (NUNCA, SIEMPRE)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Probable con un caso adversarial</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Protección contra los errores más costosos</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Hard rules problemáticas</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>20+ reglas — nadie las recuerda todas</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sin justificación: no se sabe por qué</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Reglas para situaciones muy poco frecuentes</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Mezclar reglas estrictas con pautas</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sin sección dedicada, se pierden en el cuerpo</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">NUNCA/SIEMPRE</div><div class="text-xs text-neutral-500 mt-1">en mayúsculas</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">3-7 reglas</div><div class="text-xs text-neutral-500 mt-1">cantidad ideal</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Justificación</div><div class="text-xs text-neutral-500 mt-1">por qué es inviolable</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Sección propia</div><div class="text-xs text-neutral-500 mt-1">## Hard Rules</div></div>
+</div>
+</section>
+<!-- TÓPICO 6: Gates de confirmação -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔒 Gates de confirmación</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Uno <strong class="text-purple-400">gate</strong> es un punto de control en el que el agente se detiene y pide confirmación antes de ejecutar una acción costosa, irreversible o de alto impacto. Confirmar no cuesta nada; no hacerlo puede costar muchísimo.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Ejemplo: dialogue gate antes de generar un video (Arcads)</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-purple-300">## Fluxo de Geração</span>
+
+<span class="text-neutral-400">1. Coletar inputs (imagem/áudio/vídeo/ator)</span>
+<span class="text-neutral-400">2. Detectar modelo recomendado (ver prompting/model-routing.md)</span>
+
+<span class="text-neutral-500">### DIALOGUE GATE — executar antes de qualquer chamada à API</span>
+
+<span class="text-neutral-300">Apresentar ao usuário:</span>
+<span class="text-emerald-300">```</span>
+<span class="text-emerald-300">📋 Resumo da geração:</span>
+<span class="text-emerald-300">  Modelo: Seedance 2.0 (lip sync)</span>
+<span class="text-emerald-300">  Ator: [nome]</span>
+<span class="text-emerald-300">  Script: "[primeiros 50 chars...]"</span>
+<span class="text-emerald-300">  Custo estimado: ~8 créditos Arcads</span>
+<span class="text-emerald-300">  Duração: ~15 segundos</span>
+<span class="text-emerald-300"></span>
+<span class="text-emerald-300">Confirma? (S/N)</span>
+<span class="text-emerald-300">```</span>
+
+<span class="text-red-300">NUNCA prosseguir sem confirmação explícita "S" ou "sim".</span>
+<span class="text-neutral-400">3. Executar scripts/arcads_generate.sh apenas após confirmação.</span></code></pre>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Cuándo usar gate</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+<div><strong class="text-white">💰 Costo real</strong><br/><span class="text-neutral-400">Llamadas a API que cobran por uso (video, imagen, tokens)</span></div>
+<div><strong class="text-white">♻️ Irreversible</strong><br/><span class="text-neutral-400">eliminar archivos, publicar en producción, enviar correos electrónicos</span></div>
+<div><strong class="text-white">⚡ Alto impacto</strong><br/><span class="text-neutral-400">modificar la base de datos, cambiar la configuración del sistema</span></div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Puerta de calidad, no de burocracia</h3>
+<p class="text-neutral-300 text-sm">Los gates deben ser informativos, no molestos. Un buen gate muestra el costo estimado, un resumen de lo que se hará y ofrece una salida clara. Un gate de "¿confirmas? (s/n)" sin contexto es tan malo como no tener un gate: el usuario confirmará sin entender qué está confirmando.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Costo</div><div class="text-xs text-neutral-500 mt-1">mostrar estimación</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Resumen</div><div class="text-xs text-neutral-500 mt-1">lo que se hará</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Salida clara</div><div class="text-xs text-neutral-500 mt-1">opción para cancelar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">Bloqueante</div><div class="text-xs text-neutral-500 mt-1">sin «S» no avanza</div></div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📂</span> Resumen del módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>scripts/</strong><span class="text-neutral-400"> — archivos atómicos, verbo-sustantivo, chmod +x, sin credenciales codificadas directamente</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>references/</strong><span class="text-neutral-400"> — documentación extensa que se lee según se necesita; SKILL.md apunta a ella, nunca la duplica</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>.env.example</strong><span class="text-neutral-400"> — template sin valores reales; .env real en .gitignore; los scripts usan $VARIAVEL</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Progressive disclosure</strong><span class="text-neutral-400"> — 3 niveles: SKILL.md (siempre) → references (según sea necesario) → scripts (al ejecutar)</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Hard rules</strong><span class="text-neutral-400"> — 3-7 reglas en MAYÚSCULAS en la sección ## Hard Rules; cada una con su justificación</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Gates de confirmación</strong><span class="text-neutral-400"> — antes de acciones costosas o irreversibles; informativo (costo + resumen + resultado)</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">3.4 — Caso de estudio: ads-skill (Arcads) — analizar una skill real de producción que aplica todo lo que aprendiste</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-3-2.html">← Módulo 3.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-4.html">Siguiente: Caso de estudio ads-skill →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const html = document.documentElement;
+if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+  themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+} else { themeToggleLightIcon.classList.remove('hidden'); }
+themeToggle.addEventListener('click', () => {
+  themeToggleDarkIcon.classList.toggle('hidden');
+  themeToggleLightIcon.classList.toggle('hidden');
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

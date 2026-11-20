@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Subagents: delegate tasks | Automation | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217, 119, 6, 0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217, 119, 6, 0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217, 119, 6, 0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .from-amber-900\/30 { --tw-gradient-from: rgba(120, 53, 15, 0.1); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(120, 53, 15, 0.08); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100%{opacity:.55}50%{opacity:1} }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha4/modulo-4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha4/modulo-4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha4/modulo-4-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha4/modulo-4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="ml-2 p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors" id="theme-toggle">
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-neutral-300" href="../../index.html">Start</a>
+<span class="mx-2">›</span>
+<a class="hover:text-neutral-300" href="index.html">Automation</a>
+<span class="mx-2">›</span>
+<span class="text-amber-400">4.1 Subagents</span>
+</nav>
+<!-- HEADER DO MÓDULO -->
+<div class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 rounded-2xl border border-amber-500/30 p-8 mb-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400 text-sm font-semibold">4.1</span>
+<span class="text-neutral-500 text-sm">~45 min · Intermediate</span>
+</div>
+<h1 class="text-3xl font-bold mb-3">🤖 Subagents: Delegating Tasks</h1>
+<p class="text-neutral-400 text-lg">Learn to delegate complex tasks to parallel Claude Code instances, multiplying your capacity without increasing wait time.</p>
+</div>
+<!-- SVG FUTURISTA: FAN-OUT DE SUBAGENTS -->
+<section class="mb-10">
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-4">
+<svg aria-label="Fan-out diagram: a central orchestrator triggers 4 subagents in parallel (Explore, General, Research, Coding), which converge on a single result" class="w-full h-auto" role="img" viewbox="0 0 800 260">
+<defs>
+<lineargradient id="m41-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="m41-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m41-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m41-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m41-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m41-grid)" height="260" width="800" x="0" y="0"></rect>
+<!-- Orquestrador -->
+<g filter="url(#m41-glow)">
+<rect fill="#1f1604" height="60" rx="14" stroke="url(#m41-grad)" stroke-width="2.5" width="130" x="30" y="100"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="95" y="126">Orchestrator</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="10" opacity="0.7" text-anchor="middle" x="95" y="144">Claude Code</text>
+<!-- Linhas fan-out -->
+<line marker-end="url(#m41-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="280" y1="115" y2="52"></line>
+<line marker-end="url(#m41-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="280" y1="123" y2="103"></line>
+<line marker-end="url(#m41-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="280" y1="137" y2="157"></line>
+<line marker-end="url(#m41-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="280" y1="145" y2="208"></line>
+<!-- Subagents (ciano) -->
+<g class="wf-a">
+<rect fill="#0e1b26" height="48" rx="10" stroke="#38bdf8" stroke-width="2" width="120" x="280" y="28"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="340" y="50">🔍 Explore</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="340" y="66">reading/analysis</text>
+</g>
+<g class="wf-a">
+<rect fill="#0e1b26" height="48" rx="10" stroke="#38bdf8" stroke-width="2" width="120" x="280" y="80"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="340" y="102">⚙️ General</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="340" y="118">full access</text>
+</g>
+<g class="wf-a">
+<rect fill="#0e1b26" height="48" rx="10" stroke="#38bdf8" stroke-width="2" width="120" x="280" y="132"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="340" y="154">📚 Research</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="340" y="170">searches the docs</text>
+</g>
+<g class="wf-a">
+<rect fill="#0e1b26" height="48" rx="10" stroke="#38bdf8" stroke-width="2" width="120" x="280" y="184"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="340" y="206">💻 Coding</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="340" y="222">generates code</text>
+</g>
+<!-- Linhas de retorno -->
+<line marker-end="url(#m41-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="400" x2="550" y1="52" y2="115"></line>
+<line marker-end="url(#m41-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="400" x2="550" y1="104" y2="125"></line>
+<line marker-end="url(#m41-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="400" x2="550" y1="156" y2="135"></line>
+<line marker-end="url(#m41-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="400" x2="550" y1="208" y2="145"></line>
+<!-- Resultado agregado -->
+<g filter="url(#m41-glow)">
+<rect fill="#1f1604" height="60" rx="14" stroke="url(#m41-grad)" stroke-width="2.5" width="140" x="550" y="100"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="620" y="126">Result</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="10" opacity="0.7" text-anchor="middle" x="620" y="144">aggregated</text>
+<!-- Label -->
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="400" y="252">4 subagents in parallel — 4× faster results</text>
+</svg>
+</div>
+</section>
+<!-- SEÇÃO 1: O que é um subagent -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🧠 What is a subagent</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">One <strong class="text-white">subagent</strong> is an independent instance of Claude Code launched by the main agent (orchestrator) to perform a specific task. It receives a well-defined prompt, runs with its own tools, and returns a summarized result.</p>
+<p class="text-neutral-300">The orchestrator uses the internal tool <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">Task</code> to create subagents. Each Task is isolated: it has its own conversation history, file context, and configured permissions.</p>
+</div>
+<!-- Box conceito principal -->
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6 mb-4">
+<h3 class="text-lg font-semibold text-amber-400 mb-3 flex items-center">
+<span class="mr-2">💡</span> Core concept
+        </h3>
+<p class="text-neutral-300">The subagent <strong class="text-white">doesn’t share memory</strong> with the orchestrator. It only knows what’s in the prompt it received. This is a feature — isolation ensures one subagent doesn’t contaminate another’s context.</p>
+</div>
+<!-- Timeline: ciclo de vida de um subagent -->
+<h3 class="text-lg font-semibold mb-4">Subagent life cycle</h3>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">The orchestrator formulates the task</h4>
+<p class="text-sm text-neutral-400">Define the prompt with a clear scope, expected output format, and required permissions</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Harness launches the instance</h4>
+<p class="text-sm text-neutral-400">A new isolated session is created with the prompt as its initial context</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Subagent runs with tools</h4>
+<p class="text-sm text-neutral-400">Uses Bash, Read, WebSearch, and other tools as needed</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Result returns to the orchestrator</h4>
+<p class="text-sm text-neutral-400">Text compressed with the output—not the full log, just the response</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 2: Quando delegar -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🎯 When to delegate to a subagent</h2>
+<!-- Grid Fazer vs Evitar -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ Delegate WHEN</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Task has a well-defined scope and an atomic result</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Can run in parallel with other tasks</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Broad research (multiple sources, multiple files)</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Task repeated N times with different inputs</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Risk isolation (testing dangerous code)</span>
+</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ DON'T delegate WHEN</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Task requires access to the orchestrator's history</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Result is trivial (2-3 lines of code)</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Subagents need to communicate with each other in real time</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Token costs outweigh the speed benefit</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Task requires human approval midway through the process</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Tip box -->
+<div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
+<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">💡</span> Practical tip</h4>
+<p class="text-sm text-neutral-300">The quickest criterion: <strong class="text-white">can you describe the task in 1–2 sentences with clear input and output?</strong> If so, it’s a candidate for a subagent. If it needs several paragraphs of context, run it in the orchestrator instead.</p>
+</div>
+</section>
+<!-- SEÇÃO 3: Fan-out paralelo -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">⚡ Fan-out: the most powerful pattern</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">Fan-out is when an orchestrator launches N subagents <strong class="text-white">simultaneously</strong>, each solving one part of the problem. The orchestrator remains blocked while waiting for them all to finish, then aggregates the results.</p>
+<p class="text-neutral-300">A search that would visit 8 sources in sequence (8 × 30s = <strong>4 minutes</strong>) becomes 8 parallel subagents (<strong>~30 seconds</strong>). 8× speed at the same total cost.</p>
+</div>
+<!-- Code box -->
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">// Example prompt for an orchestrator with fan-out</div>
+<pre class="text-neutral-300"><span class="text-amber-400">You are the orchestrator. Use the Task tool to create</span>
+<span class="text-amber-400">4 subagents in PARALLEL:</span>
+
+<span class="text-cyan-400">Task 1:</span> Research the official Claude Code documentation on hooks.
+         Return: a list of available events with descriptions.
+
+<span class="text-cyan-400">Task 2:</span> Read the project's .claude/settings.json files.
+         Return: current configuration structure.
+
+<span class="text-cyan-400">Task 3:</span> Research examples of hooks in public repositories.
+         Return: 3 practical examples with code.
+
+<span class="text-cyan-400">Task 4:</span> Analyze the code in src/ to identify
+         opportunities for automation with hooks.
+         Return: a prioritized list of improvements.
+
+<span class="text-neutral-500">// Wait for ALL of them to finish, then integrate the results.</span></pre>
+</div>
+<!-- Grid adicional de dicas -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-white mb-2">📊 Real time savings</h4>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between text-neutral-400">
+<span>Series (4 tasks × 3 min)</span>
+<span class="text-red-400">12 min</span>
+</div>
+<div class="flex justify-between text-neutral-400">
+<span>Parallel fan-out (4 agents)</span>
+<span class="text-amber-400">~3 min</span>
+</div>
+<div class="border-t border-dark-600 pt-2 flex justify-between font-semibold">
+<span class="text-white">Gain</span>
+<span class="text-amber-400">4× faster</span>
+</div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-white mb-2">⚠️ Practical limit</h4>
+<p class="text-sm text-neutral-400">Speed gains increase with N subagents, but so does cost. For tasks that take 1-2 minutes, fanning out to 4-8 agents is the sweet spot. Beyond 10 agents, coordination overhead reduces the return.</p>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4: Tipos de subagent -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🔬 Subagent Types: Explore vs General</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">🔍 Explore Type</h3>
+<p class="text-sm text-neutral-400 mb-3">Read-only mode — access only to observation tools (Read, read-only Bash, WebSearch). It can't create or modify files.</p>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-amber-400">→</span><span>Ideal for research, codebase analysis, and searching docs</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">→</span><span>Safer — no risk of accidental modification</span></li>
+<li class="flex items-start space-x-2"><span class="text-amber-400">→</span><span>Cheaper — smaller context, fewer tools</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-cyan-500/30 p-6">
+<h3 class="text-lg font-semibold text-cyan-400 mb-3">⚙️ General Type</h3>
+<p class="text-sm text-neutral-400 mb-3">Full access to tools — can read, write, run commands, and interact with external APIs.</p>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-cyan-400">→</span><span>Ideal for implementation, testing, and deployment</span></li>
+<li class="flex items-start space-x-2"><span class="text-cyan-400">→</span><span>Requires carefully configured permissions</span></li>
+<li class="flex items-start space-x-2"><span class="text-cyan-400">→</span><span>Use when you need action, not just analysis</span></li>
+</ul>
+</div>
+</div>
+<!-- Alerta de segurança -->
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+<h4 class="font-semibold text-red-400 mb-2 flex items-center"><span class="mr-2">🚨</span> Principle of least privilege</h4>
+<p class="text-sm text-neutral-300">Always use the most restrictive type the task allows. A research subagent with write permission is an unnecessary risk — if the model "hallucinates" an instruction, it could accidentally modify files.</p>
+</div>
+</section>
+<!-- SEÇÃO 5: Resultado e custo -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">💰 Results, cost, and ROI</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<h3 class="font-semibold text-white mb-3">How the result is returned</h3>
+<p class="text-neutral-300 mb-4">A subagent's result reaches the orchestrator as <strong class="text-white">plain text</strong> — a consolidated summary of what was found/done. The orchestrator receives no tool log, only the final response.</p>
+<p class="text-neutral-300">To ensure the result can be consumed, specify the output format in the prompt: <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">Retorne: lista de bullets</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">Retorne: JSON com campos X e Y</code>, etc.</p>
+</div>
+<!-- Code box de custo -->
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">// Estimated cost per subagent (Claude Sonnet)</div>
+<pre class="text-neutral-300">Prompt do orquestrador:   ~<span class="text-amber-400">500 tokens</span>  ($0.003)
+Execução do subagent:     ~<span class="text-amber-400">2000 tokens</span> ($0.012)
+Output para orquestrador: ~<span class="text-amber-400">300 tokens</span>  ($0.002)
+                           ──────────────────────
+Total por subagent:        ~<span class="text-amber-400">$0.017</span>
+
+<span class="text-neutral-500">// Com prompt caching (se CLAUDE.md ou contexto fixo):</span>
+Custo cache hit: ~<span class="text-cyan-400">$0.002</span> (10× mais barato)
+
+<span class="text-neutral-500">// ROI: 1h de trabalho humano = $50-100</span>
+<span class="text-neutral-500">// 100 subagents = $1.70 → 30× mais barato que humano</span></pre>
+</div>
+<!-- Tip box ROI -->
+<div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
+<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">💡</span> Quick ROI calculation</h4>
+<p class="text-sm text-neutral-300">Compare: <strong class="text-white">time saved × the value of your time</strong> vs <strong class="text-white">API cost</strong>. If you save 1h ($50) and the automation costs $0.50, the ROI is 100×. This applies to any task you do more than once a week.</p>
+</div>
+</section>
+<!-- SEÇÃO 6: Boas práticas -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">✅ Best practices when using subagents</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ What to DO</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Specify the output format in the prompt</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Use the most restrictive type possible</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Limit scope: one responsibility per subagent</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Enable prompt caching for repeated contexts</span>
+</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ What to AVOID</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Subagents that depend on each other in real time</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Pass the orchestrator's entire history as context</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Subagents with write access to the production database</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>More than 10 parallel subagents without estimating the cost first</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- RESUMO DO MÓDULO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center">
+<span class="mr-3">🎯</span> Module 4.1 Summary
+        </h2>
+<div class="space-y-3 mb-8">
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Subagent</strong><span class="text-neutral-400"> — isolated Claude Code instance with its own context and permissions</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Parallel fan-out</strong><span class="text-neutral-400"> — N simultaneous subagents multiply speed at no extra cost</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Explore vs. General</strong><span class="text-neutral-400"> — always use the most restrictive type the task allows</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Summarized result</strong><span class="text-neutral-400"> — specify the output format to make aggregation easier</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Automation ROI</strong><span class="text-neutral-400"> — compare time saved vs API cost before implementing</span></div>
+</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">4.2 — 🪝 Hooks: automate the harness with PreToolUse, PostToolUse, SessionStart, and Stop</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track 4</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</div>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 bg-dark-800">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center space-x-3">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg text-yellow-400">Claude Code</span>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<p class="text-neutral-500 text-sm">Module 4.1 — Subagents</p>
+</div>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

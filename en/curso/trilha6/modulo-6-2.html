@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 6.2 — GitHub and repositories | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'dark': { 600: '#4b5563', 700: '#374151', 800: '#1f2937', 900: '#111827' },
+            'primary': '#FACC15'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .from-rose-900\/30 { --tw-gradient-from: rgba(136, 19, 55, 0.15); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.2); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    @keyframes wf-pulse { 0%,100%{opacity:.55}50%{opacity:1} }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.4s}.wf-a:nth-child(3){animation-delay:.8s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha6/modulo-6-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha6/modulo-6-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha6/modulo-6-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-6-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha6/modulo-6-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<!-- BREADCRUMB -->
+<nav class="flex items-center space-x-2 text-sm text-neutral-500 mb-8">
+<a class="hover:text-neutral-300" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-neutral-300" href="index.html">Track 6</a>
+<span>/</span>
+<span class="text-rose-400">Module 6.2</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-900 rounded-2xl border border-rose-500/30 p-8 mb-10">
+<span class="inline-block bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">MODULE 6.2</span>
+<h1 class="text-3xl font-bold mb-3">🐙 GitHub and repositories</h1>
+<p class="text-neutral-300 text-lg mb-6">Bring your local repository to the cloud: create repos, configure SSH, use the gh CLI in the terminal, open PRs, and write an impressive README. GitHub is your professional showcase.</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-500">Topics</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">~45</div><div class="text-xs text-neutral-500">Minutes</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">⚡</div><div class="text-xs text-neutral-500">Intermediate</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">🛠️</div><div class="text-xs text-neutral-500">Practical</div></div>
+</div>
+</div>
+<!-- TÓPICO 1: Criar repositório -->
+<section class="mb-12" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">1</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🏗️ Create a repository</h2>
+<p class="text-neutral-400 text-sm">Web vs. gh CLI — two paths to the same destination</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-2">Via gh CLI (recommended)</h4>
+<pre class="bg-dark-900 rounded-lg p-4 text-sm font-mono text-neutral-300 overflow-x-auto"><code><span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo create</span> meu-projeto --public --clone
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo create</span> meu-projeto --private --add-readme
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo create</span>           <span class="text-neutral-500"># modo interativo (pergunta tudo)</span></code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-2">Connect an existing local repo to GitHub</h4>
+<pre class="bg-dark-900 rounded-lg p-4 text-sm font-mono text-neutral-300 overflow-x-auto"><code><span class="text-neutral-500">$ </span><span class="text-rose-300">git remote add</span> origin git@github.com:user/repo.git
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git push</span> -u origin main
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git remote -v</span>    <span class="text-neutral-500"># confirma remote configurado</span></code></pre>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">✓ Public repo: ideal for your portfolio</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Indexed by Google and GitHub search</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Free and unlimited GitHub Pages</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>External contributors can help</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-bold text-rose-400 mb-3">🔒 Private Repo: For Internal Projects</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Code not publicly exposed</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Collaborators need an invitation</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>GitHub Pages requires a paid plan (except for organizations)</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🌐</div><div class="text-xs font-semibold">Public</div><div class="text-xs text-neutral-500 mt-1">Portfolio and open source</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔒</div><div class="text-xs font-semibold">Private</div><div class="text-xs text-neutral-500 mt-1">Personal/commercial projects</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🍴</div><div class="text-xs font-semibold">Fork</div><div class="text-xs text-neutral-500 mt-1">Copy of another project</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📥</div><div class="text-xs font-semibold">Clone</div><div class="text-xs text-neutral-500 mt-1">Download to your computer</div></div>
+</div>
+</section>
+<!-- TÓPICO 2: Remote e push -->
+<section class="mb-12" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">2</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">📡 Remote and push</h2>
+<p class="text-neutral-400 text-sm">Sync local with GitHub — the loop you’ll repeat every day</p>
+</div>
+</div>
+<!-- SVG: fluxo local-remote -->
+<div class="mb-6">
+<svg aria-label="Two-way flow: local pushes to GitHub origin, origin pulls to local" class="w-full h-auto" role="img" viewbox="0 0 520 120" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter height="180%" id="m62-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="2"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<marker id="m62-ah" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#fb7185"></path></marker>
+<marker id="m62-ahc" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="#1a0a10" height="120" rx="10" width="520"></rect>
+<!-- caixa local -->
+<rect class="wf-a" fill="#2a0f16" filter="url(#m62-glow)" height="60" rx="8" stroke="#fb7185" stroke-width="1.5" width="110" x="20" y="30"></rect>
+<text fill="#fb7185" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle" x="75" y="52">LOCAL</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="75" y="66">your computer</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="75" y="80">commits</text>
+<!-- seta push -->
+<line marker-end="url(#m62-ah)" stroke="#fb7185" stroke-width="1.5" x1="130" x2="250" y1="50" y2="50"></line>
+<text fill="#fb7185" font-family="monospace" font-size="8" text-anchor="middle" x="190" y="43">git push</text>
+<!-- seta pull/fetch -->
+<line marker-end="url(#m62-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="250" x2="130" y1="70" y2="70"></line>
+<text fill="#38bdf8" font-family="monospace" font-size="8" text-anchor="middle" x="190" y="85">git pull / fetch</text>
+<!-- caixa github -->
+<rect class="wf-a" fill="#0e1b26" filter="url(#m62-glow)" height="80" rx="8" stroke="#38bdf8" stroke-width="1.5" width="120" x="252" y="20"></rect>
+<text fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle" x="312" y="45">🐙 GITHUB</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="312" y="59">origin/main</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="312" y="73">remote history</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="312" y="87">secure backup</text>
+<!-- setas colaboradores -->
+<line marker-end="url(#m62-ahc)" stroke="#38bdf8" stroke-dasharray="4,2" stroke-width="1.2" x1="372" x2="440" y1="50" y2="50"></line>
+<line marker-end="url(#m62-ahc)" stroke="#38bdf8" stroke-dasharray="4,2" stroke-width="1.2" x1="440" x2="372" y1="70" y2="70"></line>
+<rect fill="#0e1b26" height="64" rx="8" stroke="#38bdf8" stroke-width="1" width="66" x="442" y="28"></rect>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="475" y="52">collab A</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="475" y="64">collab B</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="75" y="18">you</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="475" y="18">team</text>
+</svg>
+<p class="text-xs text-neutral-500 mt-2 text-center">Push sends, pull receives — GitHub is the central sync point.</p>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">REMOTE AND SYNC</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500">$ </span><span class="text-rose-300">git push</span> -u origin main    <span class="text-neutral-500"># primeiro push + configura tracking</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git push</span>                   <span class="text-neutral-500"># pushes seguintes (tracking já configurado)</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git pull</span>                   <span class="text-neutral-500"># baixa + mescla mudanças remotas</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git fetch</span>                  <span class="text-neutral-500"># baixa SEM mesclar (mais seguro)</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git remote -v</span>              <span class="text-neutral-500"># lista remotes configurados</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git remote set-url</span> origin URL  <span class="text-neutral-500"># muda a URL do remote</span></code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> push --force-with-lease: the safe way</h3>
+<p class="text-neutral-300 text-sm">Never use <code class="text-rose-300">git push --force</code> on a shared branch — it destroys other people's work. Use <code class="text-rose-300">--force-with-lease</code>: only forces it if no one has pushed before you.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⬆️</div><div class="text-xs font-semibold">git push</div><div class="text-xs text-neutral-500 mt-1">Sends local commits</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⬇️</div><div class="text-xs font-semibold">git pull</div><div class="text-xs text-neutral-500 mt-1">Downloads + merges</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔄</div><div class="text-xs font-semibold">git fetch</div><div class="text-xs text-neutral-500 mt-1">Downloads without merging</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📡</div><div class="text-xs font-semibold">origin</div><div class="text-xs text-neutral-500 mt-1">Default remote name</div></div>
+</div>
+</section>
+<!-- TÓPICO 3: SSH vs HTTPS -->
+<section class="mb-12" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">3</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🔑 SSH vs HTTPS</h2>
+<p class="text-neutral-400 text-sm">Authenticate once, work forever without entering a password</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">SSH — recommended for daily use</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Key pair: the public key stays on GitHub, the private key stays on your computer</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>No need to type your password with every push/pull</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>URL: <code>git@github.com:user/repo.git</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Works perfectly with Claude Code in automation</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-bold text-rose-400 mb-3">HTTPS — simpler to configure</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Personal access token (PAT) instead of a password</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>URL: <code>https://github.com/user/repo.git</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Credential helper caches the token</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Easier to use behind corporate firewalls</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">CONFIGURE SSH — STEP BY STEP</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># 1. Gerar chave</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">ssh-keygen</span> -t ed25519 -C "seu@email.com"
+<span class="text-neutral-500"># pressione Enter para aceitar o caminho padrão (~/.ssh/id_ed25519)</span>
+
+<span class="text-neutral-500"># 2. Copiar a chave pública</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">cat</span> ~/.ssh/id_ed25519.pub
+<span class="text-neutral-500"># copie todo o output e cole em GitHub → Settings → SSH keys → New SSH key</span>
+
+<span class="text-neutral-500"># 3. Testar conexão</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">ssh -T</span> git@github.com
+Hi usuario! You've successfully authenticated, but GitHub does not provide shell access.
+
+<span class="text-neutral-500"># 4. Mudar remote existente de HTTPS para SSH</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git remote set-url</span> origin git@github.com:user/repo.git</code></pre>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔐</div><div class="text-xs font-semibold">ed25519</div><div class="text-xs text-neutral-500 mt-1">Recommended algorithm</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🗝️</div><div class="text-xs font-semibold">~/.ssh/</div><div class="text-xs text-neutral-500 mt-1">Keys folder</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📋</div><div class="text-xs font-semibold">PAT</div><div class="text-xs text-neutral-500 mt-1">Personal HTTPS token</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">💾</div><div class="text-xs font-semibold">Credential helper</div><div class="text-xs text-neutral-500 mt-1">Caches credentials</div></div>
+</div>
+</section>
+<!-- TÓPICO 4: gh CLI -->
+<section class="mb-12" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">4</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">⚡ gh CLI</h2>
+<p class="text-neutral-400 text-sm">GitHub in the terminal—create repos, PRs, releases, and much more without opening a browser</p>
+</div>
+</div>
+<div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-2">🤖 Claude Code Uses gh Extensively</h3>
+<p class="text-neutral-300 text-sm">When you ask Claude Code to create PRs, check CI/CD, make releases, or open issues, it uses <code>gh</code> behind the scenes. Understanding the commands lets you audit what was done and customize the behavior.</p>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">gh CLI — ESSENTIAL COMMANDS</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># Autenticação</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh auth login</span>                          <span class="text-neutral-500"># autentica com GitHub</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh auth status</span>                         <span class="text-neutral-500"># verifica autenticação</span>
+
+<span class="text-neutral-500"># Repositórios</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo create</span> nome --public --clone    <span class="text-neutral-500"># cria e clona</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo view</span>                           <span class="text-neutral-500"># detalhes do repo atual</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo clone</span> user/repo                <span class="text-neutral-500"># clona repo</span>
+
+<span class="text-neutral-500"># Pull Requests</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr create</span> --title "feat: X" --body "Descrição"
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr list</span>                             <span class="text-neutral-500"># lista PRs abertos</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr merge</span> --squash --delete-branch   <span class="text-neutral-500"># merge com squash</span>
+
+<span class="text-neutral-500"># Issues</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh issue create</span> --title "Bug: X" --label bug
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh issue list</span> --label "good first issue"
+
+<span class="text-neutral-500"># Releases</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh release create</span> v1.0.0 --generate-notes
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh release list</span>
+
+<span class="text-neutral-500"># GitHub Actions / CI</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run list</span>                            <span class="text-neutral-500"># lista execuções recentes</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run watch</span>                           <span class="text-neutral-500"># monitora execução em tempo real</span></code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">⚡</span> Install gh CLI</h3>
+<div class="space-y-1 text-sm text-neutral-300 font-mono">
+<p><span class="text-neutral-500"># macOS: </span><code class="text-rose-300">brew install gh</code></p>
+<p><span class="text-neutral-500"># Ubuntu/Debian: </span><code class="text-rose-300">sudo apt install gh</code></p>
+<p><span class="text-neutral-500"># Windows: </span><code class="text-rose-300">winget install GitHub.cli</code></p>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔑</div><div class="text-xs font-semibold">gh auth login</div><div class="text-xs text-neutral-500 mt-1">Once, forever</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📁</div><div class="text-xs font-semibold">gh repo create</div><div class="text-xs text-neutral-500 mt-1">New repo in seconds</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔀</div><div class="text-xs font-semibold">gh pr create</div><div class="text-xs text-neutral-500 mt-1">PR without opening a browser</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📊</div><div class="text-xs font-semibold">gh run watch</div><div class="text-xs text-neutral-500 mt-1">Real-time CI</div></div>
+</div>
+</section>
+<!-- TÓPICO 5: Pull Requests -->
+<section class="mb-12" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">5</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🔀 Pull requests</h2>
+<p class="text-neutral-400 text-sm">Structured collaboration — review before merge</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-1">Create a branch + commit + push</h4>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300 mt-2"><code><span class="text-rose-300">git checkout</span> -b feature/nova-funcao
+<span class="text-rose-300">git add</span> . &amp;&amp; <span class="text-rose-300">git commit</span> -m "feat: adiciona nova funcão"
+<span class="text-rose-300">git push</span> -u origin feature/nova-funcao</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-1">Open the PR via the gh CLI</h4>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300 mt-2"><code><span class="text-rose-300">gh pr create</span> \
+  --title <span class="text-emerald-300">"feat: adiciona nova funcão"</span> \
+  --body <span class="text-emerald-300">"## O que faz\n- Item 1\n\n## Como testar\n- Passo 1"</span> \
+  --base main</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-1">Review, approve, and merge</h4>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300 mt-2"><code><span class="text-rose-300">gh pr review</span> --approve       <span class="text-neutral-500"># aprovar</span>
+<span class="text-rose-300">gh pr merge</span> --squash --delete-branch  <span class="text-neutral-500"># merge com squash</span>
+<span class="text-rose-300">gh pr checks</span>                  <span class="text-neutral-500"># verificar CI</span></code></pre>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📝</div><div class="text-xs font-semibold">Draft PR</div><div class="text-xs text-neutral-500 mt-1">Visible WIP for the team</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">✅</div><div class="text-xs font-semibold">Approve</div><div class="text-xs text-neutral-500 mt-1">Green light to merge</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🗜️</div><div class="text-xs font-semibold">Squash merge</div><div class="text-xs text-neutral-500 mt-1">1 clean commit on main</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🤖</div><div class="text-xs font-semibold">PR template</div><div class="text-xs text-neutral-500 mt-1">.github/pull_request_template</div></div>
+</div>
+</section>
+<!-- TÓPICO 6: README -->
+<section class="mb-12" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">6</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">📖 Effective README</h2>
+<p class="text-neutral-400 text-sm">The project’s first impression — the difference between being ignored and starred</p>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">README.md — RECOMMENDED STRUCTURE</div>
+<pre class="text-neutral-300"><code><span class="text-rose-300"># 🚀 Nome do Projeto</span>
+
+<span class="text-neutral-500">&gt; Uma linha descrevendo o que faz e para quem.</span>
+
+<span class="text-emerald-300">![Status](https://img.shields.io/badge/status-ativo-success)</span>
+<span class="text-emerald-300">![License](https://img.shields.io/badge/license-MIT-blue)</span>
+
+<span class="text-rose-300">## ✨ O que faz</span>
+Lista rápida com os principais benefícios.
+
+<span class="text-rose-300">## 🛠️ Tecnologias</span>
+- Lista de tecnologias usadas
+
+<span class="text-rose-300">## 🚀 Como usar</span>
+```bash
+git clone ...
+npm install
+npm start
+```
+
+<span class="text-rose-300">## 📸 Preview</span>
+[screenshot ou GIF aqui]
+
+<span class="text-rose-300">## 📄 Licença</span>
+MIT — veja LICENSE para detalhes.</code></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">✓ README that works</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>First sentence: explains the project in 10 seconds</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Screenshot or GIF above the fold</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Installation in fewer than 3 commands</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Visual status, license, and version badges</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+<h4 class="font-bold text-red-400 mb-3">✗ README that turns people away</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Empty README or "TODO"</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>No installation instructions</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Walls of unformatted text</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Not updated after project changes</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">🤖</span> Claude Code generates a README</h3>
+<p class="text-neutral-300 text-sm">Ask: <em>"Analyze this project and generate a complete README.md with badges, installation, usage, and real examples."</em> Claude reads the code and generates accurate documentation in seconds.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🏷️</div><div class="text-xs font-semibold">Badges</div><div class="text-xs text-neutral-500 mt-1">shields.io</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📸</div><div class="text-xs font-semibold">Screenshot</div><div class="text-xs text-neutral-500 mt-1">Worth more than a thousand words</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⚖️</div><div class="text-xs font-semibold">LICENSE</div><div class="text-xs text-neutral-500 mt-1">MIT for open projects</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🤝</div><div class="text-xs font-semibold">CONTRIBUTING</div><div class="text-xs text-neutral-500 mt-1">How to collaborate</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-900 rounded-2xl border border-rose-500/30 p-8 mb-10">
+<h2 class="text-2xl font-bold mb-6">🎯 Module summary</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div>
+<h3 class="text-rose-400 font-semibold mb-3">What you learned</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Create a repository via gh CLI or the web</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Configure the remote and push/pull</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>SSH with ed25519 — passwordless authentication</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>gh CLI: repos, PRs, issues, releases</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Complete Pull Request flow</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Well-structured README that impresses</span></li>
+</ul>
+</div>
+<div>
+<h3 class="text-rose-400 font-semibold mb-3">Next module</h3>
+<p class="text-neutral-300 text-sm mb-4">With the repository on GitHub, the next step is to publish it for free with GitHub Pages—and make your project accessible to the whole world in minutes.</p>
+<a class="inline-flex items-center space-x-2 bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 px-5 py-2.5 rounded-lg font-semibold transition-colors text-sm" href="modulo-6-3.html">
+<span>Module 6.3 — GitHub Pages</span><span>→</span>
+</a>
+</div>
+</div>
+<div class="flex justify-start space-x-3">
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-1.html">← Module 6.1</a>
+<a class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" href="modulo-6-3.html">Next: Pages →</a>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

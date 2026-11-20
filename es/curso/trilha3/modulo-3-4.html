@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3.4 Caso de estudio: ads-skill | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124, 58, 237, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .ugc-segment { animation: ugcpulse 3s ease-in-out infinite; }
+      @keyframes ugcpulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha3/modulo-3-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha3/modulo-3-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha3/modulo-3-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/modulo-3-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha3/modulo-3-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-3-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Skills (T3)</a>
+<span>/</span>
+<span class="text-purple-400">Módulo 3.4</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.4 — ESTUDIO DE CASO</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎬 Caso de estudio: ads-skill (Arcads)</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Analizar en detalle una skill real de producción: análisis de UGC viral cuadro por cuadro + regeneración mediante la API de Arcads con enrutamiento inteligente entre Seedance 2.0, Veo 3.1, Sora 2 y Kling 3.0.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">50</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Avanzado</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Caso real</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: O que a skill faz -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🔬 Los dos poderes de la ads-skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La ads-skill es un caso poco común de skill con <strong class="text-purple-400">dos poderes complementarios</strong>: análisis y generación. Son inseparables en el workflow: el análisis alimenta la generación.</p>
+<!-- SVG: fluxo analyze → gate → generate -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Flujo de ads-skill: video UGC → ffmpeg extract → análisis de HOOK/SHOW/PROOF/CTA → filtro de diálogo → API Arcads → video generado" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m34-glow"><fegaussianblur result="b5" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b5"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<pattern height="18" id="m34-dots" patternunits="userSpaceOnUse" width="18" x="0" y="0"><circle cx="1" cy="1" fill="#374151" r="0.8"></circle></pattern>
+<rect fill="url(#m34-dots)" height="200" opacity="0.35" width="600"></rect>
+<!-- Poder 1: Análise -->
+<rect fill="#0e1b26" height="45" rx="8" stroke="#38bdf8" stroke-width="1.5" width="100" x="10" y="30"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="60" y="50">Video UGC</text>
+<text fill="#bfe6ff" font-size="8.5" text-anchor="middle" x="60" y="65">input</text>
+<line stroke="#38bdf8" stroke-width="1.5" x1="110" x2="135" y1="52" y2="52"></line>
+<polygon fill="#38bdf8" points="132,48 140,52 132,56"></polygon>
+<rect fill="#0e1b26" height="45" rx="8" stroke="#38bdf8" stroke-width="1.5" width="110" x="140" y="30"></rect>
+<text fill="#38bdf8" font-size="9" font-weight="600" text-anchor="middle" x="195" y="47">ffmpeg extract</text>
+<text fill="#bfe6ff" font-size="8" text-anchor="middle" x="195" y="60">frames + audio</text>
+<text fill="#6b7280" font-size="7.5" text-anchor="middle" x="195" y="71">arcads_analyze.sh</text>
+<line stroke="#38bdf8" stroke-width="1.5" x1="250" x2="275" y1="52" y2="52"></line>
+<polygon fill="#38bdf8" points="272,48 280,52 272,56"></polygon>
+<rect fill="#1a1230" filter="url(#m34-glow)" height="65" rx="8" stroke="#a855f7" stroke-width="2" width="110" x="280" y="20"></rect>
+<text fill="#c084fc" font-size="9" font-weight="600" text-anchor="middle" x="335" y="40">Análisis UGC</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="335" y="55">HOOK 0-2s</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="335" y="67">SHOW 2-6s</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="335" y="79">PROOF 6-11s</text>
+<!-- Gate -->
+<rect fill="#1f1604" height="40" rx="8" stroke="#f59e0b" stroke-width="1.5" width="110" x="280" y="110"></rect>
+<text fill="#fbbf24" font-size="9.5" font-weight="600" text-anchor="middle" x="335" y="128">🔒 Dialogue Gate</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="335" y="141">confirma las entradas</text>
+<!-- Seta análise → gate -->
+<line stroke="#a855f7" stroke-width="1.5" x1="335" x2="335" y1="85" y2="108"></line>
+<polygon fill="#a855f7" points="331,105 335,113 339,105"></polygon>
+<!-- Poder 2: Geração -->
+<line stroke="#a855f7" stroke-width="1.5" x1="390" x2="415" y1="130" y2="130"></line>
+<polygon fill="#a855f7" points="412,126 420,130 412,134"></polygon>
+<rect fill="#1a1230" filter="url(#m34-glow)" height="40" rx="8" stroke="#a855f7" stroke-width="2" width="115" x="420" y="110"></rect>
+<text fill="#c084fc" font-size="9" font-weight="600" text-anchor="middle" x="477" y="128">API de Arcads</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="477" y="141">genera video</text>
+<line stroke="#a855f7" stroke-width="1.5" x1="477" x2="477" y1="150" y2="168"></line>
+<polygon fill="#a855f7" points="473,165 477,173 481,165"></polygon>
+<rect fill="#0c1f1c" height="22" rx="6" stroke="#2dd4bf" stroke-width="1" width="115" x="420" y="168"></rect>
+<text fill="#2dd4bf" font-size="8.5" font-weight="600" text-anchor="middle" x="477" y="182">Video generado ✅</text>
+<!-- Rótulos -->
+<text fill="#38bdf8" font-size="8" font-weight="600" text-anchor="middle" x="195" y="108">PODER 1: ANÁLISIS</text>
+<text fill="#c084fc" font-size="8" font-weight="600" text-anchor="middle" x="477" y="108">PODER 2: GENERACIÓN</text>
+</svg>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-3">🔬 Poder 1: análisis</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Recibe una URL o un archivo de video UGC</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Extrae fotogramas a 2fps mediante ffmpeg</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Transcribe audio con Whisper</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Identifica segmentos HOOK/SHOW/PROOF/CTA</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Genera un informe de análisis viral</span></li>
+</ul>
+</div>
+<div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+<h4 class="font-bold text-purple-400 mb-3">🎬 Poder 2: Generación</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-purple-400">→</span><span>Recibe 4 inputs: imagen/audio/video/actor</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">→</span><span>Enruta al modelo ideal (4 opciones)</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">→</span><span>Ejecuta dialogue gate (confirma el costo)</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">→</span><span>Llama a la API de Arcads y consulta el estado periódicamente</span></li>
+<li class="flex items-start space-x-2"><span class="text-purple-400">→</span><span>Devuelve la URL del video generado</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-blue-400">Análisis</div><div class="text-xs text-neutral-500 mt-1">ffmpeg + Whisper</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Generación</div><div class="text-xs text-neutral-500 mt-1">API de Arcads</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-primary">Gate</div><div class="text-xs text-neutral-500 mt-1">costo antes de generar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Polling</div><div class="text-xs text-neutral-500 mt-1">status hasta que esté listo</div></div>
+</div>
+</section>
+<!-- TÓPICO 2: Roteamento entre modelos -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🤖 Enrutamiento inteligente entre 4 modelos</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">En lugar de que el usuario tenga que elegir el modelo, la skill abstrae esa decisión con una lógica de enrutamiento clara. La tabla de decisión está en <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">prompting/model-routing.md</code>.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">Tabla de enrutamiento</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead>
+<tr class="border-b border-dark-600">
+<th class="text-left py-2 pr-4 text-neutral-400 font-semibold">Modelo</th>
+<th class="text-left py-2 pr-4 text-neutral-400 font-semibold">Cuándo usar</th>
+<th class="text-left py-2 text-neutral-400 font-semibold">Característica</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr>
+<td class="py-3 pr-4"><span class="text-purple-400 font-semibold">Seedance 2.0</span> <span class="text-xs text-neutral-500">(predeterminado)</span></td>
+<td class="py-3 pr-4 text-neutral-300">UGC con voz, lip sync necesario</td>
+<td class="py-3 text-emerald-400">Mejor sincronización labial</td>
+</tr>
+<tr>
+<td class="py-3 pr-4"><span class="text-blue-400 font-semibold">Veo 3.1</span></td>
+<td class="py-3 pr-4 text-neutral-300">Frame inicial específico, consistencia visual</td>
+<td class="py-3 text-blue-400">Frame de referencia bloqueado</td>
+</tr>
+<tr>
+<td class="py-3 pr-4"><span class="text-teal-400 font-semibold">Sora 2</span></td>
+<td class="py-3 pr-4 text-neutral-300">Videos de más de 30 s o con estilo cinematográfico</td>
+<td class="py-3 text-teal-400">Largo / cinematográfico</td>
+</tr>
+<tr>
+<td class="py-3 pr-4"><span class="text-amber-400 font-semibold">Kling 3.0</span></td>
+<td class="py-3 pr-4 text-neutral-300">Contenido visual sin voz</td>
+<td class="py-3 text-amber-400">Silencioso / estético</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Lógica de enrutamiento en prompting/model-routing.md</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-purple-300"># Model Routing — ads-skill</span>
+
+<span class="text-neutral-500">## Árvore de decisão</span>
+
+<span class="text-yellow-300">if has_speech AND needs_lip_sync:</span>
+    <span class="text-emerald-300">→ Seedance 2.0  # padrão para UGC com ator</span>
+
+<span class="text-yellow-300">elif has_reference_frame AND visual_consistency_critical:</span>
+    <span class="text-blue-300">→ Veo 3.1  # frame inicial travado</span>
+
+<span class="text-yellow-300">elif duration_seconds &gt; 30 OR cinematic_style:</span>
+    <span class="text-teal-300">→ Sora 2  # longo / cinematográfico</span>
+
+<span class="text-yellow-300">elif silent AND visual_only:</span>
+    <span class="text-amber-300">→ Kling 3.0  # silencioso / estético</span>
+
+<span class="text-yellow-300">else:</span>
+    <span class="text-emerald-300">→ Seedance 2.0  # fallback padrão</span>
+
+<span class="text-neutral-500">## Rationale</span>
+<span class="text-neutral-400">Seedance: único com lip sync confiável para português</span>
+<span class="text-neutral-400">Veo: quando frame 0 é crítico (ex.: unboxing específico)</span>
+<span class="text-neutral-400">Sora: quando a narrativa precisa de mais de 30 segundos</span>
+<span class="text-neutral-400">Kling: produto sem locutor (ex.: product shots, natureza)</span></code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Abstracción = poder para el usuario</h3>
+<p class="text-neutral-300 text-sm">El usuario no necesita saber que existen 4 modelos. Describe lo que quiere ("necesito un UGC con el actor João hablando sobre el producto") y la skill elige el modelo correcto. Ese es el valor real de una skill bien diseñada: <strong>complejidad oculta, poder accesible</strong>.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Seedance</div><div class="text-xs text-neutral-500 mt-1">lip sync → estándar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-blue-400">Veo</div><div class="text-xs text-neutral-500 mt-1">frame bloqueado</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-teal-400">Sora</div><div class="text-xs text-neutral-500 mt-1">&gt;30s / cinematográfico</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-amber-400">Kling</div><div class="text-xs text-neutral-500 mt-1">silencioso</div></div>
+</div>
+</section>
+<!-- TÓPICO 3: Estrutura de arquivos -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📁 Estructura completa de ads-skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La ads-skill tiene 12 archivos distribuidos en 4 capas. Cada archivo tiene una responsabilidad única y bien definida.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Árbol de archivos: ads-skill/</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-purple-300">ads-skill/</span>
+<span class="text-purple-300">├── SKILL.md</span>                    <span class="text-neutral-500"># frontmatter + fluxo + hard rules</span>
+<span class="text-neutral-400">├── .env.example</span>                <span class="text-neutral-500"># ARCADS_API_KEY, ARCADS_BASE_URL</span>
+<span class="text-neutral-400">├── reference.md</span>                <span class="text-neutral-500"># docs API Arcads, endpoints, parâmetros</span>
+<span class="text-neutral-400">│</span>
+<span class="text-blue-300">├── scripts/</span>
+<span class="text-blue-300">│   ├── arcads_check.sh</span>          <span class="text-neutral-500"># verifica ffmpeg + .env + deps</span>
+<span class="text-blue-300">│   ├── arcads_analyze.sh</span>        <span class="text-neutral-500"># extrai frames+áudio, gera relatório UGC</span>
+<span class="text-blue-300">│   ├── arcads_actors.sh</span>         <span class="text-neutral-500"># lista atores disponíveis na conta</span>
+<span class="text-blue-300">│   ├── arcads_upload.sh</span>         <span class="text-neutral-500"># faz upload de mídia para Arcads storage</span>
+<span class="text-blue-300">│   ├── arcads_generate.sh</span>       <span class="text-neutral-500"># cria job de geração (retorna job_id)</span>
+<span class="text-blue-300">│   ├── arcads_talking.sh</span>        <span class="text-neutral-500"># variante: talking head com script</span>
+<span class="text-blue-300">│   └── arcads_status.sh</span>         <span class="text-neutral-500"># polling de status até concluir</span>
+<span class="text-neutral-400">│</span>
+<span class="text-emerald-300">└── prompting/</span>
+<span class="text-emerald-300">    ├── viral-analysis.md</span>        <span class="text-neutral-500"># fórmulas para análise UGC viral</span>
+<span class="text-emerald-300">    ├── ugc-formulas.md</span>          <span class="text-neutral-500"># templates HOOK/SHOW/PROOF/CTA</span>
+<span class="text-emerald-300">    └── model-routing.md</span>         <span class="text-neutral-500"># árvore de decisão de modelo</span></code></pre>
+</div>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">El ciclo de vida de una generación</h3>
+<div class="space-y-4">
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-sm font-bold">1</div>
+<div class="text-sm"><span class="text-purple-400 font-semibold">check</span> — <code class="bg-dark-700 px-1 rounded text-xs">arcads_check.sh</code>: verifica ffmpeg, .env y la conectividad de la API</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold">2</div>
+<div class="text-sm"><span class="text-blue-400 font-semibold">analyze</span> — <code class="bg-dark-700 px-1 rounded text-xs">arcads_analyze.sh</code>: extrae la estructura del UGC de referencia</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm font-bold">3</div>
+<div class="text-sm"><span class="text-emerald-400 font-semibold">actors</span> — <code class="bg-dark-700 px-1 rounded text-xs">arcads_actors.sh</code>: enumera los actores disponibles, el usuario elige</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-sm font-bold">4</div>
+<div class="text-sm"><span class="text-amber-400 font-semibold">gate</span> — diálogo de confirmación con costo estimado + resumen de los inputs</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-sm font-bold">5</div>
+<div class="text-sm"><span class="text-purple-400 font-semibold">upload+generate</span> — sube medios, crea un job (devuelve <code class="bg-dark-700 px-1 rounded text-xs">job_id</code>)</div>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-400 text-sm font-bold">6</div>
+<div class="text-sm"><span class="text-teal-400 font-semibold">status</span> — <code class="bg-dark-700 px-1 rounded text-xs">arcads_status.sh</code>: polling hasta <code class="bg-dark-700 px-1 rounded text-xs">completed</code></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">12 archivos</div><div class="text-xs text-neutral-500 mt-1">4 capas</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-blue-400">7 scripts</div><div class="text-xs text-neutral-500 mt-1">ciclo completo</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-emerald-400">3 prompts</div><div class="text-xs text-neutral-500 mt-1">análisis + enrutamiento</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-amber-400">1 reference</div><div class="text-xs text-neutral-500 mt-1">docs de la API de Arcads</div></div>
+</div>
+</section>
+<!-- TÓPICO 4: Hard rules -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">⚠️ Reglas estrictas de ads-skill</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Tres hard rules protegen las tres cosas más importantes: la integridad del contenido, el presupuesto y la seguridad de las credenciales.</p>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-lg">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-red-500/30">
+<h4 class="font-semibold text-red-400 mb-2">NUNCA parafrasees la transcripción: solo verbatim</h4>
+<p class="text-sm text-neutral-400 mb-3">La transcripción del video UGC se extrae palabra por palabra. La skill no puede reescribir, resumir ni "mejorar" el texto.</p>
+<div class="bg-dark-700 rounded-lg p-3 text-sm">
+<div class="text-emerald-400 font-semibold mb-1">Por qué es inviolable:</div>
+<p class="text-neutral-300 text-xs">Los anuncios UGC virales tienen un timing específico: una pausa en el segundo 1.3s, una inflexión en el 2.7s. Una paráfrasis cambia la duración de las palabras y rompe la sincronización con el frame. Lo que funciona en 2 segundos puede durar 3.2s y hacer que el espectador se vaya.</p>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-lg">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-amber-500/30">
+<h4 class="font-semibold text-amber-400 mb-2">SIEMPRE ejecutar el dialogue gate antes de generar</h4>
+<p class="text-sm text-neutral-400 mb-3">Antes de cualquier llamada a la API de Arcads, presenta un resumen completo: actor elegido, modelo, costo estimado en créditos, duración estimada.</p>
+<div class="bg-dark-700 rounded-lg p-3 text-sm">
+<div class="text-emerald-400 font-semibold mb-1">Por qué es inviolable:</div>
+<p class="text-neutral-300 text-xs">Una generación de 15s en Seedance cuesta ~8 créditos Arcads. Un loop accidental o un input incorrecto puede consumir 100 créditos ($50-200) en segundos. El gate es el único freno antes del gasto real.</p>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-lg">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-6 border border-red-500/30">
+<h4 class="font-semibold text-red-400 mb-2">NUNCA registres la API key en ningún output</h4>
+<p class="text-sm text-neutral-400 mb-3">Los scripts leen <code class="bg-dark-700 px-1 rounded text-xs">$ARCADS_API_KEY</code> del entorno. La clave nunca aparece en logs, en la salida del terminal, en archivos de depuración ni en ninguna otra salida.</p>
+<div class="bg-dark-700 rounded-lg p-3 text-sm">
+<div class="text-emerald-400 font-semibold mb-1">Por qué es inviolable:</div>
+<p class="text-neutral-300 text-xs">Los scrapers encuentran en minutos las API keys expuestas en los logs. Una clave de Arcads comprometida permite que terceros generen videos en tu cuenta — con cargos ilimitados hasta que te des cuenta.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-2">🎙️</div><div class="text-xs font-semibold text-red-400">Verbatim</div><div class="text-xs text-neutral-500 mt-1">protege el timing</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-2">🔒</div><div class="text-xs font-semibold text-amber-400">Gate</div><div class="text-xs text-neutral-500 mt-1">protege el presupuesto</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-2xl mb-2">🔑</div><div class="text-xs font-semibold text-red-400">API key</div><div class="text-xs text-neutral-500 mt-1">protege la cuenta</div></div>
+</div>
+</section>
+<!-- TÓPICO 5: Estrutura UGC 15s -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⏱️ El framework UGC de 15 segundos</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Todo anuncio UGC viral de 15 segundos sigue la misma estructura de 5 segmentos. La ads-skill identifica y extrae automáticamente cada uno.</p>
+<!-- SVG: timeline UGC 15s -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Estructura UGC de 15 segundos: HOOK 0-2s, SHOW 2-6s, PROOF 6-11s, CTA 11-14s, LOGO 14-15s" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 580 160" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m34-glow2"><fegaussianblur result="b6" stddeviation="1.5"></fegaussianblur><femerge><femergenode in="b6"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<pattern height="16" id="m34-dots2" patternunits="userSpaceOnUse" width="16" x="0" y="0"><circle cx="1" cy="1" fill="#374151" r="0.7"></circle></pattern>
+<rect fill="url(#m34-dots2)" height="160" opacity="0.3" width="580"></rect>
+<!-- Timeline base -->
+<rect fill="#1f2937" height="40" rx="4" stroke="#374151" stroke-width="1" width="540" x="20" y="60"></rect>
+<!-- Segmento HOOK (0-2s) = 2/15 = 13.3% = ~72px de 540 -->
+<rect fill="#1a1230" filter="url(#m34-glow2)" height="40" rx="4" stroke="#a855f7" stroke-width="2" width="72" x="20" y="60"></rect>
+<text fill="#c084fc" font-size="9" font-weight="600" text-anchor="middle" x="56" y="78">HOOK</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="56" y="91">0-2s</text>
+<!-- Segmento SHOW (2-6s) = 4/15 = 26.7% = ~144px -->
+<rect fill="#0e1b26" height="40" rx="4" stroke="#38bdf8" stroke-width="1.5" width="144" x="92" y="60"></rect>
+<text fill="#38bdf8" font-size="9" font-weight="600" text-anchor="middle" x="164" y="78">SHOW</text>
+<text fill="#bfe6ff" font-size="8" text-anchor="middle" x="164" y="91">2-6s</text>
+<!-- Segmento PROOF (6-11s) = 5/15 = 33.3% = ~180px -->
+<rect fill="#0c1f1c" height="40" rx="4" stroke="#2dd4bf" stroke-width="1.5" width="180" x="236" y="60"></rect>
+<text fill="#2dd4bf" font-size="9" font-weight="600" text-anchor="middle" x="326" y="78">PROOF</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="326" y="91">6-11s</text>
+<!-- Segmento CTA (11-14s) = 3/15 = 20% = ~108px -->
+<rect fill="#1f1604" height="40" rx="4" stroke="#fbbf24" stroke-width="1.5" width="108" x="416" y="60"></rect>
+<text fill="#fbbf24" font-size="9" font-weight="600" text-anchor="middle" x="470" y="78">CTA</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="470" y="91">11-14s</text>
+<!-- Segmento LOGO (14-15s) = 1/15 = 6.7% = ~36px -->
+<rect fill="#111827" height="40" rx="4" stroke="#6b7280" stroke-width="1" width="36" x="524" y="60"></rect>
+<text fill="#9ca3af" font-size="8" font-weight="600" text-anchor="middle" x="542" y="78">LOGO</text>
+<text fill="#6b7280" font-size="7" text-anchor="middle" x="542" y="91">14-15s</text>
+<!-- Labels abaixo -->
+<text fill="#c084fc" font-size="8" text-anchor="middle" x="56" y="120">pattern-interrupt</text>
+<text fill="#6b7280" font-size="7.5" text-anchor="middle" x="56" y="131">para el scroll</text>
+<text fill="#38bdf8" font-size="8" text-anchor="middle" x="164" y="120">demo real</text>
+<text fill="#6b7280" font-size="7.5" text-anchor="middle" x="164" y="131">no de stock</text>
+<text fill="#2dd4bf" font-size="8" text-anchor="middle" x="326" y="120">número concreto</text>
+<text fill="#6b7280" font-size="7.5" text-anchor="middle" x="326" y="131">prueba social</text>
+<text fill="#fbbf24" font-size="8" text-anchor="middle" x="470" y="120">1 acción específica</text>
+<text fill="#6b7280" font-size="7.5" text-anchor="middle" x="470" y="131">nada vago</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="542" y="120">marca</text>
+</svg>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Cada segmento en la práctica</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li><strong class="text-purple-400">HOOK (0-2s):</strong> sorpresa, pregunta provocadora, contradicción, algo raro que está pasando</li>
+<li><strong class="text-blue-400">SHOW (2-6s):</strong> demostración real del producto, beneficio visible en acción</li>
+<li><strong class="text-teal-400">PROOF (6-11s):</strong> número específico ("3 kg en 7 días"), testimonio, antes/después</li>
+<li><strong class="text-primary">CTA (11-14s):</strong> una sola acción — "haz clic en el enlace de la bio", "compra ahora"</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Errores fatales por segmento</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li><strong class="text-red-400">HOOK débil:</strong> logo del producto en los primeros 2s (desplazamiento inmediato)</li>
+<li><strong class="text-red-400">SHOW incorrecto:</strong> imagen de stock, no una demostración real</li>
+<li><strong class="text-red-400">PROOF vago:</strong> "funciona muy bien" sin un número</li>
+<li><strong class="text-red-400">CTA múltiple:</strong> dos verbos de acción ("haz clic Y comparte")</li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-purple-500/30 text-center"><div class="text-xs font-semibold text-purple-400">HOOK</div><div class="text-xs text-neutral-500 mt-1">0-2s</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-blue-500/30 text-center"><div class="text-xs font-semibold text-blue-400">SHOW</div><div class="text-xs text-neutral-500 mt-1">2-6s</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-teal-500/30 text-center"><div class="text-xs font-semibold text-teal-400">PROOF</div><div class="text-xs text-neutral-500 mt-1">6-11s</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-amber-500/30 text-center"><div class="text-xs font-semibold text-amber-400">CTA</div><div class="text-xs text-neutral-500 mt-1">11-14s</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-xs font-semibold text-neutral-500">LOGO</div><div class="text-xs text-neutral-500 mt-1">14-15s</div></div>
+</div>
+</section>
+<!-- TÓPICO 6: Como exemplifica 3.1-3.3 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔗 La ads-skill como espejo de los módulos 3.1–3.3</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Cada decisión de diseño de ads-skill se tomó siguiendo los mismos principios que aprendiste en los tres módulos anteriores. Aquí la teoría se convierte en código.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-6">Mapeo de teoría → implementación</h3>
+<div class="space-y-6">
+<div class="border-l-2 border-purple-500/50 pl-4">
+<div class="text-sm font-semibold text-purple-400 mb-2">Módulo 3.1 — Anatomía de la skill</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> carpeta con SKILL.md obligatorio</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> <code class="bg-dark-700 px-1 rounded text-xs">SKILL.md</code> en la raíz con frontmatter YAML</div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> subcarpetas opcionales</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> <code class="bg-dark-700 px-1 rounded text-xs">scripts/</code> + <code class="bg-dark-700 px-1 rounded text-xs">prompting/</code></div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> cuerpo Markdown con flujo</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> sección "## Flujo" con 6 pasos numerados</div>
+</div>
+</div>
+<div class="border-l-2 border-blue-500/50 pl-4">
+<div class="text-sm font-semibold text-blue-400 mb-2">Módulo 3.2 — Description y triggers</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> description con TRIGGER y SKIP</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> "TRIGGER: analizar UGC, ads virales, Arcads; SKIP: videos no publicitarios"</div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> nombre en kebab-case</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> carpeta llamada <code class="bg-dark-700 px-1 rounded text-xs">ads-skill</code>, name: ads-skill</div>
+</div>
+</div>
+<div class="border-l-2 border-teal-500/50 pl-4">
+<div class="text-sm font-semibold text-teal-400 mb-2">Módulo 3.3 — Scripts y referencias</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> scripts atómicos con prefijo</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> 7 scripts <code class="bg-dark-700 px-1 rounded text-xs">arcads_*.sh</code></div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> .env.example</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> ARCADS_API_KEY, ARCADS_BASE_URL, ARCADS_DEFAULT_MODEL</div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> progressive disclosure</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> SKILL.md corto + reference.md + prompting/</div>
+<div class="text-neutral-400"><span class="text-neutral-300">Concepto:</span> reglas estrictas + control</div>
+<div class="text-neutral-400"><span class="text-emerald-400">ads-skill/:</span> 3 reglas + diálogo de confirmación antes de generar</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Tu próxima skill: copiar la estructura, adaptar el dominio</h3>
+<p class="text-neutral-300 text-sm mb-3">La ads-skill es una plantilla de referencia para cualquier skill que integre una API externa con varios modelos. La estructura <code class="bg-dark-700 px-1 rounded">check → analyze → gate → upload → generate → status</code> funciona para:</p>
+<ul class="space-y-1 text-sm text-neutral-400">
+<li>• Generación de imágenes (DALL-E, Midjourney, Stable Diffusion)</li>
+<li>• Síntesis de audio (ElevenLabs, Murf, Play.ht)</li>
+<li>• Procesamiento de documentos (análisis de contratos, extracción de datos)</li>
+<li>• Cualquier API con polling asíncrono</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">3.1 → ads-skill</div><div class="text-xs text-neutral-500 mt-1">carpeta + SKILL.md</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-blue-400">3.2 → ads-skill</div><div class="text-xs text-neutral-500 mt-1">trigger + skip</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-teal-400">3.3 → ads-skill</div><div class="text-xs text-neutral-500 mt-1">scripts + refs + rules</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-primary">Plantilla</div><div class="text-xs text-neutral-500 mt-1">copiar y adaptar</div></div>
+</div>
+</section>
+<!-- DOWNLOAD DO MATERIAL -->
+<section class="mb-12">
+<a class="group block bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 hover:border-purple-500/50 p-6 transition-all" download="" href="../../../referencias/ads-skill.zip">
+<div class="flex items-start space-x-4">
+<span class="text-4xl">🧩</span>
+<div>
+<h3 class="text-lg font-bold mb-1 group-hover:text-purple-400 transition-colors">Descarga la skill <code class="text-purple-400">ads-skill</code> completa <span class="text-xs font-normal text-neutral-500">· ~26 KB</span></h3>
+<p class="text-sm text-neutral-300 mb-2">Todo el código de este caso de estudio: <code class="text-purple-400">SKILL.md</code>, los scripts <code class="text-purple-400">arcads_*.sh</code>, los archivos de <code class="text-purple-400">prompting/</code> e o <code class="text-purple-400">reference.md</code>. Estúdiala y adáptala para tu propia skill.</p>
+<span class="text-sm font-semibold text-purple-400">⬇ Descargar ads-skill.zip</span>
+</div>
+</div>
+</a>
+</section>
+<!-- RESUMO FINAL DA TRILHA -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎬</span> Resumen del Módulo — y de la Ruta Skills</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>2 poderes</strong><span class="text-neutral-400"> — el análisis (ffmpeg+Whisper) y la generación (API Arcads) son complementarios, no separables</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>4 modelos enrutados</strong><span class="text-neutral-400"> — Seedance (predeterminado/sincronización labial), Veo (fotograma), Sora (largo), Kling (silencioso); el usuario no elige</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Estructura de producción</strong><span class="text-neutral-400"> — 12 archivos en 4 capas; 7 scripts que cubren el ciclo check→generate→status</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>3 reglas estrictas</strong><span class="text-neutral-400"> — verbatim (timing), gate (presupuesto), sin registro de key (seguridad)</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Framework UGC 15s</strong><span class="text-neutral-400"> — HOOK(0-2) SHOW(2-6) PROOF(6-11) CTA(11-14) LOGO(14-15); extracción automática por segmento</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Teoría → práctica</strong><span class="text-neutral-400"> — ads-skill materializa TODOS los conceptos de 3.1-3.3; úsalo como plantilla de referencia</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8 border border-amber-500/20">
+<h3 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🔁</span> Siguiente ruta:</h3>
+<p class="text-neutral-300">Ruta 4 — <strong>Automatización</strong>: ahora que sabes crear skills, aprende a encadenarlas en workflows automáticos, hooks y rutinas programadas que se ejecutan sin intervención manual.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-3-3.html">← Módulo 3.3</a>
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">↑ Volver a Skills (T3)</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="../trilha4/index.html">Automatización (T4) →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const html = document.documentElement;
+if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+  themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+} else { themeToggleLightIcon.classList.remove('hidden'); }
+themeToggle.addEventListener('click', () => {
+  themeToggleDarkIcon.classList.toggle('hidden');
+  themeToggleLightIcon.classList.toggle('hidden');
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

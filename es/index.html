@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Claude Code — Del inicio al proyecto | INEMA.CLUB</title>
+<meta content="Curso completo de Claude Code: desde los fundamentos hasta la instalación, creando skills y desarrollando proyectos reales de largo plazo. 6 rutas, 24 módulos." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: {
+        primary: '#FACC15',
+        dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+      } } }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - todas as cores de trilha */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .text-teal-400 { color: #0d9488; }
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217,119,6,0.12); }
+    html:not(.dark) .bg-teal-500\/20 { background-color: rgba(13,148,136,0.12); }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225,29,72,0.12); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217,119,6,0.25); }
+    html:not(.dark) .border-teal-500\/30 { border-color: rgba(13,148,136,0.25); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225,29,72,0.25); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:text-teal-400:hover { color: #0d9488; }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:bg-amber-500\/10:hover { background-color: rgba(217,119,6,0.08); }
+    html:not(.dark) .hover\:bg-teal-500\/10:hover { background-color: rgba(13,148,136,0.08); }
+    html:not(.dark) .hover\:bg-rose-500\/10:hover { background-color: rgba(225,29,72,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+    html:not(.dark) .group:hover .group-hover\:text-teal-400 { color: #0d9488; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+
+    /* Light mode - remove gradientes + cores especiais + nav */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG diagramas - suaviza no light */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s}
+      .wf-a:nth-child(4){animation-delay:.6s} .wf-a:nth-child(5){animation-delay:.8s} .wf-a:nth-child(6){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="curso/trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="curso/trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="curso/trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="curso/trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="curso/trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="curso/trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HERO -->
+<header class="bg-gradient-to-br from-dark-800 via-dark-900 to-dark-900 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+<span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full mb-5 border border-primary/40">CURSO COMPLETO · INEMA.CLUB</span>
+<h1 class="text-4xl sm:text-5xl font-bold mb-5 leading-tight">🤖 Claude Code<br/><span class="text-primary">Del cero al proyecto</span></h1>
+<p class="text-lg text-neutral-300 max-w-3xl mb-8 leading-relaxed">
+        Aprende sobre el agente de IA que vive en la terminal: <strong class="text-neutral-100">desde los fundamentos</strong>, pasando por la <strong class="text-neutral-100">instalación y configuración</strong>, creando tus propias <strong class="text-neutral-100">skills</strong> e <strong class="text-neutral-100">automatizaciones</strong>, hasta <strong class="text-neutral-100">desarrollar y publicar proyectos reales a largo plazo</strong>. Con dos casos de estudio en producción.
+      </p>
+<!-- Hero SVG -->
+<div class="rounded-2xl border border-primary/40 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Recorrido del curso: desde los fundamentos hasta el proyecto publicado, pasando por la instalación, las skills, la automatización y los proyectos" class="w-full h-auto" role="img" viewbox="0 0 1000 200">
+<defs>
+<lineargradient id="hero-grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#FACC15"></stop><stop offset="1" stop-color="#f59e0b"></stop></lineargradient>
+<filter height="180%" id="hero-glow" width="180%" x="-40%" y="-40%"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="32" id="hero-grid" patternunits="userSpaceOnUse" width="32"><circle cx="1.3" cy="1.3" fill="#FACC15" opacity="0.10" r="1.3"></circle></pattern>
+<marker id="hero-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#9ca3af"></path></marker>
+</defs>
+<rect fill="url(#hero-grid)" height="200" width="1000" x="0" y="0"></rect>
+<g fill="none" opacity="0.5" stroke="#9ca3af" stroke-width="1.8">
+<path d="M156,100 L196,100" marker-end="url(#hero-ah)"></path>
+<path d="M312,100 L352,100" marker-end="url(#hero-ah)"></path>
+<path d="M468,100 L508,100" marker-end="url(#hero-ah)"></path>
+<path d="M624,100 L664,100" marker-end="url(#hero-ah)"></path>
+<path d="M780,100 L820,100" marker-end="url(#hero-ah)"></path>
+</g>
+<g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+<g class="wf-a"><rect fill="#0e2018" height="52" rx="12" stroke="#34d399" stroke-width="2" width="136" x="20" y="74"></rect><text fill="#34d399" text-anchor="middle" x="88" y="98">Fundamentos</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="88" y="116">T1</text></g>
+<g class="wf-a"><rect fill="#0e1622" height="52" rx="12" stroke="#60a5fa" stroke-width="2" width="136" x="176" y="74"></rect><text fill="#60a5fa" text-anchor="middle" x="244" y="98">Instalación</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="244" y="116">T2</text></g>
+<g class="wf-a"><rect fill="#1a1230" height="52" rx="12" stroke="#c084fc" stroke-width="2" width="136" x="332" y="74"></rect><text fill="#c084fc" text-anchor="middle" x="400" y="98">Skills</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="400" y="116">T3</text></g>
+<g class="wf-a"><rect fill="#1f1604" height="52" rx="12" stroke="#fbbf24" stroke-width="2" width="136" x="488" y="74"></rect><text fill="#fbbf24" text-anchor="middle" x="556" y="98">Automatización</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="556" y="116">T4</text></g>
+<g class="wf-a"><rect fill="#0c1f1c" height="52" rx="12" stroke="#2dd4bf" stroke-width="2" width="136" x="644" y="74"></rect><text fill="#2dd4bf" text-anchor="middle" x="712" y="98">Proyectos</text><text fill="#9ad6ff" font-size="11" font-weight="400" text-anchor="middle" x="712" y="116">T5</text></g>
+<g class="wf-a" filter="url(#hero-glow)"><rect fill="#2a0f16" height="60" rx="13" stroke="url(#hero-grad)" stroke-width="2.5" width="160" x="820" y="70"></rect><text fill="#fb7185" text-anchor="middle" x="900" y="96">Deploy</text><text fill="#fcd9a0" font-size="11" font-weight="400" text-anchor="middle" x="900" y="115">en línea 🚀</text></g>
+</g>
+</svg>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="text-center px-7 py-3 bg-primary text-dark-900 rounded-lg font-bold hover:bg-yellow-300 transition-colors" href="curso/trilha1/index.html">Empezar por el principio →</a>
+<a class="text-center px-7 py-3 bg-dark-700 text-neutral-200 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="#trilhas">Ver las 6 rutas</a>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 max-w-3xl">
+<div class="bg-dark-800/50 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-primary">6</div><div class="text-xs text-neutral-400">Rutas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-primary">24</div><div class="text-xs text-neutral-400">Módulos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-primary">144</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-4 border border-dark-600"><div class="text-2xl font-bold text-primary">~18h</div><div class="text-xs text-neutral-400">Contenido</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<!-- TRILHAS -->
+<section class="mb-20" id="trilhas">
+<h2 class="text-2xl font-bold mb-2">Los 6 recorridos</h2>
+<p class="text-neutral-400 mb-8 max-w-2xl">Una progresión desde cero hasta el proyecto publicado. Cada ruta tiene 4 módulos con 6 temas cada uno.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-6 transition-all" href="curso/trilha1/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">🧭</span><span class="text-xs font-semibold text-emerald-400 bg-emerald-500/20 px-2 py-1 rounded-full">T1 · Básico</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">Fundamentos</h3>
+<p class="text-sm text-neutral-400">Qué es Claude Code, cómo piensa el agente, el contexto y los tokens, y la terminal para principiantes.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-6 transition-all" href="curso/trilha2/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">⚙️</span><span class="text-xs font-semibold text-blue-400 bg-blue-500/20 px-2 py-1 rounded-full">T2 · Básico</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">Instalación y configuración</h3>
+<p class="text-sm text-neutral-400">Instalar, autenticar, configurar <code class="text-blue-400">settings.json</code> y permisos, MCP y el primer proyecto.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-6 transition-all" href="curso/trilha3/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">🧩</span><span class="text-xs font-semibold text-purple-400 bg-purple-500/20 px-2 py-1 rounded-full">T3 · Intermedio</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">Skills</h3>
+<p class="text-sm text-neutral-400">Anatomía de la <code class="text-purple-400">SKILL.md</code>, un proyecto de datos tiene <strong class="text-neutral-200">ads-skill</strong> (Arcads).</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-6 transition-all" href="curso/trilha4/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">🔁</span><span class="text-xs font-semibold text-amber-400 bg-amber-500/20 px-2 py-1 rounded-full">T4 · Intermedio</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors">Automatización</h3>
+<p class="text-sm text-neutral-400">Subagents, hooks, slash commands y workflows, y tareas recurrentes con cron.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-6 transition-all" href="curso/trilha5/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">🏗️</span><span class="text-xs font-semibold text-teal-400 bg-teal-500/20 px-2 py-1 rounded-full">T5 · Avanzado</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">Proyectos a largo plazo</h3>
+<p class="text-sm text-neutral-400">Arquitectura, <code class="text-teal-400">CLAUDE.md</code> y memoria, mantenimiento — y el caso real <strong class="text-neutral-200">ClaudeOS</strong>.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-6 transition-all" href="curso/trilha6/index.html">
+<div class="flex items-center justify-between mb-3"><span class="text-3xl">🚀</span><span class="text-xs font-semibold text-rose-400 bg-rose-500/20 px-2 py-1 rounded-full">T6 · Intermedio</span></div>
+<h3 class="text-xl font-bold mb-2 group-hover:text-rose-400 transition-colors">Deploy y portafolio</h3>
+<p class="text-sm text-neutral-400">Git, GitHub, GitHub Pages: publica gratis y haz evolucionar tu proyecto con el tiempo.</p>
+</a>
+</div>
+</section>
+<!-- O QUE VOCÊ VAI APRENDER -->
+<section class="mb-20">
+<h2 class="text-2xl font-bold mb-8">Qué podrás hacer</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">✓</span> Al final del curso</h3>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Entender y usar Claude Code con confianza en el terminal</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Instalar, configurar permisos y conectar servidores MCP</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Crear tus propias skills, hooks y automatizaciones</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Mantener un proyecto real vivo durante meses, no solo una tarde</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span>Publicar todo gratis en GitHub Pages</span></li>
+</ul>
+</div>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🎬</span> Dos estudios de caso reales</h3>
+<p class="text-neutral-300 mb-4">El curso no se queda en la teoría. Analizas dos artefactos de producción:</p>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-purple-400 mt-1">🧩</span><span><strong class="text-neutral-100">ads-skill</strong> — una skill que analiza anuncios virales y los recrea con Arcads. Muestra la anatomía completa de una skill.</span></li>
+<li class="flex items-start space-x-2"><span class="text-teal-400 mt-1">🏗️</span><span><strong class="text-neutral-100">ClaudeOS</strong> — un dashboard personal de IA con scanner, skill <code class="text-teal-400">/dream</code>, cron y versionado. Muestra un proyecto real de largo plazo.</span></li>
+</ul>
+</div>
+</div>
+</section>
+<!-- MATERIAIS -->
+<section class="mb-20">
+<h2 class="text-2xl font-bold mb-2">Materiales para descargar</h2>
+<p class="text-neutral-400 mb-8 max-w-2xl">Los dos artefactos de producción analizados en detalle en el curso: descárgalos, estudia el código y adáptalos a tus proyectos.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-6 transition-all flex items-start space-x-4" download="" href="../referencias/ads-skill.zip">
+<span class="text-3xl">🧩</span>
+<div>
+<h3 class="text-lg font-bold mb-1 group-hover:text-purple-400 transition-colors">ads-skill <span class="text-xs font-normal text-neutral-500">· ~26 KB</span></h3>
+<p class="text-sm text-neutral-400 mb-2">La skill completa para diseccionar y recrear anuncios mediante Arcads. Caso de estudio de la Trilha 3.</p>
+<span class="text-xs font-semibold text-purple-400">⬇ Descargar .zip</span>
+</div>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-6 transition-all flex items-start space-x-4" download="" href="../referencias/ClaudeOS-Hermes-V2.3.zip">
+<span class="text-3xl">🏗️</span>
+<div>
+<h3 class="text-lg font-bold mb-1 group-hover:text-teal-400 transition-colors">ClaudeOS (Hermes) V2.3 <span class="text-xs font-normal text-neutral-500">· ~88 MB</span></h3>
+<p class="text-sm text-neutral-400 mb-2">El proyecto-dashboard completo (código fuente, skills <code class="text-teal-400">/dream</code> e <code class="text-teal-400">/personas</code>, secciones recomendadas, límite de tokens del contexto.</p>
+<span class="text-xs font-semibold text-teal-400">⬇ Descargar .zip</span>
+</div>
+</a>
+</div>
+</section>
+<!-- PARA QUEM -->
+<section class="mb-12">
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-8 text-center">
+<h2 class="text-2xl font-bold mb-3">¿Listo para empezar?</h2>
+<p class="text-neutral-300 mb-6 max-w-2xl mx-auto">No necesitas saber programar. Empezamos desde cero absoluto — qué es una terminal — y terminamos con tu proyecto publicado en línea.</p>
+<a class="inline-block px-8 py-3 bg-primary text-dark-900 rounded-lg font-bold hover:bg-yellow-300 transition-colors" href="curso/trilha1/index.html">Empezar la Ruta 1 → Fundamentos</a>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p class="mb-2">Claude Code — Del inicio al proyecto · 2026</p>
+<a class="text-sky-400 hover:text-sky-300 font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

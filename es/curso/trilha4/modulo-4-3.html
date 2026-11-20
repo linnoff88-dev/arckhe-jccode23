@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Comandos slash y flujos de trabajo | Automatización | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217, 119, 6, 0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217, 119, 6, 0.25); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .from-amber-900\/30 { --tw-gradient-from: rgba(120, 53, 15, 0.1); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(120, 53, 15, 0.08); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha4/modulo-4-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha4/modulo-4-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha4/modulo-4-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha4/modulo-4-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha4/modulo-4-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-4-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="ml-2 p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors" id="theme-toggle">
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-neutral-300" href="../../index.html">Inicio</a>
+<span class="mx-2">›</span>
+<a class="hover:text-neutral-300" href="index.html">Automatización</a>
+<span class="mx-2">›</span>
+<span class="text-amber-400">4.3 Slash Commands</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 rounded-2xl border border-amber-500/30 p-8 mb-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400 text-sm font-semibold">4.3</span>
+<span class="text-neutral-500 text-sm">~45 min · Intermedio</span>
+</div>
+<h1 class="text-3xl font-bold mb-3">⌨️ Slash commands y workflows</h1>
+<p class="text-neutral-400 text-lg">Crea atajos reutilizables y pipelines deterministas que orquestan varios agentes con un solo comando.</p>
+</div>
+<!-- SVG: Fluxo de decisão Pipeline vs Parallel -->
+<section class="mb-10">
+<div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-4">
+<svg aria-label="Diagrama que compara un pipeline secuencial (A depende de B, que depende de C) con un fan-out paralelo (A activa B, C y D simultáneamente, que convergen en E)" class="w-full h-auto" role="img" viewbox="0 0 800 260">
+<defs>
+<lineargradient id="m43-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="m43-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="m43-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="m43-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="m43-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m43-grid)" height="260" width="800" x="0" y="0"></rect>
+<!-- Divisor central -->
+<line stroke="#374151" stroke-dasharray="6,4" stroke-width="1" x1="400" x2="400" y1="10" y2="250"></line>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="200" y="22">PIPELINE (secuencial)</text>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="600" y="22">PARALELO (fan-out)</text>
+<!-- Pipeline: 3 nós em linha -->
+<g filter="url(#m43-glow)">
+<rect fill="#1f1604" height="48" rx="10" stroke="url(#m43-grad)" stroke-width="2" width="90" x="20" y="90"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="65" y="112">Step 1</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="65" y="128">investigación</text>
+<line marker-end="url(#m43-ah)" stroke="#fbbf24" stroke-width="1.5" x1="110" x2="148" y1="114" y2="114"></line>
+<rect fill="#1f1604" height="48" rx="10" stroke="url(#m43-grad)" stroke-width="2" width="90" x="150" y="90"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="195" y="112">Step 2</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="195" y="128">redacción</text>
+<line marker-end="url(#m43-ah)" stroke="#fbbf24" stroke-width="1.5" x1="240" x2="278" y1="114" y2="114"></line>
+<rect fill="#1f1604" height="48" rx="10" stroke="url(#m43-grad)" stroke-width="2" width="90" x="280" y="90"></rect>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="325" y="112">Step 3</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="325" y="128">revisión</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="200" y="165">~9 min en total (3 × 3 min)</text>
+<!-- Paralelo: fan-out -->
+<g filter="url(#m43-glow)">
+<rect fill="#1f1604" height="48" rx="10" stroke="url(#m43-grad)" stroke-width="2" width="80" x="418" y="100"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="458" y="122">Activador</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="458" y="138">/workflow</text>
+<line marker-end="url(#m43-ahc)" opacity="0.8" stroke="#38bdf8" stroke-width="1.5" x1="498" x2="555" y1="115" y2="75"></line>
+<line marker-end="url(#m43-ahc)" opacity="0.8" stroke="#38bdf8" stroke-width="1.5" x1="498" x2="555" y1="124" y2="124"></line>
+<line marker-end="url(#m43-ahc)" opacity="0.8" stroke="#38bdf8" stroke-width="1.5" x1="498" x2="555" y1="133" y2="170"></line>
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="80" x="557" y="52"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="597" y="72">Worker A</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="597" y="86">investigación</text>
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="80" x="557" y="102"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="597" y="122">Worker B</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="597" y="136">redacción</text>
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="80" x="557" y="150"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="597" y="170">Worker C</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="597" y="184">revisión</text>
+<line marker-end="url(#m43-ah)" opacity="0.7" stroke="#fbbf24" stroke-width="1.5" x1="637" x2="694" y1="74" y2="114"></line>
+<line marker-end="url(#m43-ah)" opacity="0.7" stroke="#fbbf24" stroke-width="1.5" x1="637" x2="694" y1="124" y2="124"></line>
+<line marker-end="url(#m43-ah)" opacity="0.7" stroke="#fbbf24" stroke-width="1.5" x1="637" x2="694" y1="172" y2="134"></line>
+<g filter="url(#m43-glow)">
+<rect fill="#1f1604" height="48" rx="10" stroke="url(#m43-grad)" stroke-width="2.5" width="80" x="696" y="100"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="736" y="122">Resultado</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="736" y="138">agregado</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="600" y="212">~3 min en total (en paralelo) — 3× más rápido</text>
+</svg>
+</div>
+</section>
+<!-- SEÇÃO 1: O que são slash commands -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">⌨️ Qué son los slash commands</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">Los comandos slash son <strong class="text-white">atajos de texto</strong> que se expanden a prompts completos. Al escribir <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/review</code> en Claude Code, el harness expande a un prompt de revisión de código configurado.</p>
+<p class="text-neutral-300">Los comandos nativos incluyen <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/help</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/clear</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/config</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/compact</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/doctor</code>. Las skills agregan sus propios comandos, como <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/code-review</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/security-review</code>, <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/schedule</code>.</p>
+</div>
+<!-- Comandos nativos -->
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">// Comandos nativos más útiles de Claude Code</div>
+<pre class="text-neutral-300"><span class="text-amber-400">/help</span>          → lista todos os comandos disponíveis
+<span class="text-amber-400">/clear</span>         → limpa o histórico da sessão atual
+<span class="text-amber-400">/compact</span>       → comprime o contexto (reduz tokens usados)
+<span class="text-amber-400">/config</span>        → abre configurações interativas
+<span class="text-amber-400">/doctor</span>        → diagnóstico do ambiente
+<span class="text-amber-400">/status</span>        → estado atual do agente
+
+<span class="text-neutral-500">// Skills instaladas adicionam comandos:</span>
+<span class="text-cyan-400">/code-review</span>   → revisão de código do diff atual
+<span class="text-cyan-400">/security-review</span> → análise de segurança
+<span class="text-cyan-400">/schedule</span>      → agendamento de tarefas recorrentes
+<span class="text-cyan-400">/loop</span>          → repete comando em intervalo</pre>
+</div>
+</section>
+<!-- SEÇÃO 2: Criar commands próprios -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🛠️ Crear tus propios slash commands</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">Los comandos personalizados son archivos <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">.md</code> dentro de <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">.claude/commands/</code>. El nombre del archivo (sin extensión) se convierte en el comando. El contenido del archivo es el prompt expandido.</p>
+<p class="text-neutral-300">Puedes usar variables especiales: <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">$ARGUMENTS</code> (argumentos pasados después del comando), <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">$FILE</code> (archivo actual), <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">$SELECTION</code> (texto seleccionado).</p>
+</div>
+<!-- Code box: estrutura de arquivo .md -->
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">// .claude/commands/component.md — comando /component</div>
+<pre class="text-neutral-300">Crie um componente React TypeScript chamado <span class="text-amber-400">$ARGUMENTS</span>.
+
+Requisitos:
+- Arquivo em src/components/<span class="text-amber-400">$ARGUMENTS</span>/<span class="text-amber-400">$ARGUMENTS</span>.tsx
+- Props interface tipada
+- Export default
+- Storybook em <span class="text-amber-400">$ARGUMENTS</span>.stories.tsx
+- Teste em <span class="text-amber-400">$ARGUMENTS</span>.test.tsx
+
+Siga os padrões do projeto (verifique componentes existentes).
+Use a paleta de cores do design system em src/tokens.</pre>
+</div>
+<!-- Grid local vs global -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5">
+<h4 class="font-semibold text-amber-400 mb-2">📁 Alcance local (.claude/commands/)</h4>
+<p class="text-sm text-neutral-400 mb-2">Específico del proyecto. Se registra en el repositorio con un commit. Todo el equipo usa los mismos comandos. Ideal para los estándares del proyecto.</p>
+<div class="text-xs font-mono text-neutral-500 space-y-1">
+<div>.claude/commands/component.md → /component</div>
+<div>.claude/commands/migrate.md → /migrate</div>
+<div>.claude/commands/release.md → /release</div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-neutral-300 mb-2">🌐 Alcance global (~/.claude/commands/)</h4>
+<p class="text-sm text-neutral-400 mb-2">Se aplica a todos los proyectos. Útil para preferencias personales. No se comparte con el equipo.</p>
+<div class="text-xs font-mono text-neutral-500 space-y-1">
+<div>~/.claude/commands/standup.md → /standup</div>
+<div>~/.claude/commands/summarize.md → /summarize</div>
+</div>
+</div>
+</div>
+<!-- Tip: boas práticas de naming -->
+<div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
+<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">💡</span> Consejos para nombrar</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Nombres cortos e imperativos: <code class="text-amber-400">/fix</code>, <code class="text-amber-400">/test</code>, <code class="text-amber-400">/deploy</code></li>
+<li>• Usa kebab-case para varias palabras: <code class="text-amber-400">/code-review</code>, <code class="text-amber-400">/add-feature</code></li>
+<li>• Documenta con un comentario al inicio del .md: <code class="text-neutral-500"><!-- /component: cria componente React com testes --></code></li>
+</ul>
+</div>
+</section>
+<!-- SEÇÃO 3: Workflows determinísticos -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🔄 Workflows deterministas</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">Un workflow determinista es una <strong class="text-white">secuencia predefinida de steps</strong> donde cada paso tiene una entrada, una salida y un comportamiento deterministas. Ejecutar el mismo workflow con los mismos inputs siempre produce el mismo resultado.</p>
+<p class="text-neutral-300">Esto contrasta con el uso libre del agente, donde cada ejecución puede seguir un camino distinto. Los workflows cambian flexibilidad por previsibilidad, algo esencial en CI/CD y procesos críticos.</p>
+</div>
+<!-- Timeline do workflow de release -->
+<h3 class="text-lg font-semibold mb-4">Ejemplo: workflow de lanzamiento</h3>
+<div class="space-y-3 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">1</div>
+<div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-medium text-white text-sm">Verificar las pruebas</h4>
+<span class="text-xs text-neutral-500">~2 min</span>
+</div>
+<p class="text-xs text-neutral-400">Ejecuta la suite completa de pruebas. Si falla, el workflow se detiene y notifica.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">2</div>
+<div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-medium text-white text-sm">Actualización de versión</h4>
+<span class="text-xs text-neutral-500">~30s</span>
+</div>
+<p class="text-xs text-neutral-400">Incrementa la versión en package.json según el tipo (patch/minor/major)</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">3</div>
+<div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-medium text-white text-sm">Generar CHANGELOG</h4>
+<span class="text-xs text-neutral-500">~1 min</span>
+</div>
+<p class="text-xs text-neutral-400">Analiza los commits desde la última etiqueta y genera entradas en CHANGELOG.md</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">4</div>
+<div class="flex-1 bg-dark-800 rounded-lg p-4 border border-dark-600">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-medium text-white text-sm">Crear un PR y una tag</h4>
+<span class="text-xs text-neutral-500">~1 min</span>
+</div>
+<p class="text-xs text-neutral-400">Crea la branch release/vX.Y.Z, abre un PR con el changelog y crea una tag de git</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4: Pipeline vs Parallel -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🔀 Pipeline vs Parallel</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-amber-500/30 p-6">
+<h3 class="text-lg font-semibold text-amber-400 mb-3">🔗 Pipeline (secuencial)</h3>
+<p class="text-sm text-neutral-400 mb-3">Steps encadenados: la salida de A es la entrada de B. Úsalo cuando haya dependencia de datos entre steps.</p>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>→ Fácil de depurar (error localizado en el paso)</li>
+<li>→ Predecible y auditable</li>
+<li>→ Más lento (N pasos × tiempo/paso)</li>
+<li>→ Ejemplo: compilar → probar → publicar</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-cyan-500/30 p-6">
+<h3 class="text-lg font-semibold text-cyan-400 mb-3">⚡ Paralelo (fan-out)</h3>
+<p class="text-sm text-neutral-400 mb-3">Steps simultáneos sin dependencias. Úsalos cuando las tareas sean independientes.</p>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>→ Mucho más rápido (N pasos × tiempo/paso_más_lento)</li>
+<li>→ Requiere una barrera de sincronización</li>
+<li>→ Más difícil de depurar (error en cualquier worker)</li>
+<li>→ Ejemplo: lint + pruebas + análisis simultáneos</li>
+</ul>
+</div>
+</div>
+<!-- Code box: workflow com ambos os padrões -->
+<div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">// .claude/commands/release.md — combina pipeline y ejecución en paralelo</div>
+<pre class="text-neutral-300"><span class="text-neutral-500">## Workflow de release — versão $ARGUMENTS</span>
+
+<span class="text-amber-400">FASE 1 (paralelo):</span> Execute simultaneamente:
+  - Verificar testes: npm test
+  - Verificar lint: npm run lint
+  - Verificar tipos: npm run typecheck
+
+Aguarde todos completarem. Se qualquer um falhar, PARE e reporte.
+
+<span class="text-amber-400">FASE 2 (pipeline):</span>
+  1. Bump version para $ARGUMENTS em package.json
+  2. Gere CHANGELOG com commits desde a última tag
+  3. Commit: "chore: release $ARGUMENTS"
+  4. Crie tag: git tag v$ARGUMENTS
+  5. Abra PR com título "Release $ARGUMENTS"
+
+Reporte ao final: versão, commits incluídos, link do PR.</pre>
+</div>
+</section>
+<!-- SEÇÃO 5: Quando usar workflows -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🎯 Cuándo usar workflows</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+<div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+<h4 class="font-bold text-amber-400 mb-4">✓ Usa workflows CUANDO</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>La tarea se repite semanalmente o con mayor frecuencia</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Involucra varios agentes o herramientas</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>Necesita poder ser ejecutada por otros miembros del equipo</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-amber-400 mt-0.5">✓</span>
+<span>El resultado debe ser auditable y reproducible</span>
+</li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ No crees un workflow CUANDO</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>Es una tarea puntual o exploratoria</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>El proceso todavía está cambiando (estabilízalo antes)</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>La tarea es creativa y se beneficia de la variación</span>
+</li>
+<li class="flex items-start space-x-2">
+<span class="text-red-400 mt-0.5">✗</span>
+<span>El costo de mantener el workflow supera el beneficio</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Tip de frequência -->
+<div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
+<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">📊</span> Regla de frecuencia</h4>
+<p class="text-sm text-neutral-300">Si vas a hacer la misma tarea <strong class="text-white">más de 5 veces</strong>, vale la pena crear un comando slash. Si vas a hacer <strong class="text-white">más de 20 veces</strong>, vale la pena crear un workflow completo con pipeline y subagents.</p>
+</div>
+</section>
+<!-- SEÇÃO 6: Orquestrar múltiplos agentes -->
+<section class="mb-10">
+<h2 class="text-xl font-bold mb-4 text-amber-400">🎭 Orquestar múltiples agentes</h2>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
+<p class="text-neutral-300 mb-4">Uno <strong class="text-white">metaagente</strong> puede invocar workflows completos como subtareas. Esto crea una jerarquía: meta-agente → workflows → subagents. Cada nivel tiene responsabilidades bien delimitadas.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-3">🏗️ Jerarquía de 3 niveles</h4>
+<div class="text-sm text-neutral-300 space-y-2">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-amber-400"></span>
+<span><strong class="text-white">Nivel 1:</strong> Meta-agente (estrategia)</span>
+</div>
+<div class="flex items-center space-x-2 ml-4">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+<span><strong class="text-white">Nivel 2:</strong> Workflows (tácticas)</span>
+</div>
+<div class="flex items-center space-x-2 ml-8">
+<span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+<span><strong class="text-white">Nivel 3:</strong> Subagents (ejecución)</span>
+</div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-amber-400 mb-3">📋 Principios de composición</h4>
+<ul class="text-sm text-neutral-300 space-y-2">
+<li>→ <strong class="text-white">Interfaces claras:</strong> inputs/outputs definidos</li>
+<li>→ <strong class="text-white">Reemplazable:</strong> cada nivel se puede cambiar</li>
+<li>→ <strong class="text-white">Probable:</strong> cada workflow se puede probar de forma aislada</li>
+<li>→ <strong class="text-white">Observable:</strong> los logs se propagan por la jerarquía</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-amber-900/40 via-dark-800 to-dark-800 rounded-xl border border-amber-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center">
+<span class="mr-3">🎯</span> Resumen del Módulo 4.3
+        </h2>
+<div class="space-y-3 mb-8">
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Comandos slash</strong><span class="text-neutral-400"> — atajos de texto que se expanden a prompts completos</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Comandos personalizados</strong><span class="text-neutral-400"> — archivos .md en .claude/commands/, variables $ARGUMENTS</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Workflows deterministas</strong><span class="text-neutral-400"> — secuencias predefinidas, idempotentes y auditables</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Pipeline frente a paralelo</strong><span class="text-neutral-400"> — dependencia de datos frente a independencia total</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-amber-400 mt-1">✓</span>
+<div><strong class="text-white">Cuándo usar</strong><span class="text-neutral-400"> — tareas repetidas, equipo, auditabilidad</span></div>
+</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-amber-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">4.4 — ⏰ Cron y tareas recurrentes: agentes que no duermen</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-4-2.html">← Módulo 4.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="modulo-4-4.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</div>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 bg-dark-800">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center space-x-3">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg text-yellow-400">Claude Code</span>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<p class="text-neutral-500 text-sm">Módulo 4.3 — Slash Commands y workflows</p>
+</div>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

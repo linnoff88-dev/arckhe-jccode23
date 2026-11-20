@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Instalación y configuración | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento blue */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+
+    /* Light mode - remove gradientes */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+
+    /* Light mode - cores especiais */
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+
+    /* Light mode - nav */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha2/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha2/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha2/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER com hero SVG -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">RUTA 2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">⚙️ Instalación y configuración</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">De cero a Claude Code en marcha: instala, autentícate, configura los permisos y conecta herramientas MCP. En menos de una hora tendrás listo un entorno profesional.</p>
+<!-- Hero SVG -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mt-8 mb-6 overflow-hidden max-w-3xl">
+<svg aria-label="Flujo de instalación: Node.js → npm install → claude → autenticación → settings.json → MCP listo" class="w-full h-auto" role="img" viewbox="0 0 900 200">
+<defs>
+<lineargradient id="idx2-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="idx2-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="idx2-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.3" cy="1.3" fill="#3b82f6" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="idx2-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"></path></marker>
+<marker id="idx2-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#idx2-grid)" height="200" width="900" x="0" y="0"></rect>
+<!-- Setas conectoras -->
+<g fill="none" opacity="0.6" stroke="#60a5fa" stroke-width="1.8">
+<path d="M130,100 L160,100" marker-end="url(#idx2-ah)"></path>
+<path d="M300,100 L330,100" marker-end="url(#idx2-ah)"></path>
+<path d="M476,100 L506,100" marker-end="url(#idx2-ah)"></path>
+<path d="M646,100 L676,100" marker-end="url(#idx2-ah)"></path>
+</g>
+<!-- Caixas do pipeline -->
+<g filter="url(#idx2-glow)"><rect fill="#0e1622" height="56" rx="10" stroke="url(#idx2-grad)" stroke-width="2" width="120" x="10" y="72"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="70" y="98">Node.js</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="70" y="116">v18+</text>
+<rect fill="#0e1622" height="56" rx="10" stroke="#60a5fa" stroke-width="2" width="140" x="160" y="72"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="230" y="98">npm install</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="230" y="116">-g @anthropic-ai</text>
+<rect fill="#0e1622" height="56" rx="10" stroke="#60a5fa" stroke-width="2" width="146" x="330" y="72"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="403" y="98">$ claude</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="403" y="116">inicio de sesión y autenticación</text>
+<rect fill="#0e1b26" height="56" rx="10" stroke="#38bdf8" stroke-width="2" width="140" x="506" y="72"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="576" y="98">settings.json</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="576" y="116">permisos</text>
+<g filter="url(#idx2-glow)"><rect fill="#0e1622" height="56" rx="10" stroke="url(#idx2-grad)" stroke-width="2.5" width="120" x="676" y="72"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="736" y="95">MCP</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="736" y="113">listo ✓</text>
+<!-- Labels passo -->
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="70" y="150">paso 1</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="230" y="150">paso 2</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="403" y="150">paso 3</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="576" y="150">paso 4</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="736" y="150">resultado</text>
+</svg>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-4 gap-4 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">4</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">24</div>
+<div class="text-xs text-neutral-400">Temas</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">~3h</div>
+<div class="text-xs text-neutral-400">Duración</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-blue-400">Básico</div>
+<div class="text-xs text-neutral-400">Nivel</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa de la ruta</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">⚙️ Instalar Claude Code</h3>
+<p class="text-xs text-neutral-400">npm i -g y listo</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.2</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔑 Autenticación y primer uso</h3>
+<p class="text-xs text-neutral-400">Inicio de sesión en 60 segundos</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.3</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🛠️ Settings y permisos</h3>
+<p class="text-xs text-neutral-400">Control total del entorno</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-blue-500/30 p-5 transition-all" href="#modulo-2-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold text-sm">2.4</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-blue-400 transition-colors">🔌 MCP y el primer proyecto</h3>
+<p class="text-xs text-neutral-400">Herramientas externas activas</p>
+</a>
+</div>
+</section>
+<!-- CONTEÚDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- MÓDULO 2.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-2-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">⚙️ Instalar Claude Code</h3>
+<p class="text-neutral-400 text-sm">Requisitos, instalación mediante npm/bun, verificación, actualización y solución de los errores más comunes en cualquier OS.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- Tópico 1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🖥️</span>
+<div><span class="font-medium">Requisitos del sistema</span><span class="text-neutral-500 text-sm ml-2">- Lo que necesitas antes</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Node.js v18+ (o Bun), terminal con soporte para colores y acceso a internet para la autenticación inicial.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin el entorno adecuado, la instalación falla silenciosamente. Verificarlo antes te ahorra 30 min de depuración.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Node.js LTS, verifica con <code class="font-mono bg-dark-600 px-1 rounded">node -v</code>, npm v9+ o Bun v1+, compatibilidad con macOS/Linux/WSL2.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">Instalación con npm</span><span class="text-neutral-500 text-sm ml-2">- El comando principal</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un solo comando instala Claude Code globalmente: <code class="font-mono bg-dark-600 px-1 rounded">npm install -g @anthropic-ai/claude-code</code>.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La instalación global hace que el comando <code class="font-mono bg-dark-600 px-1 rounded">claude</code> disponible en cualquier directorio del sistema.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Flag <code class="font-mono bg-dark-600 px-1 rounded">-g</code> (global), permisos de carpeta de npm, alternativa con Bun: <code class="font-mono bg-dark-600 px-1 rounded">bun install -g</code>.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Verificando la instalación</span><span class="text-neutral-500 text-sm ml-2">- Confirmar que funcionó</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Ejecutar <code class="font-mono bg-dark-600 px-1 rounded">claude --version</code> e <code class="font-mono bg-dark-600 px-1 rounded">claude --help</code> para confirmar que el binario está en el PATH.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Detecta errores de PATH antes de perder tiempo con la autenticación. «command not found» tiene una solución sencilla.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">PATH del sistema, <code class="font-mono bg-dark-600 px-1 rounded">which claude</code>, salida esperada con número de versión.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">Actualizando Claude Code</span><span class="text-neutral-500 text-sm ml-2">- Mantener siempre actualizado</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Claude Code lanza actualizaciones frecuentes con nuevos modelos y features. El mismo comando de instalación con <code class="font-mono bg-dark-600 px-1 rounded">npm update -g</code> actualiza.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Las versiones antiguas no son compatibles con los modelos nuevos. La actualización toma 30 segundos y trae mejoras importantes.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code class="font-mono bg-dark-600 px-1 rounded">npm update -g @anthropic-ai/claude-code</code>, revisar el changelog en GitHub, raros cambios incompatibles.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🖱️</span>
+<div><span class="font-medium">Sistemas operativos</span><span class="text-neutral-500 text-sm ml-2">- macOS, Linux, Windows</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Claude Code se ejecuta de forma nativa en macOS y Linux. En Windows, usa WSL2 (Windows Subsystem for Linux) para una mejor compatibilidad.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Cada OS tiene particularidades de permisos y PATH distintas. Conocer las diferencias evita horas de frustración.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">WSL2 en Windows, Homebrew en macOS para Node.js, distribuciones de Linux recomendadas (Ubuntu 22+).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔧</span>
+<div><span class="font-medium">Errores comunes de instalación</span><span class="text-neutral-500 text-sm ml-2">- Diagnóstico rápido</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Los 5 errores más frecuentes: EACCES (permisos de npm), command not found (PATH), ENOENT (versión antigua de Node), network timeout y conflicto de versión.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Los errores de instalación bloquean al 30% de los principiantes. Tener presente el diagnóstico permite resolverlos en minutos.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code class="font-mono bg-dark-600 px-1 rounded">sudo npm install -g</code> (solución EACCES), nvm para varias versiones de Node, verificar la caché de npm con <code class="font-mono bg-dark-600 px-1 rounded">npm cache clean --force</code>.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-2-1')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-1.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-2-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.2</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔑 Autenticación y primer uso</h3>
+<p class="text-neutral-400 text-sm">Inicio de sesión, API key vs suscripción, el prompt interactivo, los primeros comandos reales y cómo salir/retomar la sesión.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🚀</span>
+<div><span class="font-medium">Ejecutar claude por primera vez</span><span class="text-neutral-500 text-sm ml-2">- El primer `claude`</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Escribir <code class="font-mono bg-dark-600 px-1 rounded">claude</code> en la terminal abre el REPL interactivo. En la primera ejecución, redirige a la autenticación.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Entender el flujo del primer inicio evita confusiones con los prompts de inicio de sesión y el terminal interactivo.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">REPL (Read-Eval-Print Loop), terminal interactiva, flujo automático de onboarding.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔐</span>
+<div><span class="font-medium">Inicio de sesión y autenticación</span><span class="text-neutral-500 text-sm ml-2">- Cuenta de Anthropic</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Claude Code se autentica mediante browser OAuth con tu cuenta de Anthropic o mediante una API key. Las credenciales se guardan en <code class="font-mono bg-dark-600 px-1 rounded">~/.claude/</code>.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Elegir entre una cuenta y una API key determina la facturación, los límites y el modelo disponible.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">OAuth2 browser flow, carpeta <code class="font-mono bg-dark-600 px-1 rounded">~/.claude/</code>, triggers, scripts — y el caso real</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">💳</span>
+<div><span class="font-medium">API key vs. suscripción</span><span class="text-neutral-500 text-sm ml-2">- Cuál elegir</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">API key = pagas por uso (tokens). Claude Max = suscripción mensual con un límite generoso. Para un uso intensivo, la suscripción suele convenir más.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Una elección equivocada puede generar costos inesperados o limitar proyectos que necesitan muchas llamadas diarias.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Precios de tokens, límites de tasa, Claude Pro vs Max, variable de entorno <code class="font-mono bg-dark-600 px-1 rounded">ANTHROPIC_API_KEY</code>.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">💬</span>
+<div><span class="font-medium">El prompt interactivo</span><span class="text-neutral-500 text-sm ml-2">- Interfaz de la terminal</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El prompt <code class="font-mono bg-dark-600 px-1 rounded">&gt;</code> acepta lenguaje natural, comandos slash (<code class="font-mono bg-dark-600 px-1 rounded">/help</code>, <code class="font-mono bg-dark-600 px-1 rounded">/clear</code>) y referencias a archivos con @.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Dominar los atajos del REPL multiplica la productividad — sin tener que reescribir el contexto en cada mensaje.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Comandos <code class="font-mono bg-dark-600 px-1 rounded">/help</code>, <code class="font-mono bg-dark-600 px-1 rounded">/clear</code>, <code class="font-mono bg-dark-600 px-1 rounded">/status</code>, referencias a archivos con @, texto multilínea con Enter vs. Shift+Enter.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⌨️</span>
+<div><span class="font-medium">Primeros comandos reales</span><span class="text-neutral-500 text-sm ml-2">- Práctica inmediata</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Pedirle a Claude que cree un archivo, lea un proyecto y explique código existente: las primeras tareas prácticas.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Ponerse manos a la obra de inmediato consolida el aprendizaje y desmitifica el uso de la herramienta.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Prompt de tarea, confirmación de acción, diferencia entre lectura (segura) y escritura (requiere permiso).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">Salir y retomar la sesión</span><span class="text-neutral-500 text-sm ml-2">- Continuidad</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Salir con <code class="font-mono bg-dark-600 px-1 rounded">Ctrl+C</code> o <code class="font-mono bg-dark-600 px-1 rounded">/exit</code>. Retoma el contexto anterior con <code class="font-mono bg-dark-600 px-1 rounded">claude --resume</code> o abriendo el mismo directorio.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Las sesiones largas son normales en proyectos reales. Saber retomarlas sin perder contexto es esencial.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Contexto guardado en el directorio, <code class="font-mono bg-dark-600 px-1 rounded">.claude/</code> local, <code class="font-mono bg-dark-600 px-1 rounded">claude --resume</code>, historial de conversaciones.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-2-2')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-2.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-2-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.3</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🛠️ Configuración: settings.json y permisos</h3>
+<p class="text-neutral-400 text-sm">Archivo settings.json de usuario vs. proyecto, sistema de permisos allow/ask/deny, qué habilitar de forma segura y CLAUDE.md básico.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📄</span>
+<div><span class="font-medium">El archivo settings.json</span><span class="text-neutral-500 text-sm ml-2">- Cerebro de la configuración</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Archivo JSON que controla los permisos, las herramientas, los hooks y los comportamientos de Claude Code. Ubicado en <code class="font-mono bg-dark-600 px-1 rounded">~/.claude/settings.json</code> (global) o <code class="font-mono bg-dark-600 px-1 rounded">.claude/settings.json</code> (proyecto).</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Si no conoces settings.json, aceptas todos los valores predeterminados y recibes solicitudes de permiso para cada acción trivial.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Jerarquía user &gt; project, clave <code class="font-mono bg-dark-600 px-1 rounded">permissions</code>, <code class="font-mono bg-dark-600 px-1 rounded">tools</code>, merge vs. override.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔒</span>
+<div><span class="font-medium">Sistema de permisos</span><span class="text-neutral-500 text-sm ml-2">- allow / ask / deny</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Cada herramienta se puede configurar con <code class="font-mono bg-dark-600 px-1 rounded">allow</code> (ejecutar sin preguntar), <code class="font-mono bg-dark-600 px-1 rounded">ask</code> (pedir confirmación) o <code class="font-mono bg-dark-600 px-1 rounded">deny</code> (bloquear).</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Los permisos incorrectos bloquean el workflow o exponen operaciones destructivas. El equilibrio adecuado es productivo y seguro.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Clave <code class="font-mono bg-dark-600 px-1 rounded">allow</code> lista patrones glob, alcance por herramienta (Bash, Read, Write, Edit), override por proyecto.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Qué liberar de forma segura</span><span class="text-neutral-500 text-sm ml-2">- Reglas prácticas</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Reglas generales: leer es seguro (allow), escribir dentro del proyecto está bien, los comandos externos del sistema requieren atención y delete/drop requiere ask.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Permitir todo (allow *) es peligroso en máquinas de producción. Permitir muy poco vuelve inútil la herramienta.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Principio del mínimo privilegio, glob <code class="font-mono bg-dark-600 px-1 rounded">src/**</code> para limitar el alcance, deny para comandos destructivos.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔀</span>
+<div><span class="font-medium">Modos de permisos</span><span class="text-neutral-500 text-sm ml-2">- Perfiles listos</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Modos predefinidos: <code class="font-mono bg-dark-600 px-1 rounded">default</code> (pide confirmación para todo), <code class="font-mono bg-dark-600 px-1 rounded">--dangerously-skip-permissions</code> (sin confirmación — solo desarrollo local), modo headless para CI/CD.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">En pipelines automatizados necesitas un modo no interactivo. En producción, nunca uses dangerously-skip.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Flag <code class="font-mono bg-dark-600 px-1 rounded">--print</code> para la salida no interactiva, variables de entorno para CI, <code class="font-mono bg-dark-600 px-1 rounded">claude --no-tty</code>.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📝</span>
+<div><span class="font-medium">CLAUDE.md básico</span><span class="text-neutral-500 text-sm ml-2">- Instrucciones persistentes</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Archivo Markdown que Claude lee automáticamente en cada sesión. Es el "briefing" del proyecto: contexto, convenciones y comandos especiales.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin CLAUDE.md, repites el contexto en cada sesión. Con él, Claude ya conoce el stack, el estilo y las reglas del proyecto.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Posición <code class="font-mono bg-dark-600 px-1 rounded">./CLAUDE.md</code> o <code class="font-mono bg-dark-600 px-1 rounded">~/.claude/CLAUDE.md</code>, resumido automático, CLAUDE.md como memoria externa.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🌐</span>
+<div><span class="font-medium">Configuración de usuario vs. de proyecto</span><span class="text-neutral-500 text-sm ml-2">- Jerarquía de configuración</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Configuración global (<code class="font-mono bg-dark-600 px-1 rounded">~/.claude/settings.json</code>) se aplican a todos los proyectos. Los ajustes del proyecto (<code class="font-mono bg-dark-600 px-1 rounded">.claude/settings.json</code>) se aplican a ese repo.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Configurar correctamente la jerarquía evita conflictos entre proyectos personales y profesionales.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Fusionar objetos JSON, precedencia project &gt; user, versionar <code class="font-mono bg-dark-600 px-1 rounded">.claude/settings.json</code> en el git del proyecto.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-2-3')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-3.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 2.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-2-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-blue-400 font-bold">2.4</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🔌 MCP y tu primer proyecto</h3>
+<p class="text-neutral-400 text-sm">Model Context Protocol: conecta servidores MCP y herramientas externas, crea y abre un proyecto real de principio a fin.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🌐</span>
+<div><span class="font-medium">Qué es MCP</span><span class="text-neutral-500 text-sm ml-2">- Protocolo de contexto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Model Context Protocol (MCP) es un estándar abierto para conectar Claude con herramientas externas: bases de datos, APIs, sistemas de archivos, servicios en la nube.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Con MCP, Claude deja de ser un chatbot y se convierte en un agente que accede a datos reales de tu entorno.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Servidor MCP, cliente de Claude Code, JSON-RPC, herramientas expuestas mediante MCP, repositorio oficial de servidores.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔗</span>
+<div><span class="font-medium">Conectar servidores MCP</span><span class="text-neutral-500 text-sm ml-2">- Configuración práctica</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Agregar un servidor MCP a <code class="font-mono bg-dark-600 px-1 rounded">settings.json</code> en la clave <code class="font-mono bg-dark-600 px-1 rounded">mcpServers</code>. Claude se inicializa y expone las herramientas automáticamente.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Conectar un MCP lleva 2 minutos. Sin este conocimiento, solo usas las herramientas nativas de Claude.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Clave <code class="font-mono bg-dark-600 px-1 rounded">mcpServers</code> en el JSON, <code class="font-mono bg-dark-600 px-1 rounded">command</code> e <code class="font-mono bg-dark-600 px-1 rounded">args</code>, verificar con <code class="font-mono bg-dark-600 px-1 rounded">/mcp</code> en el REPL.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🛠️</span>
+<div><span class="font-medium">Herramientas externas populares</span><span class="text-neutral-500 text-sm ml-2">- El ecosistema MCP</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Servidores MCP disponibles: filesystem, GitHub, PostgreSQL, Slack, Google Drive, Puppeteer (browser), SQLite y decenas más.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Cada MCP amplía drásticamente lo que Claude puede hacer. GitHub MCP + Claude = revisión de código automatizada.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Repositorio <code class="font-mono bg-dark-600 px-1 rounded">modelcontextprotocol/servers</code>, MCP oficiales vs. comunitarios, seguridad de servidores de terceros.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">Crear y abrir un proyecto</span><span class="text-neutral-500 text-sm ml-2">- Configuración del repositorio</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Abrir Claude Code en un directorio existente o crear un proyecto desde cero con estructura de archivos, CLAUDE.md y configuración inicial.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Empezar un proyecto correctamente (con CLAUDE.md y settings) garantiza la consistencia durante todo el desarrollo.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code class="font-mono bg-dark-600 px-1 rounded">cd meu-projeto &amp;&amp; claude</code>, estructura de directorios recomendada, <code class="font-mono bg-dark-600 px-1 rounded">/init</code> para generar CLAUDE.md automáticamente.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">Primer flujo real de principio a fin</span><span class="text-neutral-500 text-sm ml-2">- De cero al commit</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Crear un proyecto, escribir CLAUDE.md, realizar una tarea real (p. ej., crear una API REST), revisar los cambios y hacer commit, todo con Claude como guía.</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Ver el ciclo completo (intención → código → revisión → commit) consolida el modelo mental de uso de Claude Code.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Bucle de desarrollo, diff visual, confirmación de cambios, integración con git, resultado de tareas complejas.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🚀</span>
+<div><span class="font-medium">Próximos pasos</span><span class="text-neutral-500 text-sm ml-2">- Habilidades y automatización</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-blue-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Con la instalación, la autenticación, los settings y MCP configurados, estás listo para explorar Skills (T3), Automatización (T4) y Proyectos reales (T5).</p></div>
+<div><span class="text-blue-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La configuración es la base. Todo lo que viene después depende de que el entorno esté bien configurado.</p></div>
+<div><span class="text-blue-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Skills personalizadas, hooks de automatización, worktrees, proyectos con varios archivos, CI/CD con Claude.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-2-4')">Ver en modal</button>
+<a class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors" href="modulo-2-4.html">Ver completo</a>
+</div>
+</div>
+<!-- Navegação -->
+<div class="flex flex-col sm:flex-row gap-4 mt-8">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha1/index.html">← Ruta 1: Fundamentos</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="../trilha3/index.html">Ruta 3: Skills →</a>
+</div>
+</main>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-2-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.1</span><span class="font-semibold">Instalando Claude Code</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-2-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-2-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.2</span><span class="font-semibold">Autenticación y primer uso</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-2-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-2-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.3</span><span class="font-semibold">Configuración y permisos</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-2-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-2-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-blue-400 font-bold">2.4</span><span class="font-semibold">MCP y primer proyecto</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-2-4.html"></iframe>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

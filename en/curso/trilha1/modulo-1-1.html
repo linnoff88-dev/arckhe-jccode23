@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.1 What Is Claude Code | Fundamentals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes m11-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .m11-a { animation: m11-pulse 2.8s ease-in-out infinite; }
+      .m11-a:nth-child(2){animation-delay:.3s} .m11-a:nth-child(3){animation-delay:.6s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/modulo-1-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/modulo-1-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/modulo-1-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-1-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha1/modulo-1-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Track 1 — Fundamentals</a>
+<span>/</span>
+<span class="text-emerald-400">Module 1.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MODULE 1.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧭 What is Claude Code</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Learn what sets an AI agent apart from a chatbot, why Claude Code lives in the terminal, and what it can actually do.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">6</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">45</div>
+<div class="text-xs text-neutral-400">Minutes</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Basic</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Theory</div>
+<div class="text-xs text-neutral-400">Type</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🤖 What Is an AI Agent</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">One <strong class="text-emerald-400">AI agent</strong> is a program that perceives its surroundings, reasons about what needs to be done, and takes actions to achieve a goal — repeating this cycle until it’s finished. This is radically different from a chatbot that simply answers a question and stops.</p>
+<!-- Diagrama SVG: Chatbot vs Agente -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Comparison: a chatbot replies once, while an agent runs a continuous loop of perceiving, deciding, and acting" class="w-full h-auto" role="img" viewbox="0 0 860 200">
+<defs>
+<lineargradient id="m11-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m11-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m11-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.09" r="1.2"></circle>
+</pattern>
+<marker id="m11-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m11-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m11-grid)" height="200" width="860" x="0" y="0"></rect>
+<!-- Label CHATBOT -->
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="170" y="22">CHATBOT</text>
+<rect fill="#26201a" height="40" rx="8" stroke="#9ca3af" stroke-width="2" width="100" x="30" y="60"></rect>
+<text fill="#e5e7eb" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="80" y="85">Question</text>
+<path d="M130,80 L190,80" fill="none" marker-end="url(#m11-ah)" opacity="0.6" stroke="#9ca3af" stroke-width="1.8"></path>
+<rect fill="#26201a" height="40" rx="8" stroke="#9ca3af" stroke-width="2" width="100" x="190" y="60"></rect>
+<text fill="#e5e7eb" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="240" y="85">Response</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="240" y="130">One exchange. That’s it.</text>
+<!-- Divisor -->
+<line stroke="#374151" stroke-dasharray="6 4" stroke-width="1" x1="350" x2="350" y1="20" y2="180"></line>
+<!-- Label AGENTE -->
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="610" y="22">AGENT (Claude Code)</text>
+<!-- Loop agente -->
+<g filter="url(#m11-glow)">
+<rect fill="#0e2018" height="36" rx="9" stroke="url(#m11-grad)" stroke-width="2" width="90" x="380" y="55"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="425" y="78">Notice</text>
+<g class="m11-a"><rect fill="#0e1b26" height="36" rx="9" stroke="#38bdf8" stroke-width="2" width="90" x="510" y="55"></rect></g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="555" y="78">Decide</text>
+<g filter="url(#m11-glow)">
+<rect fill="#0e2018" height="36" rx="9" stroke="url(#m11-grad)" stroke-width="2" width="90" x="640" y="55"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="685" y="78">Act</text>
+<!-- Setas loop -->
+<path d="M470,73 L510,73" fill="none" marker-end="url(#m11-ahc)" opacity="0.6" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M600,73 L640,73" fill="none" marker-end="url(#m11-ah)" opacity="0.6" stroke="#34d399" stroke-width="1.8"></path>
+<!-- Volta -->
+<path d="M685,91 Q685,150 425,150 Q425,130 425,91" fill="none" marker-end="url(#m11-ah)" opacity="0.5" stroke="#34d399" stroke-dasharray="6 3" stroke-width="1.5"></path>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="560" y="168">repeats until complete</text>
+</svg>
+</div>
+<!-- Grid Fazer vs Evitar -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ The agent does</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Reads 20 files to understand the project</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Runs tests and fixes what broke</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Iterates until the task is complete</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Creates, edits, and deletes real files</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Chatbot does</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Responds once and waits for a new question</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Generates code but doesn’t run it</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Doesn't know whether the code works</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Doesn't have access to the file system</span></li>
+</ul>
+</div>
+</div>
+<!-- Mini-cards Conceitos -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600">
+<div class="text-emerald-400 font-semibold text-sm mb-1">Perception</div>
+<div class="text-xs text-neutral-400">Reads files and command output</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600">
+<div class="text-emerald-400 font-semibold text-sm mb-1">Decision</div>
+<div class="text-xs text-neutral-400">Choose the next action</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600">
+<div class="text-emerald-400 font-semibold text-sm mb-1">Action</div>
+<div class="text-xs text-neutral-400">Runs in the real environment</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600">
+<div class="text-emerald-400 font-semibold text-sm mb-1">Loop</div>
+<div class="text-xs text-neutral-400">Repeat until you reach the goal</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">💻 Why the terminal?</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The terminal isn’t just an intimidating black window. It’s the <strong class="text-emerald-400">direct access point to the operating system</strong> — files, processes, network, compilers, servers. An agent that lives in the terminal has real power to turn code into results.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">💡</span> Why not a graphical interface?</h3>
+<p class="text-neutral-300 mb-4">Graphical interfaces are slow to automate, depend on screen resolution, and change with updates. The terminal is stable, scriptable, and universal—it works on any remote server, CI/CD system, or Docker container.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Speed:</strong> create 50 files with 1 command vs. clicking 50 times</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Composition:</strong> command pipes create workflows that are impossible in the GUI</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Remote access:</strong> SSH connects the agent to any server</span></li>
+</ul>
+</div>
+<!-- Timeline: Evolução da automação -->
+<h3 class="text-lg font-semibold mb-4 text-neutral-300">The evolution of code automation</h3>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-dark-700 flex items-center justify-center">
+<span class="text-neutral-400 font-bold text-sm">90s</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Shell scripts</h4>
+<p class="text-sm text-neutral-400">Line-by-line manual automation. Effective but fragile — breaks with any variation.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-dark-700 flex items-center justify-center">
+<span class="text-neutral-400 font-bold text-sm">10s</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">LLM code generation (chatbot)</h4>
+<p class="text-sm text-neutral-400">AI generates code, a human copies and pastes it, then tests it manually. Faster, but still manual.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold text-sm">Today</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-emerald-500/30">
+<h4 class="font-semibold text-emerald-400 mb-1">Agent in the terminal (Claude Code)</h4>
+<p class="text-sm text-neutral-400">AI reads, writes, runs, and iterates autonomously. The human reviews the result, not every step.</p>
+</div>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Practical Tip</h3>
+<p class="text-neutral-300">If you’ve never used the terminal, you don’t need to learn everything before getting started. Module 1.4 covers just enough. For now, knowing that the terminal exists and why the agent lives there is enough.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Shell</div><div class="text-xs text-neutral-400">Bash/zsh/fish interpreter</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Pipe |</div><div class="text-xs text-neutral-400">Connects the output of one command to the input of the next</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">SSH</div><div class="text-xs text-neutral-400">Secure remote access</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Process</div><div class="text-xs text-neutral-400">Program running on the OS</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📁 What it reads, writes, and runs</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code isn't a model floating in the cloud. It has <strong class="text-emerald-400">concrete tools</strong> that interact with the real system: read files, edit code, run commands, search patterns. Every action is visible in the terminal.</p>
+<!-- Box de ferramentas com código mono -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">🛠️ Claude Code’s Built-in Tools</h3>
+<div class="space-y-3 font-mono text-sm">
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-emerald-400 font-bold w-16 flex-shrink-0">Read</span>
+<span class="text-neutral-300">Reads the contents of any file in the repository</span>
+</div>
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-emerald-400 font-bold w-16 flex-shrink-0">Edit</span>
+<span class="text-neutral-300">Makes exact replacements in existing files</span>
+</div>
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-emerald-400 font-bold w-16 flex-shrink-0">Write</span>
+<span class="text-neutral-300">Creates new files or completely overwrites them</span>
+</div>
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-cyan-400 font-bold w-16 flex-shrink-0">Bash</span>
+<span class="text-neutral-300">Runs any shell command: npm, git, python, etc.</span>
+</div>
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-cyan-400 font-bold w-16 flex-shrink-0">Glob</span>
+<span class="text-neutral-300">Lists files by default: <code class="text-emerald-400">**/*.ts</code>, <code class="text-emerald-400">src/**</code></span>
+</div>
+<div class="flex items-start space-x-3 p-3 bg-dark-700 rounded-lg">
+<span class="text-cyan-400 font-bold w-16 flex-shrink-0">Grep</span>
+<span class="text-neutral-300">Text/regex search in project files</span>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ You can do it</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Create and modify any text file</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Run npm install, pytest, cargo build</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Make git commits</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Read logs and interpret errors</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Not possible (without plugins)</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Browse in browsers or graphical apps</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>View images or PDFs (text only)</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Access the internet directly</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Remember previous sessions (without CLAUDE.md)</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool call</div><div class="text-xs text-neutral-400">A tool invocation</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool result</div><div class="text-xs text-neutral-400">What the tool returned</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Permission</div><div class="text-xs text-neutral-400">Action approved in settings.json</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Sandboxing</div><div class="text-xs text-neutral-400">Agent security limits</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🎯 Real-world use cases</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code isn't a demo toy. It's used in <strong class="text-emerald-400">real production projects</strong> for tasks that would take hours of manual work each day.</p>
+<!-- Box de dados -->
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Where Claude Code shines</h3>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">→</span><span><strong>Refactoring at scale:</strong> rename a function in 80 files, update imports, ensure consistency</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">→</span><span><strong>API migration:</strong> update deprecated library calls to the new version</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">→</span><span><strong>Test generation:</strong> cover existing functions with unit and integration tests</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">→</span><span><strong>Debugging:</strong> read the stack trace, locate the bug, propose and apply the fix</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">→</span><span><strong>Boilerplate:</strong> create a project structure, configure tooling, write a README</span></li>
+</ul>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: Get the mental model right</h3>
+<p class="text-neutral-300">Think of Claude Code as a <strong>very fast junior developer</strong> that never gets tired. It handles well-defined tasks well, but needs clear context. The better you describe what you want, the better the result.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Refactoring</div><div class="text-xs text-neutral-400">Changes structure without changing behavior</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Migration</div><div class="text-xs text-neutral-400">Updates dependencies or patterns</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Test</div><div class="text-xs text-neutral-400">Validates code behavior</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Boilerplate</div><div class="text-xs text-neutral-400">Repetitive project structure</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⚡ Chatbot vs. agent — the practical difference</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The difference isn’t philosophical—it’s <strong class="text-emerald-400">pragmatic</strong>. Changing how you use the tool radically changes the result. Here’s the contrast in everyday use:</p>
+<!-- Timeline comparativa -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-sm">💬</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-red-400 mb-2">Chatbot mode (inefficient)</h4>
+<p class="text-sm text-neutral-300">"Write me a function to validate email" → copies the code → pastes it into the editor → discovers it doesn't work → returns to the chat → asks for a fix → repeats 5 times.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold text-sm">🤖</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-emerald-500/30">
+<h4 class="font-semibold text-emerald-400 mb-2">Agent mode (efficient)</h4>
+<p class="text-sm text-neutral-300">"Add email validation to the form in src/auth.ts and write tests for it" → agent reads the file, writes the code, runs the tests, and adjusts until they pass. You review the result.</p>
+</div>
+</div>
+</div>
+<!-- Box alerta -->
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Common pitfall</h3>
+<p class="text-neutral-300">People coming from ChatGPT tend to <strong>ask questions</strong> to Claude Code instead of <strong>delegate tasks</strong>. Result: mediocre answers. Rephrase “how do I do X?” as “do X in file Y.”</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Delegate</div><div class="text-xs text-neutral-400">Give a complete task with context</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Review</div><div class="text-xs text-neutral-400">Check the result, not every step</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Iterate</div><div class="text-xs text-neutral-400">Refine until you get the result</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trust</div><div class="text-xs text-neutral-400">Let the agent work</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🚀 First Contact</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The best way to understand an agent is to <strong class="text-emerald-400">see it working</strong>. Here’s the first-contact flow—from a blank terminal to the first completed task.</p>
+<!-- Box de código mono -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">💻 A typical initial session</h3>
+<div class="font-mono text-sm space-y-2 bg-dark-900 rounded-lg p-4">
+<div><span class="text-neutral-500"># Open the terminal and navigate to your project</span></div>
+<div><span class="text-emerald-400">$</span> <span class="text-neutral-300">cd meu-projeto</span></div>
+<div class="mt-2"><span class="text-neutral-500"># Start Claude Code</span></div>
+<div><span class="text-emerald-400">$</span> <span class="text-neutral-300">claude</span></div>
+<div class="mt-2 text-neutral-500"># Interactive prompt appears</div>
+<div><span class="text-emerald-400">&gt;</span> <span class="text-neutral-300">Read the README and tell me what this project does</span></div>
+<div class="mt-2 text-neutral-500"># Agent reads the file and responds</div>
+<div class="text-neutral-400 ml-2">● Read README.md</div>
+<div class="text-neutral-400 ml-2">● This project is a Node.js server that...</div>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> What to watch for in the first session</h3>
+<p class="text-neutral-300 mb-3">When the agent is working, you'll see lines like <code class="bg-dark-700 px-1 rounded text-emerald-400">● Read src/index.ts</code> e <code class="bg-dark-700 px-1 rounded text-emerald-400">● Bash: npm test</code>. This is the real-time tool log—each line is a concrete action on your system.</p>
+<p class="text-neutral-300">Pay attention to this log during the first few sessions. It is the agent’s "visible reasoning."</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Interactive</div><div class="text-xs text-neutral-400">Default mode: conversation in the terminal</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Headless</div><div class="text-xs text-neutral-400"><code>claude -p "tarefa"</code> without a prompt</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool log</div><div class="text-xs text-neutral-400">Line by line, showing the tools used</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Ctrl+C</div><div class="text-xs text-neutral-400">Interrupt the task at any time</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 1.1 Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3">
+<span class="text-emerald-400 mt-1">✓</span>
+<div><strong class="text-white">Agent ≠ Chatbot</strong><span class="text-neutral-400"> — performs real actions in a continuous loop</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-emerald-400 mt-1">✓</span>
+<div><strong class="text-white">Terminal = real power</strong><span class="text-neutral-400"> — direct access to the OS, files, and processes</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-emerald-400 mt-1">✓</span>
+<div><strong class="text-white">Concrete tools</strong><span class="text-neutral-400"> — Read, Edit, Write, Bash, Glob, Grep</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-emerald-400 mt-1">✓</span>
+<div><strong class="text-white">Real cases</strong><span class="text-neutral-400"> — refactoring, migration, testing, debugging, boilerplate</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-emerald-400 mt-1">✓</span>
+<div><strong class="text-white">Right frame</strong><span class="text-neutral-400"> — delegate complete tasks; don’t ask questions</span></div>
+</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">1.2 — How the agent thinks: the internal loop, tools, and how Claude Code decides what to do at each moment.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

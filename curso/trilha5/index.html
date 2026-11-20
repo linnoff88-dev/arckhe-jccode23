@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Projetos de Longo Prazo | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* Teal accent light mode */
+    html:not(.dark) .text-teal-400 { color: #0f766e; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: #ccfbf1; }
+    html:not(.dark) .border-teal-500\/30 { border-color: #99f6e4; }
+    html:not(.dark) .from-teal-900\/30 { --tw-gradient-from: #f0fdfa; }
+    /* Remove gradients */
+    html:not(.dark) .bg-gradient-to-b,
+    html:not(.dark) .bg-gradient-to-r,
+    html:not(.dark) .bg-gradient-to-br { background-image: none; }
+    /* Special colors */
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    /* Nav */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* Dark mode border fix */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha5/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha5/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha5/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha5/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha5/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2" href="../../index.html">
+<span class="text-xl">🤖</span>
+<span class="font-bold text-primary">Claude Code</span>
+</a>
+<a class="text-sky-400 text-sm font-medium hidden sm:block" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1">
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentos</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projetos</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
+<button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="w-5 h-5" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8 mb-12">
+<div class="flex flex-col lg:flex-row gap-8 items-center">
+<div class="flex-1">
+<span class="inline-block text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full mb-4">TRILHA 5</span>
+<h1 class="text-4xl font-extrabold mb-3">🏗️ Projetos de Longo Prazo</h1>
+<p class="text-neutral-300 text-lg mb-6">Estruture, versione e mantenha projetos reais que sobrevivem ao tempo. Do CLAUDE.md à arquitetura, do CHANGELOG ao case study.</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-900/50 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-teal-400">4</div>
+<div class="text-xs text-neutral-400 mt-1">Módulos</div>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-teal-400">24</div>
+<div class="text-xs text-neutral-400 mt-1">Tópicos</div>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-teal-400">~3h</div>
+<div class="text-xs text-neutral-400 mt-1">Duração</div>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-teal-400">Avançado</div>
+<div class="text-xs text-neutral-400 mt-1">Nível</div>
+</div>
+</div>
+</div>
+<!-- HERO SVG -->
+<div class="w-full lg:w-80 rounded-2xl border border-teal-500/30 bg-dark-900/40 p-2">
+<svg aria-label="Arquitetura de projeto em camadas: do código-fonte ao deploy, passando por CLAUDE.md, testes e versionamento" class="w-full h-auto" role="img" viewbox="0 0 320 200">
+<defs>
+<filter id="t5i-glow"><fegaussianblur result="blur" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="t5i-grid" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<path d="M 20 0 L 0 0 0 20" fill="none" opacity="0.3" stroke="#2dd4bf" stroke-width="0.15"></path>
+</pattern>
+<lineargradient id="t5i-grad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#2dd4bf"></stop>
+<stop offset="100%" stop-color="#38bdf8"></stop>
+</lineargradient>
+<marker id="t5i-ah" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#2dd4bf"></path>
+</marker>
+</defs>
+<rect fill="url(#t5i-grid)" height="200" width="320"></rect>
+<!-- Layers -->
+<g filter="url(#t5i-glow)">
+<rect fill="#0c1f1c" height="36" rx="8" stroke="#2dd4bf" stroke-width="2" width="300" x="10" y="10"></rect>
+</g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="160" y="32">📦 Deploy / Cloudflare / VPS</text>
+<rect fill="#0c1f1c" height="36" rx="8" stroke="#14b8a6" stroke-width="1.5" width="300" x="10" y="56"></rect>
+<text fill="#14b8a6" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="160" y="78">🧪 Testes · CI · CHANGELOG</text>
+<rect fill="#0c1f1c" height="36" rx="8" stroke="#38bdf8" stroke-width="1.5" width="300" x="10" y="102"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="160" y="124">🧠 CLAUDE.md · Memória · Contexto</text>
+<g filter="url(#t5i-glow)">
+<rect fill="#0c1f1c" height="36" rx="8" stroke="url(#t5i-grad)" stroke-width="2" width="300" x="10" y="148"></rect>
+</g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="160" y="170">🏗️ Arquitetura · Módulos · Stack</text>
+<!-- Arrows -->
+<line marker-end="url(#t5i-ah)" stroke="#2dd4bf" stroke-width="1.5" x1="160" x2="160" y1="46" y2="55"></line>
+<line marker-end="url(#t5i-ah)" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="160" y1="92" y2="101"></line>
+<line marker-end="url(#t5i-ah)" stroke="#38bdf8" stroke-width="1.5" x1="160" x2="160" y1="138" y2="147"></line>
+<style>
+              @media (prefers-reduced-motion: no-preference) {
+                #t5i-glow feGaussianBlur { animate: t5i-pulse 2.5s ease-in-out infinite alternate; }
+              }
+            </style>
+</svg>
+</div>
+</div>
+</div>
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">🏗️ Arquitetura</h3>
+<p class="text-xs text-neutral-400">Estrutura que escala</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.2</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">🧠 CLAUDE.md</h3>
+<p class="text-xs text-neutral-400">Memória que persiste</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">📦 Versionamento</h3>
+<p class="text-xs text-neutral-400">Rollback sem drama</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="#modulo-5-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.4</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-teal-400 transition-colors">🖥️ Case: ClaudeOS</h3>
+<p class="text-xs text-neutral-400">Projeto real dissecado</p>
+</a>
+</div>
+</section>
+<!-- CONTEÚDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 5.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-5-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h2 class="text-2xl font-bold mb-2">🏗️ Arquitetura de um projeto</h2>
+<p class="text-neutral-400">Estruturar um projeto que dura: pastas, módulos, separação de responsabilidades e decisões documentadas.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- Tópico 1 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-1')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+<div>
+<div class="font-medium">📁 Estrutura de pastas</div>
+<div class="text-xs text-neutral-500">Organização que faz sentido</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-1">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">A estrutura de pastas é o mapa físico do seu projeto. Ela determina como módulos se encontram, como dependências fluem e como novos colaboradores (ou o Claude) entendem o sistema sem ler linha de código.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Projetos sem estrutura viram monólitos caóticos em semanas. Uma pasta bem pensada desde o início economiza horas de refatoração depois. O Claude Code navega melhor em projetos organizados — contexto menor, respostas mais precisas.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">src/ para código-fonte</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">scripts/ para automação</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">docs/ para decisões</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">tests/ para cobertura</span></div></div>
+</div>
+</div>
+<!-- Tópico 2 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-2')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+<div>
+<div class="font-medium">🔩 Separação de responsabilidades</div>
+<div class="text-xs text-neutral-500">Cada módulo faz uma coisa</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-2">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Single Responsibility Principle aplicado a arquivos e módulos: cada peça do código tem uma razão para existir e uma razão para mudar.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Módulos coesos facilitam o Claude a entender, modificar e testar partes isoladas sem introduzir regressões. Menos acoplamento = iteração mais rápida.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Coesão alta</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Acoplamento baixo</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Interfaces limpas</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Inversão de dependência</span></div></div>
+</div>
+</div>
+<!-- Tópico 3 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-3')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+<div>
+<div class="font-medium">🧱 Escolha de stack</div>
+<div class="text-xs text-neutral-500">Decisão de vida longa</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-3">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Escolher linguagem, runtime, frameworks e ferramentas de build com base em critérios explícitos: ecossistema, performance, facilidade de deploy e suporte do Claude.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Trocar de stack no meio de um projeto é custoso. A escolha certa no início reduz dívida técnica e maximiza a ajuda que o Claude pode dar — ele conhece melhor stacks populares.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Trade-offs explícitos</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">ADR (Architecture Decision Record)</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Lock-in vs flexibilidade</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Suporte LLM</span></div></div>
+</div>
+</div>
+<!-- Tópico 4 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-4')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+<div>
+<div class="font-medium">📝 Documentar decisões</div>
+<div class="text-xs text-neutral-500">ADRs que o Claude lê</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-4">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Architecture Decision Records (ADRs) são pequenos documentos que registram: o contexto da decisão, as opções consideradas e a escolha feita. O CLAUDE.md é o ADR principal.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Sem documentação de decisões, o Claude (e você no futuro) vai questionar por que certas escolhas foram feitas e pode desfazê-las inadvertidamente.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Contexto da decisão</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Opções rejeitadas</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Consequências previstas</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Data e autor</span></div></div>
+</div>
+</div>
+<!-- Tópico 5 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-5')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+<div>
+<div class="font-medium">🌱 Começar pequeno e crescer</div>
+<div class="text-xs text-neutral-500">MVP que vira produto</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-5">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Estratégia de construir o núcleo funcional primeiro e adicionar camadas progressivamente — sem planejar uma arquitetura gigante antes de validar hipóteses.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Projetos com o Claude evoluem rápido. Começar pequeno permite validar o design antes de comprometer energia em abstrações que podem não ser necessárias.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Walking skeleton</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Iteração incremental</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">YAGNI principle</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Refatoração contínua</span></div></div>
+</div>
+</div>
+<!-- Tópico 6 -->
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t51-6')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+<div>
+<div class="font-medium">🔭 Visão de longo prazo</div>
+<div class="text-xs text-neutral-500">Projeto que sobrevive ao tempo</div>
+</div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t51-6">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Princípios que mantêm um projeto saudável por meses ou anos: code review assíncrono, documentação viva, automação de tarefas repetitivas e métricas de saúde.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">A maioria dos projetos morre por falta de manutenção planejada, não por falta de features. Com o Claude, o risco é adicionar código rápido demais sem manter a base sólida.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Documentação viva</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Dívida técnica controlada</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Automação de CI</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Health metrics</span></div></div>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-wrap gap-3 justify-start">
+<button class="px-4 py-2 bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg text-sm hover:bg-teal-500/30 transition-colors" onclick="openModal('modal-5-1')">🔍 Ver em Modal</button>
+<a class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors" href="modulo-5-1.html">📖 Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 5.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-5-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.2</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h2 class="text-2xl font-bold mb-2">🧠 CLAUDE.md e memória persistente</h2>
+<p class="text-neutral-400">O CLAUDE.md como instruções do projeto, memória entre sessões e convenções do time.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-1')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+<div><div class="font-medium">📄 O que é o CLAUDE.md</div><div class="text-xs text-neutral-500">Instruções que persistem</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-1">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">O CLAUDE.md é o arquivo de instruções persistentes do projeto. É lido pelo Claude no início de cada sessão, fornecendo contexto sobre o projeto, convenções e regras de comportamento.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Sem CLAUDE.md, você repete o mesmo contexto em toda sessão. Com ele, o Claude sabe onde está, o que pode e não pode fazer, e como o projeto está estruturado.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Contexto persistente</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Instruções do agente</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Leitura automática</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Escopo do projeto</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-2')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+<div><div class="font-medium">💾 Memória entre sessões</div><div class="text-xs text-neutral-500">Continuidade real</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-2">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">O Claude não tem memória nativa entre sessões. Memória persistente é construída explicitamente: arquivos de estado, logs de decisões, contexto salvo em JSON ou Markdown.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Projetos longos acumulam decisões e estado. Sem memória explícita, cada sessão começa do zero e o Claude pode contradizer decisões anteriores.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">State files</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Decision log</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Context injection</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Session handoff</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-3')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+<div><div class="font-medium">✂️ Contexto enxuto</div><div class="text-xs text-neutral-500">Menos ruído, mais sinal</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-3">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Manter o CLAUDE.md conciso e relevante: incluir apenas o que o Claude precisa saber agora, não a história completa do projeto.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">CLAUDE.md muito longo dilui a atenção. O Claude prioriza informações no início do contexto — informações críticas devem aparecer primeiro.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Prioridade de informação</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Remoção de obsoleto</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Hierarquia de seções</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Densidade de informação</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-4')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+<div><div class="font-medium">📋 Convenções do time</div><div class="text-xs text-neutral-500">Regras que o Claude segue</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-4">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Seção do CLAUDE.md que define padrões de código, nomenclatura, fluxo de git, regras de PR e tom de comunicação que o Claude deve respeitar.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Sem convenções explícitas, o Claude adota seus próprios padrões — que podem divergir dos do time e criar inconsistências difíceis de manter.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Naming conventions</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Git flow</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Code style</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Review checklist</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-5')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+<div><div class="font-medium">🔐 O que guardar vs não guardar</div><div class="text-xs text-neutral-500">Segurança no contexto</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-5">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Diretrizes sobre quais informações devem estar no CLAUDE.md (arquitetura, convenções, contexto) e o que nunca deve aparecer (secrets, tokens, dados pessoais).</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">CLAUDE.md é lido e potencialmente enviado para o modelo. Informações sensíveis nele criam riscos de vazamento — especialmente em projetos com múltiplos colaboradores.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Sem secrets em markdown</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Env vars separados</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">.gitignore para .env</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Auditoria periódica</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t52-6')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+<div><div class="font-medium">🔄 Evolução do CLAUDE.md</div><div class="text-xs text-neutral-500">Documento vivo</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t52-6">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Como manter o CLAUDE.md atualizado conforme o projeto cresce: quando revisar, quem pode editar e como versionar mudanças no arquivo de instruções.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Um CLAUDE.md desatualizado é pior que nenhum — o Claude segue instruções obsoletas e pode tomar decisões erradas baseado em contexto incorreto.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Review trimestral</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Versionamento no git</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Owner definido</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Changelog interno</span></div></div>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-wrap gap-3 justify-start">
+<button class="px-4 py-2 bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg text-sm hover:bg-teal-500/30 transition-colors" onclick="openModal('modal-5-2')">🔍 Ver em Modal</button>
+<a class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors" href="modulo-5-2.html">📖 Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 5.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-5-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h2 class="text-2xl font-bold mb-2">📦 Manutenção, versionamento e CHANGELOG</h2>
+<p class="text-neutral-400">Semver, CHANGELOG, rollback seguro, refatoração contínua e como evitar dívida técnica em projetos longos.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-1')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+<div><div class="font-medium">🏷️ Semver e tags de versão</div><div class="text-xs text-neutral-500">Números que comunicam intenção</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-1">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Semantic Versioning (semver): MAJOR.MINOR.PATCH — cada número tem significado preciso sobre o tipo de mudança e compatibilidade.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Versões semânticas comunicam impacto. Quando você pede ao Claude para "bump a version", ele precisa saber qual dígito incrementar e por quê.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">MAJOR: breaking change</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">MINOR: nova feature</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">PATCH: bugfix</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">git tag -a v1.2.3</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-2')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+<div><div class="font-medium">📋 CHANGELOG bem escrito</div><div class="text-xs text-neutral-500">Historial que narra</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-2">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Arquivo CHANGELOG.md estruturado por versão, com seções Added / Changed / Fixed / Removed. Lido por humanos, não por máquinas.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">O CHANGELOG é o diário do projeto. Permite auditar quando algo quebrou, justificar mudanças para stakeholders e guiar o Claude em sessões de manutenção.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Keep a Changelog</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Added/Changed/Fixed</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Data de lançamento</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Unreleased section</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-3')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+<div><div class="font-medium">⏪ Rollback seguro</div><div class="text-xs text-neutral-500">Desfazer sem medo</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-3">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Estratégias para reverter o estado do projeto com segurança: git revert, git reset, feature flags, deploy de versão anterior.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Com o Claude gerando código rapidamente, a capacidade de rollback é o safety net. Você precisa saber desfazer sem perder trabalho válido.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">git revert vs reset</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Feature flags</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Blue/green deploy</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Backup de estado</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-4')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+<div><div class="font-medium">🔧 Refatorar com segurança</div><div class="text-xs text-neutral-500">Melhorar sem quebrar</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-4">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Processo de melhorar a estrutura interna do código sem alterar seu comportamento externo — com testes como rede de segurança.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Refatorar com o Claude é rápido e arriscado. Sem testes, uma refatoração que parece segura pode quebrar fluxos que não estavam visíveis na sessão.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Red/Green/Refactor</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Cobertura mínima</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Passos pequenos</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Commit atômico</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-5')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+<div><div class="font-medium">🧪 Testes como documentação</div><div class="text-xs text-neutral-500">Spec que não mente</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-5">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Testes bem escritos documentam o comportamento esperado do sistema. São a spec mais confiável porque precisam passar — ao contrário de docs que ficam obsoletas.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">O Claude usa testes existentes para entender o que um módulo deve fazer antes de modificá-lo. Projetos com bons testes recebem ajuda melhor e mais segura.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Test as documentation</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Vitest / Jest</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Integration tests</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Coverage threshold</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t53-6')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+<div><div class="font-medium">💳 Dívida técnica controlada</div><div class="text-xs text-neutral-500">Pagar antes de cobrar juros</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t53-6">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Dívida técnica é o custo futuro de atalhos tomados hoje. Não é sempre ruim — mas precisa ser registrada, priorizada e paga antes de se tornar impagável.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Projetos com Claude podem acumular dívida técnica rapidamente — código gerado rápido nem sempre é sustentável. Monitorar e pagar dívida periodicamente é hábito de projeto saudável.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">TODO/FIXME tracking</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Tech debt backlog</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Refactor sprints</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Code quality metrics</span></div></div>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-wrap gap-3 justify-start">
+<button class="px-4 py-2 bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg text-sm hover:bg-teal-500/30 transition-colors" onclick="openModal('modal-5-3')">🔍 Ver em Modal</button>
+<a class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors" href="modulo-5-3.html">📖 Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 5.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-5-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-teal-400 font-bold text-sm">5.4</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h2 class="text-2xl font-bold mb-2">🖥️ Case study: ClaudeOS (Hermes)</h2>
+<p class="text-neutral-400">Dissecar um projeto real de longo prazo: dashboard pessoal de IA com Bun, TanStack/React, Vite, Tailwind e deploy em Cloudflare.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-1')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+<div><div class="font-medium">🗺️ Visão geral do projeto</div><div class="text-xs text-neutral-500">Stack real, problema real</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-1">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">ClaudeOS (Hermes) é um dashboard pessoal read-only para quem roda um stack de IA local. Consolida dados de Claude Code, Codex, OpenRouter, Pinecone e Obsidian em uma interface única.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">É um projeto concreto que aplica todos os princípios desta trilha: arquitetura em camadas, CLAUDE.md rigoroso, versionamento com CHANGELOG e separação de responsabilidades.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Dashboard read-only</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Stack: Bun + React + Vite</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Deploy: Cloudflare</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">V2.3 — mai/2026</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-2')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+<div><div class="font-medium">⚙️ aggregate.ts e live-data.json</div><div class="text-xs text-neutral-500">Scanner → JSON → Dashboard</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-2">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">O arquivo scripts/aggregate.ts é o coração do sistema: lê ~/.claude/, vaults Obsidian, Pinecone e OpenRouter, depois gera src/data/live-data.json consumido pelo dashboard React.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Este padrão "script gerador → arquivo estático → UI" é uma arquitetura elegante que separa coleta de dados da apresentação. Replicável em qualquer projeto de dashboard.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Data pipeline script</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Static JSON artifact</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Separação coleta/UI</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Cron scheduling</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-3')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+<div><div class="font-medium">💤 Skill /dream e os 8 buckets</div><div class="text-xs text-neutral-500">Auditoria de 24h automatizada</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-3">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">A skill /dream audita as últimas 24h do stack de IA em 8 buckets de sinal e escreve as 4 prescrições de maior impacto em JSON. O dashboard renderiza essas prescrições como cards de ação.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">É um exemplo de skill com output estruturado (JSON) consumido por uma UI — padrão reutilizável para qualquer integração Claude Code + dashboard.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">8 signal buckets</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">JSON output skill</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Prescrições de impacto</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">UI rendering</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-4')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+<div><div class="font-medium">📜 CLAUDE.md do projeto</div><div class="text-xs text-neutral-500">Regras que protegem o sistema</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-4">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">O CLAUDE.md do ClaudeOS define: saudação de onboarding, regras críticas (nunca ler/escrever ~/.claude direto, dados locais, anonimização ligada, sem telemetria, dashboard read-only).</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Este CLAUDE.md é um exemplo de nível produção. Mostra como usar restrições explícitas para proteger dados do usuário e manter o agente no seu papel.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Onboarding saudação</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Restrições de acesso</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Privacidade local</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Read-only enforcement</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-5')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+<div><div class="font-medium">📦 CHANGELOG V2.3</div><div class="text-xs text-neutral-500">Historial como espelho do projeto</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-5">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">O CHANGELOG do ClaudeOS narra a evolução do projeto: V2.3 (Documents Gallery, 31 mai 2026) mostra como cada feature foi adicionada, o que mudou e o que foi corrigido.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">O CHANGELOG é evidência de projeto maduro. Cada versão conta a história da manutenção — e funciona como contexto para o Claude ao planejar próximas features.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">V2.3 Documents Gallery</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Data + feature name</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Progresso visual</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Roadmap implícito</span></div></div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-start space-x-3 text-left" onclick="toggleTopic('t54-6')">
+<span class="w-6 h-6 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+<div><div class="font-medium">🔗 Lições para seu projeto</div><div class="text-xs text-neutral-500">Do case à sua realidade</div></div>
+</button>
+<div class="topic-explanation mt-4 pl-9" id="t54-6">
+<div class="mb-3"><strong class="text-teal-400">O que é:</strong><p class="text-neutral-300 text-sm mt-1">Extração de padrões replicáveis do ClaudeOS: a separação scripts/src, o CLAUDE.md com restrições, o JSON como artefato de estado, o CHANGELOG como narrativa.</p></div>
+<div class="mb-3"><strong class="text-teal-400">Por que aprender:</strong><p class="text-neutral-300 text-sm mt-1">Estudar projetos reais bem estruturados acelera muito mais do que tutoriais abstratos. O ClaudeOS é um template mental para qualquer projeto de longa duração com Claude Code.</p></div>
+<div><strong class="text-teal-400">Conceitos-chave:</strong><div class="grid grid-cols-2 gap-2 mt-2"><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Padrões reutilizáveis</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Template mental</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Próximos passos</span><span class="bg-dark-700 rounded p-2 text-xs text-neutral-300">Deploy contínuo</span></div></div>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-wrap gap-3 justify-start">
+<button class="px-4 py-2 bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg text-sm hover:bg-teal-500/30 transition-colors" onclick="openModal('modal-5-4')">🔍 Ver em Modal</button>
+<a class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors" href="modulo-5-4.html">📖 Ver Completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO -->
+<div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-600">
+<a class="flex items-center space-x-2 text-neutral-400 hover:text-teal-400 transition-colors" href="../trilha4/index.html">
+<span>←</span><span>Trilha 4: Automação</span>
+</a>
+<a class="flex items-center space-x-2 text-neutral-400 hover:text-rose-400 transition-colors" href="../trilha6/index.html">
+<span>Trilha 6: Deploy</span><span>→</span>
+</a>
+</div>
+</main>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-5-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.1</span><span class="font-semibold">Arquitetura de um projeto</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-5-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-5-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.2</span><span class="font-semibold">CLAUDE.md e memória persistente</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-5-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-5-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.3</span><span class="font-semibold">Manutenção, versionamento e CHANGELOG</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-5-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-5-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-teal-400 font-bold">5.4</span><span class="font-semibold">Case study: ClaudeOS (Hermes)</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-5-4.html"></iframe>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Do Zero ao Projeto · 2026</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Theme toggle
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

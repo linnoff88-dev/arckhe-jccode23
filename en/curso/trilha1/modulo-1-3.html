@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.3 Context, Tokens, and the Window | Fundamentals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes m13-fill { 0%{width:5%} 100%{width:85%} }
+    @media (prefers-reduced-motion: no-preference) {
+      .m13-bar { animation: m13-fill 3s ease-out forwards; }
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/modulo-1-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/modulo-1-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/modulo-1-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-1-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha1/modulo-1-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Track 1 — Fundamentals</a>
+<span>/</span>
+<span class="text-emerald-400">Module 1.3</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MODULE 1.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🪟 Context, tokens, and window</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Learn how the agent's working memory works, what tokens are, why the context window has a limit, and how not to waste it.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Theory</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📝 What context is</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O <strong class="text-emerald-400">context</strong> is everything the model knows at the moment: your message, the previous conversation, the files the agent has read, and the tool results. It’s the session’s active “working memory” — and it has a limit.</p>
+<!-- SVG: Anatomia do Contexto -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Context anatomy: a total window of 200K tokens divided into system prompt, conversation history, tool results, and CLAUDE.md" class="w-full h-auto" role="img" viewbox="0 0 820 200">
+<defs>
+<lineargradient id="m13-grad" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m13-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m13-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.09" r="1.2"></circle>
+</pattern>
+</defs>
+<rect fill="url(#m13-grid)" height="200" width="820" x="0" y="0"></rect>
+<!-- Barra total -->
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="410" y="25">CONTEXT WINDOW — 200,000 tokens</text>
+<rect fill="#1a1a1a" height="48" rx="10" stroke="#374151" stroke-width="2" width="760" x="30" y="35"></rect>
+<!-- Segmentos -->
+<rect fill="#0e2018" height="48" rx="10" stroke="#34d399" stroke-width="0" width="100" x="30" y="35"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="80" y="64">System</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="80" y="76">~2K tok</text>
+<rect fill="#0e2018" height="48" opacity="0.8" rx="0" stroke="#34d399" stroke-width="0" width="140" x="130" y="35"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="200" y="64">CLAUDE.md</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="200" y="76">~5K tok</text>
+<rect fill="#0e1b26" height="48" opacity="0.9" rx="0" stroke="#38bdf8" stroke-width="0" width="200" x="270" y="35"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="370" y="64">Conversation history</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="370" y="76">grows over time</text>
+<rect fill="#0e1b26" height="48" opacity="0.7" rx="0" stroke="#38bdf8" stroke-width="0" width="220" x="470" y="35"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="580" y="64">Tool results (files read)</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="580" y="76">accumulates with every Read/Bash</text>
+<rect fill="#1a1a1a" height="48" opacity="0.5" rx="10" stroke="#374151" stroke-width="2" width="100" x="690" y="35"></rect>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="740" y="64">free</text>
+<!-- Linha de alerta -->
+<line stroke="#374151" stroke-dasharray="4 4" stroke-width="1" x1="30" x2="790" y1="115" y2="115"></line>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="410" y="135">When approaching the limit → automatic compaction or quality degradation</text>
+<!-- Labels abaixo -->
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="80" y="170">fixed</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="200" y="170">persistent</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="370" y="170">volatile</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="580" y="170">biggest culprit</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">📝</span> What goes into the context</h3>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>System prompt:</strong> Claude Code internal instructions (~2K tokens, fixed)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>CLAUDE.md:</strong> your custom project instructions (you control them)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>History:</strong> the entire conversation since the start of the session</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Tool results:</strong> the contents of each file read, the output of each Bash command</span></li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">System prompt</div><div class="text-xs text-neutral-400">Claude Code base instructions</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Your persistent context</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">History</div><div class="text-xs text-neutral-400">Accumulated conversation</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool results</div><div class="text-xs text-neutral-400">Contents of files read</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔢 What Tokens Are</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed"><strong class="text-emerald-400">Tokens</strong> are the smallest units of text that language models process. They aren’t exactly words or letters—they’re text fragments that the tokenizer splits based on frequency in the language.</p>
+<!-- Box dados -->
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Token reference</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>1 English word</strong> ≈ 1.3 tokens</li>
+<li><strong>1 word in pt-BR</strong> ≈ 1.5-2 tokens</li>
+<li><strong>100 lines of code</strong> ≈ 800-1,200 tokens</li>
+<li><strong>1 page of text (A4)</strong> ≈ 500-700 tokens</li>
+</ul>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>1KB file</strong> ≈ 250-400 tokens</li>
+<li><strong>10KB file</strong> ≈ 2,500-4,000 tokens</li>
+<li><strong>100KB file</strong> ≈ 25,000-40,000 tokens</li>
+<li><strong>Typical CLAUDE.md</strong> ≈ 500-2,000 tokens</li>
+</ul>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Efficient token use</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Code in English/symbols</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Concise, direct text</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Code without long comments</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>JSON without extra spaces</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Uses too many tokens</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Copying entire files into the message</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Text in languages with long words</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Repeating the same content several times</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Verbose agent responses</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tokenizer</div><div class="text-xs text-neutral-400">Algorithm that splits the text</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Input</div><div class="text-xs text-neutral-400">Tokens you send</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Output</div><div class="text-xs text-neutral-400">Tokens the model generates</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cost</div><div class="text-xs text-neutral-400">Cost per 1M tokens</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🪟 Context window</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A <strong class="text-emerald-400">context window</strong> is the maximum number of tokens the model can process at once. It's like a computer's RAM — fast, but finite. Claude 3 Sonnet has 200K tokens.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🪟</span> 200,000 tokens in perspective</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<p class="text-neutral-300 text-sm mb-3">It seems like a lot. It is—but it fills up quickly during long sessions with lots of code reading.</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 500 pages of dense text</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 20,000 lines of code</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 40-60 medium-sized code files</span></li>
+</ul>
+</div>
+<div>
+<p class="text-neutral-300 text-sm mb-3">With a long session, you can use this in:</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>1 500KB file read = 125K tokens</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>10 50KB files = the same thing</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>A 2-hour session with lots of debugging = full</span></li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: When the context is full</h3>
+<p class="text-neutral-300">Signs the context window is nearly full: the agent starts to "forget" instructions from the beginning, does things you already said not to do, or the answers become more generic. Use <code class="bg-dark-700 px-1 rounded text-emerald-400">/compact</code> or <code class="bg-dark-700 px-1 rounded text-emerald-400">/clear</code>.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">200K tokens</div><div class="text-xs text-neutral-400">Claude 3 Sonnet window</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Truncation</div><div class="text-xs text-neutral-400">Remove old parts when things get full</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Degradation</div><div class="text-xs text-neutral-400">Quality degradation near the limit</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">RAM analogy</div><div class="text-xs text-neutral-400">Working memory, not a hard drive</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📈 Why the context fills up</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The window doesn't fill up randomly. There are <strong class="text-emerald-400">common culprits</strong> that consume tokens disproportionately—and identifying them lets you act before losing critical context.</p>
+<!-- Timeline de culpados -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-sm">1°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-red-400 mb-1">Large files read in full</h4>
+<p class="text-sm text-neutral-300">A 500KB file uses ~125K tokens — more than half the context window. The agent reads more than it needs when there are no specific instructions.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-sm">2°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-red-400 mb-1">Long conversation history</h4>
+<p class="text-sm text-neutral-300">Every message stays in the context. A 2-hour session with many exchanges can easily accumulate 30-50K tokens just in the history.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">3°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-amber-400 mb-1">Many tool calls with long output</h4>
+<p class="text-sm text-neutral-300">Each <code class="bg-dark-700 px-1 rounded">Bash(npm install)</code> with long output goes straight into the context. Logs with 10K lines are common.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">4°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-amber-400 mb-1">Verbose agent responses</h4>
+<p class="text-sm text-neutral-300">Does the agent explain every step in detail? That also fills up the context. Configure this in CLAUDE.md: "keep your responses concise".</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-red-400 font-semibold text-sm mb-1">Large file</div><div class="text-xs text-neutral-400">Biggest individual culprit</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-red-400 font-semibold text-sm mb-1">Long history</div><div class="text-xs text-neutral-400">Accumulates over the session</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Tool output</div><div class="text-xs text-neutral-400">Long-running command logs</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Verbose</div><div class="text-xs text-neutral-400">Unnecessarily long responses</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🗜️ Context Compaction</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code has mechanisms for handling full contexts: the command <strong class="text-emerald-400">/compact</strong> (manual) and automatic compaction that happens when the window is almost full.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ /compact — when to use it</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>After completing a feature</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>When the history gets too long</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Before starting a new subtask</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>When you notice a decline in quality</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Be careful with /compact</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Details of previous errors may be lost</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Don't use in the middle of a critical task</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>The summary may lose important nuances</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Some contexts are better kept intact</span></li>
+</ul>
+</div>
+</div>
+<!-- Box código mono -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">⌨️ Context management commands</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-2">
+<div><span class="text-emerald-400">/compact</span><span class="text-neutral-400"> — summarizes the conversation and frees up space</span></div>
+<div><span class="text-emerald-400">/clear</span><span class="text-neutral-400"> — completely deletes the history</span></div>
+<div><span class="text-emerald-400">/tokens</span><span class="text-neutral-400"> — shows how many tokens are in use</span></div>
+<div class="mt-2 text-neutral-500"># CLAUDE.md as persistent context:</div>
+<div><span class="text-neutral-300">echo "# Project Context" &gt; CLAUDE.md</span></div>
+<div><span class="text-neutral-300">echo "Stack: Node.js + TypeScript + Prisma" &gt;&gt; CLAUDE.md</span></div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/compact</div><div class="text-xs text-neutral-400">Summarize and free up context</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/clear</div><div class="text-xs text-neutral-400">Clear history</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Auto-compact</div><div class="text-xs text-neutral-400">Triggered when reaching ~95%</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Doesn't disappear after compaction</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">💡 Context best practices</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Managing context well is one of the skills that most distinguishes advanced users from beginners. A few simple rules have a huge impact on <strong class="text-emerald-400">session quality and cost</strong>.</p>
+<!-- Box dados -->
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📋</span> The 5 golden rules of context</h3>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">1.</span><span><strong>Short, focused sessions:</strong> one session per feature/bug, not per day</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">2.</span><span><strong>CLAUDE.md for fixed context:</strong> stack, coding rules, project conventions</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">3.</span><span><strong>Don't paste code into messages:</strong> say "edit file X" instead of copying the content</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">4.</span><span><strong>/compact proactively:</strong> use before starting a new task, not when the window is already full</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">5.</span><span><strong>Ask for concision:</strong> include in the CLAUDE.md "be direct and concise in your responses"</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> The perfect CLAUDE.md for saving context</h3>
+<p class="text-neutral-300 mb-3">A good CLAUDE.md has 3 sections: (1) Project context — technologies, structure, architecture; (2) Code rules — style, conventions, standards; (3) Session instructions — "be concise," "ask before creating files."</p>
+<p class="text-neutral-300">This eliminates the need to repeat the context in every session, and the agent starts being productive immediately.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Focused session</div><div class="text-xs text-neutral-400">One task per session</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Replaces context repetition</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Path ref.</div><div class="text-xs text-neutral-400">"Edit src/x.ts" don't paste code</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Compact early</div><div class="text-xs text-neutral-400">Before filling up, not afterward</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 1.3 Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Context = working memory</strong><span class="text-neutral-400"> — everything the model knows in the session</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Tokens are fragments of text</strong><span class="text-neutral-400"> — ~1.5 tok/word in pt-BR</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">200K-token window</strong><span class="text-neutral-400"> — fills up quickly with large files</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Culprits: large files and long history</strong><span class="text-neutral-400"> — monitor and compact early</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">CLAUDE.md is the solution</strong><span class="text-neutral-400"> — persistent context without repetition</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">1.4 — Terminal and CLI for beginners: go from zero to using the terminal in 40 minutes, including the commands Claude Code uses most.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-2.html">← Module 1.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-4.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

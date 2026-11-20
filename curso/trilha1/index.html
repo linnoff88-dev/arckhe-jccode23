@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fundamentos | Claude Code — Do Zero ao Projeto</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode - Parte 1: Base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - Parte 2: Cores de acento (emerald T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    /* Light mode - Parte 3: Remove gradientes e cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+
+    /* Light mode - Parte 4: Navbar */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - Bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Hero SVG animations */
+    @keyframes t1-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .t1-a { animation: t1-pulse 2.6s ease-in-out infinite; }
+      .t1-a:nth-child(2){animation-delay:.25s} .t1-a:nth-child(3){animation-delay:.5s}
+      .t1-a:nth-child(4){animation-delay:.75s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha1/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha1/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<!-- T1 ATIVA -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<!-- T2 -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span>
+</a>
+<!-- T3 -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<!-- T4 -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span>
+</a>
+<!-- T5 -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<!-- T6 -->
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER DA TRILHA com Hero SVG -->
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">TRILHA 1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧭 Fundamentos</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Entenda o que é o Claude Code, como ele pensa, como gerencia contexto e como o terminal funciona. A base para tudo que vem depois.</p>
+<!-- Stats Grid -->
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">4</div>
+<div class="text-xs text-neutral-400">Módulos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">24</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">~3h</div>
+<div class="text-xs text-neutral-400">Duração</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-emerald-400">Básico</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+</div>
+<!-- Hero SVG — Claude Code no terminal -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mt-8 overflow-hidden max-w-4xl">
+<svg aria-label="Claude Code: usuário envia uma tarefa no terminal, o agente usa ferramentas (Read, Edit, Bash, Search) e entrega o resultado" class="w-full h-auto" role="img" viewbox="0 0 900 220">
+<defs>
+<lineargradient id="t1i-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="t1i-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="t1i-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.10" r="1.2"></circle>
+</pattern>
+<marker id="t1i-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="t1i-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#t1i-grid)" height="220" width="900" x="0" y="0"></rect>
+<!-- Usuário / terminal -->
+<g filter="url(#t1i-glow)">
+<rect fill="#0e2018" height="64" rx="14" stroke="url(#t1i-grad)" stroke-width="2" width="140" x="30" y="78"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="100" y="104">👤 Usuário</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="100" y="124">$ claude "tarefa"</text>
+<!-- Seta entrada -->
+<path d="M170,110 L240,110" fill="none" marker-end="url(#t1i-ah)" opacity="0.65" stroke="#34d399" stroke-width="1.8"></path>
+<!-- Agente central -->
+<g filter="url(#t1i-glow)">
+<rect fill="#0e2018" height="92" rx="14" stroke="url(#t1i-grad)" stroke-width="2.5" width="160" x="240" y="64"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="320" y="94">🤖 Agente</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="320" y="114">Claude Code</text>
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="320" y="130">pensa → age → observa</text>
+<!-- Setas para ferramentas -->
+<path d="M400,90 C470,90 490,42 560,42" fill="none" marker-end="url(#t1i-ahc)" opacity="0.55" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M400,100 C470,100 490,82 560,82" fill="none" marker-end="url(#t1i-ahc)" opacity="0.55" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M400,110 L560,120" fill="none" marker-end="url(#t1i-ahc)" opacity="0.55" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M400,120 C470,120 490,160 560,160" fill="none" marker-end="url(#t1i-ahc)" opacity="0.55" stroke="#38bdf8" stroke-width="1.8"></path>
+<!-- Ferramentas -->
+<g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+<g class="t1-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="120" x="560" y="26"></rect><text fill="#bfe6ff" text-anchor="middle" x="620" y="47">📖 Read</text></g>
+<g class="t1-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="120" x="560" y="66"></rect><text fill="#bfe6ff" text-anchor="middle" x="620" y="87">✏️ Edit</text></g>
+<g class="t1-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="120" x="560" y="106"></rect><text fill="#bfe6ff" text-anchor="middle" x="620" y="127">💻 Bash</text></g>
+<g class="t1-a"><rect fill="#0e1b26" height="32" rx="9" stroke="#38bdf8" stroke-width="2" width="120" x="560" y="146"></rect><text fill="#bfe6ff" text-anchor="middle" x="620" y="167">🔍 Search</text></g>
+</g>
+<!-- Setas convergindo ao resultado -->
+<path d="M680,42 C740,42 750,100 770,110" fill="none" marker-end="url(#t1i-ahc)" opacity="0.45" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M680,82 C740,82 750,100 770,110" fill="none" marker-end="url(#t1i-ahc)" opacity="0.45" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M680,122 L770,118" fill="none" marker-end="url(#t1i-ahc)" opacity="0.45" stroke="#38bdf8" stroke-width="1.8"></path>
+<path d="M680,162 C740,162 750,125 770,118" fill="none" marker-end="url(#t1i-ahc)" opacity="0.45" stroke="#38bdf8" stroke-width="1.8"></path>
+<!-- Resultado -->
+<g filter="url(#t1i-glow)">
+<rect fill="#0e2018" height="56" rx="14" stroke="url(#t1i-grad)" stroke-width="2" width="110" x="770" y="82"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="825" y="107">✅ Pronto</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="825" y="125">tarefa concluída</text>
+</svg>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold text-sm">1.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🧭 O que é Claude Code</h3>
+<p class="text-xs text-neutral-400">Agente vive no terminal</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold text-sm">1.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🧠 Como o agente pensa</h3>
+<p class="text-xs text-neutral-400">Loop pensar → agir → observar</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold text-sm">1.3</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🪟 Contexto, tokens e janela</h3>
+<p class="text-xs text-neutral-400">Por que a memória enche</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all" href="#modulo-1-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold text-sm">1.4</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">⌨️ Terminal e CLI</h3>
+<p class="text-xs text-neutral-400">Sobreviver no terminal</p>
+</a>
+</div>
+</section>
+<!-- CONTEÚDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 1.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-1-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold">1.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧭 O que é Claude Code</h3>
+<p class="text-neutral-400 text-sm">Entenda o que diferencia um agente de IA de um chatbot, e por que o Claude Code vive no terminal.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- Tópico 1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🤖</span>
+<div><span class="font-medium">O que é um agente de IA</span><span class="text-neutral-500 text-sm ml-2">- não é um chatbot</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um agente é um programa que percebe o ambiente, toma decisões e age de forma autônoma para alcançar um objetivo — diferente de um chatbot que só responde perguntas.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender essa diferença é fundamental para saber o que esperar do Claude Code e como pedir tarefas de forma eficiente.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Percepção → Decisão → Ação; ciclo autônomo; objetivo vs. resposta única; contexto persistente.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">💻</span>
+<div><span class="font-medium">Por que o terminal</span><span class="text-neutral-500 text-sm ml-2">- onde o agente tem poder</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O terminal é a interface de texto que dá acesso direto ao sistema operacional — arquivos, processos, rede. É onde o agente executa comandos reais.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Interfaces gráficas são lentas e difíceis de automatizar. No terminal, o Claude Code pode ler, escrever, executar e pesquisar em segundos.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Shell, stdin/stdout, pipe, permissões de arquivo, PATH, processo filho.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">O que ele lê, escreve e executa</span><span class="text-neutral-500 text-sm ml-2">- ferramentas reais</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O Claude Code usa ferramentas concretas: Read (lê arquivos), Edit (modifica arquivos), Bash (executa comandos), Search (busca padrões no código).</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Saber quais ferramentas existem ajuda a entender o que o agente pode e não pode fazer em cada tarefa.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Read, Edit, Write, Bash, Glob, Grep — as ferramentas nativas do Claude Code.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🎯</span>
+<div><span class="font-medium">Casos de uso reais</span><span class="text-neutral-500 text-sm ml-2">- o que faz bem</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Refatorar código, criar features, escrever testes, migrar APIs, corrigir bugs, gerar documentação — tudo sem sair do terminal.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Delimitar o escopo de uso aumenta a efetividade. Saber "onde o agente brilha" economiza tempo e evita frustrações.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tarefas de código, automação de repositórios, CI/CD, geração de boilerplate, análise de logs.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⚡</span>
+<div><span class="font-medium">Chatbot vs. agente</span><span class="text-neutral-500 text-sm ml-2">- a diferença prática</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Um chatbot responde texto. Um agente executa ações no mundo real: cria arquivos, roda testes, faz commits. O Claude Code é um agente.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Mudar o frame mental de "perguntar" para "delegar tarefas" transforma o modo de usar a ferramenta.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Ação vs. resposta; efeito colateral; permissão de execução; autonomia controlada.</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🚀</span>
+<div><span class="font-medium">Primeiro contato</span><span class="text-neutral-500 text-sm ml-2">- a primeira sessão</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O primeiro contato: abrir o terminal, digitar <code class="bg-dark-600 px-1 rounded text-emerald-400">claude</code>, pedir uma tarefa simples e observar o agente trabalhar passo a passo.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ver o agente funcionando na prática — com as ferramentas aparecendo em tempo real — é a melhor forma de internalizar o conceito.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Sessão interativa, modo headless, <code class="bg-dark-600 px-1 rounded text-emerald-400">claude --help</code>, primeira tarefa delegada.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-1-1')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-1.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 1.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-1-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold">1.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧠 Como o agente pensa</h3>
+<p class="text-neutral-400 text-sm">Descubra o loop interno do agente: como ele planeja, escolhe ferramentas e decide quando pedir permissão.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">O loop agente</span><span class="text-neutral-500 text-sm ml-2">- pensar, agir, observar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O agente executa um ciclo contínuo: <strong>Pensar</strong> (raciocinar sobre o que fazer), <strong>Usar Ferramenta</strong> (ação no mundo real), <strong>Observar</strong> (ler o resultado) e repetir.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender o loop ajuda a formular tarefas melhores e a saber por que o agente faz certas perguntas ou toma certas decisões.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">ReAct loop, "chain of thought", observação do ambiente, iteração até conclusão.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🛠️</span>
+<div><span class="font-medium">As ferramentas do agente</span><span class="text-neutral-500 text-sm ml-2">- mãos digitais</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Ferramentas são as "mãos" do agente: Read (lê arquivo), Edit (edita arquivo), Bash (roda comando), Glob (lista arquivos), Grep (busca texto).</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Cada ferramenta tem custo, permissão e escopo diferentes. Conhecê-las permite entender logs e otimizar o fluxo.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Tool call, tool result, permissão explícita vs. implícita, custo de tokens por ferramenta.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📋</span>
+<div><span class="font-medium">Como ele planeja</span><span class="text-neutral-500 text-sm ml-2">- antes de agir</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Antes de agir, o agente raciocina internamente: divide o problema em passos, identifica dependências e escolhe a ferramenta certa para cada etapa.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Dar contexto suficiente na tarefa permite que o plano seja mais preciso, reduzindo idas e vindas desnecessárias.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Decomposição de tarefas, plano explícito vs. implícito, scratchpad interno, rastreamento de progresso.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🛡️</span>
+<div><span class="font-medium">Quando pede permissão</span><span class="text-neutral-500 text-sm ml-2">- autonomia com freio</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O agente pede confirmação antes de ações destrutivas (deletar arquivos, rodar comandos perigosos) ou quando não tem contexto suficiente.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Saber quando o agente vai pausar e pedir ajuda evita surpresas e ajuda a configurar permissões corretamente no settings.json.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">allowlist, denylist, confirmação interativa, modo autônomo, <code class="bg-dark-600 px-1 rounded text-emerald-400">--dangerously-skip-permissions</code>.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🚧</span>
+<div><span class="font-medium">Limites do agente</span><span class="text-neutral-500 text-sm ml-2">- o que ele não faz</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O agente não navega em sites, não clica em UIs gráficas (sem plugins), não tem memória entre sessões por padrão, e não tem acesso à internet sem ferramentas externas.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Conhecer os limites evita expectativas erradas e ajuda a complementar com outras ferramentas quando necessário.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Sem memória persistente nativa, sem acesso GUI, sandboxing, escopo do projeto local.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔍</span>
+<div><span class="font-medium">Observando o agente trabalhar</span><span class="text-neutral-500 text-sm ml-2">- logs em tempo real</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Durante a execução, o Claude Code exibe cada ferramenta chamada, o que foi lido e o que foi modificado — o log de raciocínio visível em tempo real.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Ler os logs ajuda a entender as decisões, detectar erros mais cedo e ganhar confiança no que o agente está fazendo.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Verbose output, tool trace, raciocínio explícito, verificação humana, interrupção segura (Ctrl+C).</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-1-2')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-2.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 1.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-1-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold">1.3</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🪟 Contexto, tokens e janela</h3>
+<p class="text-neutral-400 text-sm">Entenda como o agente "lembra" das coisas, por que essa memória tem limite e como não desperdiçá-la.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📝</span>
+<div><span class="font-medium">O que é contexto</span><span class="text-neutral-500 text-sm ml-2">- a memória de trabalho</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Contexto é tudo que o modelo "sabe" no momento: a conversa, os arquivos lidos, o resultado das ferramentas. É a memória de trabalho ativa da sessão.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Sem entender o contexto, você não sabe por que o agente "esqueceu" algo ou por que suas respostas ficaram estranhas no fim da sessão.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Prompt, histórico de conversa, tool results no contexto, CLAUDE.md como contexto persistente.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🔢</span>
+<div><span class="font-medium">O que são tokens</span><span class="text-neutral-500 text-sm ml-2">- a unidade básica</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Tokens são fragmentos de texto (≈ 4 chars em inglês, ≈ 3 em pt-BR). Cada palavra vira 1-3 tokens. Modelos processam e cobram por tokens.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Entender tokens ajuda a estimar custo, controlar o uso da janela e evitar ultrapassar o limite que degrada as respostas.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Token de input, token de output, tokenizer, custo por 1M tokens, comprimento de arquivo em tokens.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🪟</span>
+<div><span class="font-medium">Janela de contexto</span><span class="text-neutral-500 text-sm ml-2">- o limite físico</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">A janela de contexto é o limite máximo de tokens que o modelo processa de uma vez. Claude 3 Sonnet tem 200K tokens — cerca de 500 páginas de texto.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Quando a janela enche, o agente começa a "esquecer" partes da conversa ou o sistema trunka o contexto automaticamente.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">200K tokens, truncamento automático, degradação de performance, janela deslizante.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">📈</span>
+<div><span class="font-medium">Por que o contexto enche</span><span class="text-neutral-500 text-sm ml-2">- os culpados comuns</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O contexto enche por: arquivos grandes lidos inteiros, histórico longo, respostas verbosas, muitas tool calls acumuladas na mesma sessão.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Identificar o culpado permite agir: dividir sessões, usar /clear, ou mudar a estratégia de leitura de arquivos.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Arquivo grande, histórico longo, tool results acumulados, leitura desnecessária de arquivos binários.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🗜️</span>
+<div><span class="font-medium">Compactação de contexto</span><span class="text-neutral-500 text-sm ml-2">- /compact e estratégias</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O comando <code class="bg-dark-600 px-1 rounded text-emerald-400">/compact</code> resume a conversa anterior, liberando espaço na janela. O Claude Code também faz compactação automática quando necessário.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Saber quando e como compactar evita perda de contexto crítico e mantém o agente eficaz em sessões longas.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1"><code class="bg-dark-600 px-1 rounded text-emerald-400">/compact</code>, <code class="bg-dark-600 px-1 rounded text-emerald-400">/clear</code>, summarização automática, CLAUDE.md como memória externa.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">💡</span>
+<div><span class="font-medium">Boas práticas de contexto</span><span class="text-neutral-500 text-sm ml-2">- economize tokens</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Práticas como usar CLAUDE.md para instruções fixas, dividir tarefas grandes em sessões menores, e evitar ler arquivos desnecessários economizam tokens e melhoram a qualidade.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Um contexto enxuto significa respostas mais precisas, custo menor e sessões mais longas antes da degradação.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">CLAUDE.md, sessões curtas focadas, leitura seletiva, evitar copiar código inteiro nas mensagens.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-1-3')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-3.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 1.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-1-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-emerald-400 font-bold">1.4</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">⌨️ Terminal e CLI para iniciantes</h3>
+<p class="text-neutral-400 text-sm">Do zero ao terminal: pastas, caminhos, comandos essenciais e segurança básica para quem nunca usou o terminal.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🖥️</span>
+<div><span class="font-medium">O que é o terminal</span><span class="text-neutral-500 text-sm ml-2">- interface de texto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O terminal é um programa que interpreta comandos de texto. No Mac: Terminal ou iTerm2. No Windows: PowerShell ou WSL. No Linux: qualquer emulador.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O Claude Code só funciona no terminal. Sem saber abrir e usar o terminal, não é possível nem iniciar o agente.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Shell (bash/zsh), prompt ($), emulador de terminal, stdin/stdout, código de saída 0 = sucesso.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📂</span>
+<div><span class="font-medium">Pastas e caminhos</span><span class="text-neutral-500 text-sm ml-2">- onde você está</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">O sistema de arquivos é uma árvore. Caminho absoluto: <code class="bg-dark-600 px-1 rounded text-emerald-400">/home/user/projeto</code>. Caminho relativo: <code class="bg-dark-600 px-1 rounded text-emerald-400">./src</code>. O ponto de partida é o diretório atual.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O Claude Code opera no diretório onde você o inicia. Entender caminhos é essencial para apontar o agente para os arquivos certos.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Raiz (/), home (~), caminho absoluto, caminho relativo, <code class="bg-dark-600 px-1 rounded text-emerald-400">.</code> (atual), <code class="bg-dark-600 px-1 rounded text-emerald-400">..</code> (pai).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">⚡</span>
+<div><span class="font-medium">Comandos essenciais</span><span class="text-neutral-500 text-sm ml-2">- cd, ls, mkdir e mais</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1"><code class="bg-dark-600 px-1 rounded text-emerald-400">cd</code> (mudar pasta), <code class="bg-dark-600 px-1 rounded text-emerald-400">ls</code> (listar), <code class="bg-dark-600 px-1 rounded text-emerald-400">mkdir</code> (criar pasta), <code class="bg-dark-600 px-1 rounded text-emerald-400">pwd</code> (onde estou), <code class="bg-dark-600 px-1 rounded text-emerald-400">cat</code> (ver arquivo), <code class="bg-dark-600 px-1 rounded text-emerald-400">cp</code>/<code class="bg-dark-600 px-1 rounded text-emerald-400">mv</code>/<code class="bg-dark-600 px-1 rounded text-emerald-400">rm</code>.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Estes comandos são usados pelo Claude Code em quase toda tarefa. Reconhecê-los nos logs ajuda a acompanhar o que o agente está fazendo.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">cd, ls -la, mkdir -p, pwd, cat, cp, mv, rm -rf (cuidado!), man (ajuda).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔌</span>
+<div><span class="font-medium">O que é uma CLI</span><span class="text-neutral-500 text-sm ml-2">- interface de linha de comando</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">CLI (Command-Line Interface) é um programa que você controla via texto no terminal: <code class="bg-dark-600 px-1 rounded text-emerald-400">git</code>, <code class="bg-dark-600 px-1 rounded text-emerald-400">npm</code>, <code class="bg-dark-600 px-1 rounded text-emerald-400">python</code>, <code class="bg-dark-600 px-1 rounded text-emerald-400">claude</code> são CLIs.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O Claude Code É uma CLI. Entender como CLIs funcionam (flags, subcomandos, --help) ajuda a usar qualquer ferramenta de linha de comando.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Flags (<code class="bg-dark-600 px-1 rounded text-emerald-400">--flag</code>), argumentos posicionais, subcomandos, <code class="bg-dark-600 px-1 rounded text-emerald-400">--help</code>, código de retorno.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">Instalar ferramentas</span><span class="text-neutral-500 text-sm ml-2">- npm, brew, apt</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Gerenciadores de pacotes instalam CLIs: <code class="bg-dark-600 px-1 rounded text-emerald-400">npm install -g @anthropic-ai/claude-code</code> (Node), <code class="bg-dark-600 px-1 rounded text-emerald-400">brew install</code> (Mac), <code class="bg-dark-600 px-1 rounded text-emerald-400">apt install</code> (Linux).</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">Instalar o Claude Code é o primeiro passo prático. Entender como gerenciadores de pacotes funcionam evita erros de instalação.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">npm, Node.js, PATH, versão global vs. local, <code class="bg-dark-600 px-1 rounded text-emerald-400">which claude</code>, atualização.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔒</span>
+<div><span class="font-medium">Segurança no terminal</span><span class="text-neutral-500 text-sm ml-2">- o que não copiar-colar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-emerald-400 font-semibold">O que é:</span><p class="text-neutral-300 text-sm mt-1">Nunca execute comandos copiados da internet sem entender o que fazem. <code class="bg-dark-600 px-1 rounded text-emerald-400">rm -rf /</code>, <code class="bg-dark-600 px-1 rounded text-emerald-400">curl | bash</code> sem verificar, e <code class="bg-dark-600 px-1 rounded text-emerald-400">sudo</code> desnecessário são riscos reais.</p></div>
+<div><span class="text-emerald-400 font-semibold">Por que aprender:</span><p class="text-neutral-300 text-sm mt-1">O terminal tem poder real sobre o sistema. Um comando errado pode apagar arquivos, expor credenciais ou instalar malware.</p></div>
+<div><span class="text-emerald-400 font-semibold">Conceitos-chave:</span><p class="text-neutral-300 text-sm mt-1">Ler antes de executar, sudo com parcimônia, variáveis de ambiente com segredos, .env no .gitignore.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-1-4')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors" href="modulo-1-4.html">Ver Completo</a>
+</div>
+</div>
+<!-- Navegação -->
+<div class="flex justify-between mt-12">
+<a class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../../index.html">← Início</a>
+<a class="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="../trilha2/index.html">Trilha 2: Instalação →</a>
+</div>
+</main>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-1-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-emerald-400 font-bold">1.1</span>
+<span class="font-semibold">O que é Claude Code</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-1-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-emerald-400 font-bold">1.2</span>
+<span class="font-semibold">Como o agente pensa</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-1-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-emerald-400 font-bold">1.3</span>
+<span class="font-semibold">Contexto, tokens e janela</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-1-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-emerald-400 font-bold">1.4</span>
+<span class="font-semibold">Terminal e CLI para iniciantes</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-1-4.html"></iframe>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Do Zero ao Projeto · 2026</p>
+</div>
+</footer>
+<script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

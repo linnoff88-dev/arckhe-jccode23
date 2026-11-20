@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>5.4 Case study: ClaudeOS (Hermes) | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-teal-400 { color: #0f766e; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: #ccfbf1; }
+    html:not(.dark) .border-teal-500\/30 { border-color: #99f6e4; }
+    html:not(.dark) .from-teal-900\/30 { --tw-gradient-from: #f0fdfa; }
+    html:not(.dark) .bg-gradient-to-b,
+    html:not(.dark) .bg-gradient-to-r,
+    html:not(.dark) .bg-gradient-to-br { background-image: none; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    /* Mock dashboard */
+    html:not(.dark) .mock-dashboard { background-color: #1a1a2e !important; }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha5/modulo-5-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha5/modulo-5-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha5/modulo-5-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-5-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha5/modulo-5-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2" href="../../index.html">
+<span class="text-xl">🤖</span>
+<span class="font-bold text-primary">Claude Code</span>
+</a>
+<a class="text-sky-400 text-sm font-medium hidden sm:block" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1">
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentals</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Installation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projects</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
+<button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="w-5 h-5" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-teal-400 transition-colors" href="../../index.html">Claude Code</a>
+<span class="mx-2">›</span>
+<a class="hover:text-teal-400 transition-colors" href="index.html">Track 5</a>
+<span class="mx-2">›</span>
+<span class="text-neutral-300">Module 5.4</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8 mb-12">
+<div class="flex items-center space-x-3 mb-4">
+<span class="text-teal-400 font-bold text-lg">5.4</span>
+<span class="text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full">Track 5</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+<span class="text-xs text-teal-400 bg-teal-500/10 border border-teal-500/30 px-2 py-0.5 rounded-full font-medium">Real Case</span>
+</div>
+<h1 class="text-2xl font-bold mb-3">🖥️ Case Study: ClaudeOS (Hermes)</h1>
+<p class="text-neutral-300">Dissect a real long-term project: a personal AI dashboard with Bun + TanStack/React + Vite + Tailwind, deployed on Cloudflare. V2.3 — May/2026.</p>
+</div>
+<!-- SEÇÃO 1 — Visão geral -->
+<section class="mb-16" id="topico-1">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🗺️ Project Overview</h2>
+<p class="text-neutral-300 mb-6">ClaudeOS (codename Hermes) is a personal dashboard <strong>read-only</strong> for anyone running a local AI stack. It consolidates data from multiple sources into a single interface—without modifying any of them.</p>
+<!-- Cards de stack -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-4 text-center">
+<div class="text-2xl mb-1">🍞</div>
+<p class="text-xs font-medium text-teal-400">Bun 1.1</p>
+<p class="text-xs text-neutral-500">Runtime</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-4 text-center">
+<div class="text-2xl mb-1">⚛️</div>
+<p class="text-xs font-medium text-teal-400">React 19</p>
+<p class="text-xs text-neutral-500">TanStack Query</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-4 text-center">
+<div class="text-2xl mb-1">⚡</div>
+<p class="text-xs font-medium text-teal-400">Vite 6</p>
+<p class="text-xs text-neutral-500">+ Tailwind 4</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-4 text-center">
+<div class="text-2xl mb-1">☁️</div>
+<p class="text-xs font-medium text-teal-400">Cloudflare</p>
+<p class="text-xs text-neutral-500">Pages + wrangler</p>
+</div>
+</div>
+<!-- SVG — arquitetura do ClaudeOS -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-4 mb-8">
+<svg aria-label="ClaudeOS architecture: data sources (Claude Code, Obsidian, OpenRouter, Pinecone) feed the aggregate.ts script, which generates live-data.json consumed by the React dashboard" class="w-full h-auto" role="img" viewbox="0 0 700 220">
+<defs>
+<filter id="m54-glow"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="m54-grid" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<path d="M 20 0 L 0 0 0 20" fill="none" opacity="0.25" stroke="#2dd4bf" stroke-width="0.12"></path>
+</pattern>
+<marker id="m54-ah" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#2dd4bf"></path>
+</marker>
+<marker id="m54-ahc" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"></path>
+</marker>
+</defs>
+<rect fill="url(#m54-grid)" height="220" width="700"></rect>
+<!-- Data sources -->
+<rect fill="#0c1f1c" height="34" rx="7" stroke="#14b8a6" stroke-width="1.5" width="130" x="10" y="10"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="75" y="31">🤖 Claude Code</text>
+<rect fill="#0c1f1c" height="34" rx="7" stroke="#14b8a6" stroke-width="1.5" width="130" x="10" y="56"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="75" y="77">📓 Obsidian</text>
+<rect fill="#0c1f1c" height="34" rx="7" stroke="#14b8a6" stroke-width="1.5" width="130" x="10" y="102"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="75" y="123">🔗 OpenRouter</text>
+<rect fill="#0c1f1c" height="34" rx="7" stroke="#14b8a6" stroke-width="1.5" width="130" x="10" y="148"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="75" y="169">🌲 Pinecone</text>
+<!-- Arrows to aggregate -->
+<line marker-end="url(#m54-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="140" x2="255" y1="27" y2="95"></line>
+<line marker-end="url(#m54-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="140" x2="255" y1="73" y2="100"></line>
+<line marker-end="url(#m54-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="140" x2="255" y1="119" y2="110"></line>
+<line marker-end="url(#m54-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="140" x2="255" y1="165" y2="118"></line>
+<!-- aggregate.ts -->
+<g filter="url(#m54-glow)">
+<rect fill="#0c1f1c" height="60" rx="10" stroke="#2dd4bf" stroke-width="2" width="160" x="256" y="72"></rect>
+</g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="336" y="98">⚙️ aggregate.ts</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="336" y="118">scanner + pipeline</text>
+<!-- Arrow to JSON -->
+<line marker-end="url(#m54-ah)" stroke="#2dd4bf" stroke-width="1.5" x1="416" x2="454" y1="102" y2="102"></line>
+<!-- live-data.json -->
+<rect fill="#0e1b26" height="54" rx="10" stroke="#38bdf8" stroke-width="1.5" width="150" x="455" y="75"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="530" y="98">📄 live-data</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="530" y="116">.json artifact</text>
+<!-- Arrow to dashboard -->
+<line marker-end="url(#m54-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="605" x2="638" y1="102" y2="102"></line>
+<!-- Dashboard -->
+<g filter="url(#m54-glow)">
+<rect fill="#0c1f1c" height="60" rx="10" stroke="#38bdf8" stroke-width="2" width="50" x="640" y="72"></rect>
+</g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="665" y="100">🖥️</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="665" y="118">UI</text>
+<!-- Labels bottom -->
+<text fill="#4b5563" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="75" y="200">Data sources</text>
+<text fill="#4b5563" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="336" y="200">scripts/aggregate.ts</text>
+<text fill="#4b5563" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="530" y="200">src/data/</text>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-2">ClaudeOS architecture: sources → pipeline → JSON → React dashboard</p>
+</div>
+<div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6">
+<h3 class="text-teal-400 font-semibold mb-3">Why this project is a good case study</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-1">Applies 5.1</p>
+<p class="text-xs text-neutral-400">Layered architecture with scripts/src separation. Each folder has a single responsibility.</p>
+</div>
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-1">Applies 5.2</p>
+<p class="text-xs text-neutral-400">CLAUDE.md with explicit security and privacy restrictions. Onboarding greeting.</p>
+</div>
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-1">Applies 5.3</p>
+<p class="text-xs text-neutral-400">Structured CHANGELOG since V1. Semver tags for each release. V2.3 in May/2026.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 2 — aggregate.ts -->
+<section class="mb-16" id="topico-2">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> ⚙️ scripts/aggregate.ts — the heart of the system</h2>
+<p class="text-neutral-300 mb-6">The most important file in ClaudeOS isn't a React component — it's a TypeScript script that runs outside the browser. It reads heterogeneous sources and produces a single JSON file consumed by the dashboard.</p>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">scripts/aggregate.ts — simplified structure</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>// scripts/aggregate.ts
+// Lê todas as fontes de dados e gera src/data/live-data.json
+// NUNCA modifica as fontes — read-only
+
+import { readdir, readFile, writeFile } from 'fs/promises'
+import { join } from 'path'
+
+async function aggregateClaudeHistory() {
+  const historyDir = join(process.env.HOME!, '.claude', 'history')
+  // Lê arquivos de sessão dos últimos 30 dias
+  // Extrai: tokens usados, projetos, modelos
+  return { sessions: [...], tokenTotal: 0 }
+}
+
+async function aggregateObsidian() {
+  const vaultPath = process.env.OBSIDIAN_VAULT_PATH!
+  // Percorre .md recursivamente, lê frontmatter
+  return { notes: [...], recentlyModified: [...] }
+}
+
+async function main() {
+  const [claude, obsidian, openrouter, pinecone] = await Promise.all([
+    aggregateClaudeHistory(),
+    aggregateObsidian(),
+    fetchOpenRouterStats(),
+    fetchPineconeStats(),
+  ])
+
+  const liveData = { claude, obsidian, openrouter, pinecone,
+                      generatedAt: new Date().toISOString() }
+
+  await writeFile('src/data/live-data.json',
+                  JSON.stringify(liveData, null, 2))
+  console.log('✅ live-data.json gerado')
+}
+
+main()</code></pre>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Elegant pattern</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Script separate from src/ (single responsibility)</li>
+<li>• Promise.all for parallel I/O</li>
+<li>• Structured, versionable JSON output</li>
+<li>• Generation timestamp included</li>
+<li>• Never modifies the source files (read-only)</li>
+</ul>
+</div>
+<div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-5">
+<h4 class="text-teal-400 font-bold mb-3">🔁 Reusable for</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Any metrics dashboard</li>
+<li>• Automated reports</li>
+<li>• Consolidating distributed logs</li>
+<li>• Local data pipelines</li>
+<li>• Static feed generation</li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">The “script → JSON → UI” pattern</p>
+<p class="text-neutral-300 text-sm">Separating data collection from presentation is one of the most resilient architectures for personal projects. You can rebuild the dashboard from scratch without losing data. The pipeline can run on cron without the UI existing.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 3 — Skill /dream -->
+<section class="mb-16" id="topico-3">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 💤 The /dream skill — 24-hour audit</h2>
+<p class="text-neutral-300 mb-6">The /dream skill is an example of a skill with <strong>structured output</strong>. It doesn’t respond in prose—it writes a JSON file that the dashboard renders as action cards.</p>
+<!-- Code box — skill /dream -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">~/.claude/skills/dream/SKILL.md — structure</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># Skill /dream
+
+## Propósito
+Auditar as últimas 24h do stack de IA em 8 buckets de sinal.
+Gerar as 4 prescrições de maior impacto em JSON.
+
+## Buckets de sinal
+1. Tokens consumidos vs budget diário
+2. Projetos mais ativos (por sessão)
+3. Skills mais invocadas
+4. Notas Obsidian criadas/modificadas
+5. Queries Pinecone (tópicos consultados)
+6. Modelos OpenRouter usados
+7. Dívidas técnicas registradas hoje
+8. Commits e PRs abertos
+
+## Output obrigatório
+Ao terminar análise, escrever em src/data/dream-output.json:
+{
+  "generatedAt": "ISO-8601",
+  "buckets": [ { "id": 1, "signal": "...", "value": "..." } ],
+  "prescriptions": [
+    { "rank": 1, "impact": "high", "action": "...", "rationale": "..." }
+  ]
+}
+
+## Regras
+- NUNCA exibir dados privados em texto livre
+- Máximo 4 prescrições, ordenadas por impacto
+- Basear APENAS em dados do live-data.json</code></pre>
+</div>
+<!-- Timeline dos buckets -->
+<div class="mb-6">
+<h3 class="font-semibold mb-4 text-neutral-200">The 8 signal buckets</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">💰</div>
+<p class="text-xs text-teal-400 font-medium">1. Tokens</p>
+<p class="text-xs text-neutral-500">vs budget</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">📁</div>
+<p class="text-xs text-teal-400 font-medium">2. Projects</p>
+<p class="text-xs text-neutral-500">most active</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">🧰</div>
+<p class="text-xs text-teal-400 font-medium">3. Skills</p>
+<p class="text-xs text-neutral-500">most invoked</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">📓</div>
+<p class="text-xs text-teal-400 font-medium">4. Obsidian</p>
+<p class="text-xs text-neutral-500">created/mod</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">🌲</div>
+<p class="text-xs text-teal-400 font-medium">5. Pinecone</p>
+<p class="text-xs text-neutral-500">topics</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">🤖</div>
+<p class="text-xs text-teal-400 font-medium">6. Models</p>
+<p class="text-xs text-neutral-500">OpenRouter</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">💳</div>
+<p class="text-xs text-teal-400 font-medium">7. Debt</p>
+<p class="text-xs text-neutral-500">registered today</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-3 text-center">
+<div class="text-xl mb-1">📝</div>
+<p class="text-xs text-teal-400 font-medium">8. Commits</p>
+<p class="text-xs text-neutral-500">and PRs</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4 — CLAUDE.md do projeto -->
+<section class="mb-16" id="topico-4">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📜 ClaudeOS CLAUDE.md — real example</h2>
+<p class="text-neutral-300 mb-6">ClaudeOS's CLAUDE.md is an example of production-level instructions. Each rule has a clear reason for existing.</p>
+<!-- Code box — CLAUDE.md real -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">CLAUDE.md — ClaudeOS (Hermes)</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># ClaudeOS (Hermes) — Instruções do agente
+
+## Saudação de onboarding
+Bem-vindo ao ClaudeOS! Você está trabalhando no dashboard
+pessoal de IA. Antes de qualquer task, leia este arquivo.
+
+## O que é este projeto
+Dashboard read-only que consolida dados de Claude Code,
+Obsidian, OpenRouter e Pinecone para visualização pessoal.
+Stack: Bun + React 19 + TanStack Query + Vite + Tailwind 4
+Deploy: Cloudflare Pages (wrangler)
+
+## Regras OBRIGATÓRIAS
+
+### Privacidade
+- NUNCA ler ou escrever diretamente em ~/.claude/
+  → Dados chegam via scripts/aggregate.ts e src/data/live-data.json
+- NUNCA enviar dados do usuário para serviços externos
+- Anonimização LIGADA — remove PII de outputs
+- Sem telemetria — sem analytics, sem tracking
+
+### Arquitetura
+- Dashboard é READ-ONLY — NUNCA modificar fontes de dados
+- Código novo vai em src/ — scripts de dados vão em scripts/
+- Não criar arquivos na raiz do projeto
+
+### Segurança
+- API keys SEMPRE via variáveis de ambiente (.env)
+- .env está no .gitignore — nunca commit
+
+## Estrutura do projeto
+src/
+  components/   → UI React
+  data/         → live-data.json (gerado, não editado)
+scripts/
+  aggregate.ts  → coleta dados das fontes
+  setup.ts      → setup inicial (roda uma vez)</code></pre>
+</div>
+<!-- Grid de análise das regras -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<h4 class="font-semibold text-teal-400 mb-3">🔍 Why Each Rule Exists</h4>
+<div class="space-y-2 text-sm">
+<div><span class="text-teal-400">Never read ~/.claude directly:</span><span class="text-neutral-400"> prevents inadvertent access to private conversations</span></div>
+<div><span class="text-teal-400">Read-only enforcement:</span><span class="text-neutral-400"> prevents bugs that corrupt data sources</span></div>
+<div><span class="text-teal-400">No telemetry:</span><span class="text-neutral-400"> personal project — no data leaves the device</span></div>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<h4 class="font-semibold text-teal-400 mb-3">🧩 Reusable pattern</h4>
+<div class="space-y-2 text-sm text-neutral-400">
+<p>• Onboarding greeting = immediate context</p>
+<p>• Rules by category (privacy, architecture, security)</p>
+<p>• Inline justification for each critical constraint</p>
+<p>• Folder map with an explicit purpose</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 5 — CHANGELOG V2.3 -->
+<section class="mb-16" id="topico-5">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 📦 CHANGELOG V2.3 — history as a mirror</h2>
+<p class="text-neutral-300 mb-6">The ClaudeOS CHANGELOG tells the story of a project that evolved from a simple script into a complete dashboard. Each version is a milestone.</p>
+<!-- Timeline de versões -->
+<div class="mb-8">
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-teal-500/20 border-2 border-teal-400 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V2.3</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-teal-500/20 mb-2">
+<div class="flex items-center justify-between mb-2">
+<p class="font-semibold text-sm text-teal-400">Documents Gallery</p>
+<span class="text-xs text-neutral-500">May 31, 2026</span>
+</div>
+<p class="text-neutral-400 text-sm">Added: Obsidian docs viewer in the dashboard. Filter by vault. aggregate.ts 3x faster (parallel processing).</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-dark-700 border border-dark-600 text-neutral-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V2.2</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<div class="flex items-center justify-between mb-2">
+<p class="font-semibold text-sm">Skill /personas</p>
+<span class="text-xs text-neutral-500">Apr 15, 2026</span>
+</div>
+<p class="text-neutral-400 text-sm">Added: local YAML persona pantheon. Persona panel in the dashboard. Changed: Vercel → Cloudflare Pages migration.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-dark-700 border border-dark-600 text-neutral-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V2.1</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<div class="flex items-center justify-between mb-2">
+<p class="font-semibold text-sm">Skill /dream</p>
+<span class="text-xs text-neutral-500">Mar 1, 2026</span>
+</div>
+<p class="text-neutral-400 text-sm">Added: /dream skill with 8 signal buckets. Prescriptions panel in the dashboard.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-dark-700 border border-dark-600 text-neutral-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V1.0</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<div class="flex items-center justify-between mb-2">
+<p class="font-semibold text-sm">MVP — Walking Skeleton</p>
+<span class="text-xs text-neutral-500">Jan 10, 2026</span>
+</div>
+<p class="text-neutral-400 text-sm">Basic aggregate.ts script + minimal React dashboard. Claude Code data only.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">What the CHANGELOG reveals</p>
+<p class="text-neutral-300 text-sm">Reading the CHANGELOG, you can see that the project started small (V1.0 was Claude Code only), grew incrementally, moved platforms when it made sense, and each version added one thing at a time. That's healthy growth.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 6 — Mock do dashboard + lições -->
+<section class="mb-12" id="topico-6">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔗 Dashboard Mockup and Lessons for Your Project</h2>
+<!-- Mock dashboard HTML -->
+<div class="rounded-2xl border border-teal-500/30 overflow-hidden mb-8">
+<div class="bg-dark-700 px-4 py-2 flex items-center justify-between border-b border-dark-600">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-400 ml-2 font-mono">ClaudeOS — Dashboard (ILLUSTRATIVE MOCKUP — not a real screenshot)</span>
+</div>
+<span class="text-xs text-teal-400 font-medium">V2.3</span>
+</div>
+<div class="mock-dashboard bg-gray-900 p-4">
+<!-- Nav do mock -->
+<div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-700">
+<div class="flex items-center gap-2">
+<span class="text-teal-400 font-bold text-sm">🖥️ Hermes</span>
+<span class="text-xs text-gray-500">ClaudeOS</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-gray-500 font-mono">v2.3.0</span>
+<span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+</div>
+</div>
+<!-- Stats row -->
+<div class="grid grid-cols-4 gap-2 mb-4">
+<div class="bg-gray-800 rounded-lg p-2 border border-gray-700">
+<p class="text-xs text-gray-500">Tokens today</p>
+<p class="text-sm font-bold text-teal-400">84.2k</p>
+</div>
+<div class="bg-gray-800 rounded-lg p-2 border border-gray-700">
+<p class="text-xs text-gray-500">Obsidian notes</p>
+<p class="text-sm font-bold text-teal-400">1.847</p>
+</div>
+<div class="bg-gray-800 rounded-lg p-2 border border-gray-700">
+<p class="text-xs text-gray-500">Pinecone queries</p>
+<p class="text-sm font-bold text-sky-400">23</p>
+</div>
+<div class="bg-gray-800 rounded-lg p-2 border border-gray-700">
+<p class="text-xs text-gray-500">Invoked skills</p>
+<p class="text-sm font-bold text-teal-400">7</p>
+</div>
+</div>
+<!-- Prescriptions -->
+<div class="mb-3">
+<p class="text-xs text-gray-400 font-semibold mb-2">💤 /dream prescriptions</p>
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-teal-900/30 rounded-lg p-2 border border-teal-700/30">
+<p class="text-xs text-teal-400 font-medium">#1 High priority</p>
+<p class="text-xs text-gray-400">Consolidate 3 inactive projects to reduce context overhead</p>
+</div>
+<div class="bg-gray-800 rounded-lg p-2 border border-gray-700">
+<p class="text-xs text-teal-400 font-medium">#2 Medium priority</p>
+<p class="text-xs text-gray-400">62% of the budget consumed — consider caching repeated prompts</p>
+</div>
+</div>
+</div>
+<p class="text-xs text-gray-600 text-center">Generated on 2026-06-01T08:00:00Z · READ-ONLY</p>
+</div>
+</div>
+<p class="text-xs text-neutral-500 text-center -mt-6 mb-8">⚠️ Illustrative HTML mockup — does not represent real data or a screenshot of the system</p>
+<!-- Grid de lições -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Repeatable patterns</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Generator script + JSON artifact + UI</li>
+<li>• CLAUDE.md with restrictions by category</li>
+<li>• Skills with JSON output (not prose)</li>
+<li>• CHANGELOG since V1</li>
+<li>• Walking skeleton growing incrementally</li>
+</ul>
+</div>
+<div class="bg-dark-800 border border-teal-500/20 rounded-xl p-5">
+<h4 class="font-bold text-teal-400 mb-3">🚀 Apply It to Your Project</h4>
+<ul class="space-y-2 text-sm text-neutral-400">
+<li>• Identify what your "aggregate.ts" is</li>
+<li>• Define constraints in CLAUDE.md before coding</li>
+<li>• Start the CHANGELOG at V0.1</li>
+<li>• Separate scripts from src/ from the start</li>
+<li>• Read-only where possible — fewer bugs</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- DOWNLOAD DO MATERIAL -->
+<a class="group block bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 hover:border-teal-500/50 p-6 mb-8 transition-all" download="" href="../../../referencias/ClaudeOS-Hermes-V2.3.zip">
+<div class="flex items-start space-x-4">
+<span class="text-4xl">🏗️</span>
+<div>
+<h3 class="text-lg font-bold mb-1 group-hover:text-teal-400 transition-colors">Download the project <code class="text-teal-400">ClaudeOS (Hermes) V2.3</code> <span class="text-xs font-normal text-neutral-500">· ~88 MB</span></h3>
+<p class="text-sm text-neutral-300 mb-2">The complete source code for this case study: the scanner <code class="text-teal-400">aggregate.ts</code>, o <code class="text-teal-400">setup.ts</code>, the skills <code class="text-teal-400">/dream</code> e <code class="text-teal-400">/personas</code>, o <code class="text-teal-400">CLAUDE.md</code> e o <code class="text-teal-400">CHANGELOG</code>. A real, long-term project to study from start to finish.</p>
+<span class="text-sm font-semibold text-teal-400">⬇ Download ClaudeOS-Hermes-V2.3.zip</span>
+</div>
+</div>
+</a>
+<!-- RESUMO FINAL -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8">
+<h2 class="text-xl font-bold mb-4">📋 Track 5 summary</h2>
+<p class="text-neutral-300 mb-6">You completed Track 5. Here's what you've mastered:</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">✅ Completed modules</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>🏗️ <span class="text-teal-400">5.1</span> Project architecture</li>
+<li>🧠 <span class="text-teal-400">5.2</span> CLAUDE.md and memory</li>
+<li>📦 <span class="text-teal-400">5.3</span> Versioning and CHANGELOG</li>
+<li>🖥️ <span class="text-teal-400">5.4</span> ClaudeOS case study</li>
+</ul>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">🚀 Next Track</div>
+<p class="text-sm text-neutral-400 mb-3">Track 6 covers Deploy — how to put your project into production with Cloudflare, GitHub Actions, custom domains, and monitoring.</p>
+<a class="inline-flex items-center gap-2 text-sm text-rose-400 hover:text-rose-300 transition-colors font-medium" href="../trilha6/index.html">🚀 Go to Track 6: Deploy →</a>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 justify-start">
+<a class="px-5 py-2 bg-rose-600 text-white rounded-lg text-sm hover:bg-rose-700 transition-colors font-medium" href="../trilha6/index.html">🚀 Next Track: Deploy →</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="modulo-5-3.html">← 5.3 Versioning</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="index.html">↩ Track 5</a>
+</div>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skills | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha purple) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124, 58, 237, 0.18); }
+    html:not(.dark) .hover\:border-purple-500\/30:hover { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+
+    /* Light mode - remove gradientes */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+
+    /* Light mode - cores especiais */
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+
+    /* Light mode - nav */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .svg-pulse { animation: svgpulse 3s ease-in-out infinite; }
+      @keyframes svgpulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha3/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha3/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha3/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha3/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="./" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha3/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">TRACK 3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧩 Skills</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Create superpowers for Claude Code. A skill is a folder with a SKILL.md that turns the agent into a specialist: it describes when to act, how to act, and which rules never to break.</p>
+<!-- Hero SVG -->
+<div class="mt-8 rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 max-w-2xl">
+<svg aria-label="Diagram: skill as orchestrator — SKILL.md triggers scripts and references to produce a result" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="t3-glow">
+<fegaussianblur result="blur" stddeviation="1.8"></fegaussianblur>
+<femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<lineargradient id="t3-grad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#a855f7" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#c084fc" stop-opacity="0.1"></stop>
+</lineargradient>
+</defs>
+<!-- Grid de pontos -->
+<pattern height="20" id="t3-dots" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<circle cx="1" cy="1" fill="#374151" r="0.8"></circle>
+</pattern>
+<rect fill="url(#t3-dots)" height="220" opacity="0.5" width="560"></rect>
+<!-- Nó central: SKILL.md -->
+<rect fill="#1a1230" filter="url(#t3-glow)" height="60" rx="10" stroke="#a855f7" stroke-width="2" width="140" x="210" y="80"></rect>
+<text fill="#c084fc" font-size="11" font-weight="600" text-anchor="middle" x="280" y="105">🧩 SKILL.md</text>
+<text fill="#9ca3af" font-size="9" text-anchor="middle" x="280" y="122">description + rules</text>
+<!-- Entrada: usuário -->
+<rect fill="#0e1b26" height="44" rx="8" stroke="#38bdf8" stroke-width="1.5" width="110" x="30" y="88"></rect>
+<text fill="#38bdf8" font-size="10" font-weight="600" text-anchor="middle" x="85" y="108">Message</text>
+<text fill="#bfe6ff" font-size="9" text-anchor="middle" x="85" y="122">of the user</text>
+<!-- Seta entrada -->
+<line stroke="#38bdf8" stroke-dasharray="4,3" stroke-width="1.5" x1="140" x2="208" y1="110" y2="110"></line>
+<polygon fill="#38bdf8" points="208,106 216,110 208,114"></polygon>
+<!-- Saídas: scripts, reference, .env -->
+<rect fill="#1a1230" height="40" rx="8" stroke="#c084fc" stroke-width="1.5" width="110" x="420" y="30"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="475" y="48">scripts/</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="475" y="61">.sh helpers</text>
+<rect fill="#1a1230" height="40" rx="8" stroke="#c084fc" stroke-width="1.5" width="110" x="420" y="90"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="475" y="108">reference.md</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="475" y="121">detailed docs</text>
+<rect fill="#1a1230" height="40" rx="8" stroke="#c084fc" stroke-width="1.5" width="110" x="420" y="150"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="475" y="168">.env.example</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="475" y="181">keys / config</text>
+<!-- Setas saídas -->
+<line stroke="#c084fc" stroke-width="1.5" x1="350" x2="418" y1="100" y2="50"></line>
+<polygon fill="#c084fc" points="414,47 422,49 418,57"></polygon>
+<line stroke="#c084fc" stroke-width="1.5" x1="350" x2="418" y1="110" y2="110"></line>
+<polygon fill="#c084fc" points="414,106 422,110 414,114"></polygon>
+<line stroke="#c084fc" stroke-width="1.5" x1="350" x2="418" y1="120" y2="170"></line>
+<polygon fill="#c084fc" points="414,167 422,169 418,177"></polygon>
+<!-- Label resultado -->
+<text fill="#6b7280" font-size="9" text-anchor="middle" x="280" y="195">An active skill = specialist agent in turbo mode</text>
+</svg>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">4</div>
+<div class="text-xs text-neutral-400">Modules</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">24</div>
+<div class="text-xs text-neutral-400">Topics</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">~3h</div>
+<div class="text-xs text-neutral-400">Duration</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Intermediate</div>
+<div class="text-xs text-neutral-400">Level</div>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Learning path map</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.1</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🧩 What is a Skill</h3>
+<p class="text-xs text-neutral-400">Folder + SKILL.md = superpower</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🎯 Description and triggers</h3>
+<p class="text-xs text-neutral-400">The right trigger at the right time</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">📂 Scripts and references</h3>
+<p class="text-xs text-neutral-400">Complete professional structure</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="#modulo-3-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold text-sm">3.4</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-purple-400 transition-colors">🎬 Case: ads-skill</h3>
+<p class="text-xs text-neutral-400">Real production skill dissected</p>
+</a>
+</div>
+</section>
+<!-- CONTEUDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Detailed content</h2>
+<!-- MÓDULO 3.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.1</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🧩 What is a Skill</h3>
+<p class="text-neutral-400 text-sm">Complete anatomy: frontmatter, Markdown body, where skills are stored, and how the agent discovers and activates them.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">Skill as a folder</span><span class="text-neutral-500 text-sm ml-2">- a directory is the container</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">A skill is a directory inside <code class="bg-dark-600 px-1 rounded text-purple-300">~/.claude/skills/</code> with one required file <code class="bg-dark-600 px-1 rounded text-purple-300">SKILL.md</code> at the root. The folder can contain subfolders (scripts/, prompting/, references/) and auxiliary files.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Understanding that a skill is a folder—and not just a file—changes how you organize knowledge. You separate rules (SKILL.md), execution (scripts/), and documentation (references/), keeping everything modular and easy to maintain.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Root directory in <code class="bg-dark-600 px-1 rounded">~/.claude/skills/nome-da-skill/</code>; SKILL.md required; subfolders are optional but recommended for complex skills; directory name in kebab-case.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📄</span>
+<div><span class="font-medium">SKILL.md: frontmatter</span><span class="text-neutral-500 text-sm ml-2">- name, description, triggers</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The YAML frontmatter at the top of SKILL.md defines the skill's metadata: <code class="bg-dark-600 px-1 rounded">name</code> (unique identifier), <code class="bg-dark-600 px-1 rounded">description</code> (what it does and when to trigger it), and optionally <code class="bg-dark-600 px-1 rounded">triggers</code> (explicit trigger phrases).</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">The frontmatter is the skill's "contract" with the agent. A weak description results in a skill that never triggers or triggers when it shouldn't. Well-written frontmatter ensures Claude Code knows exactly when to invoke the skill.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Block delimited by <code class="bg-dark-600 px-1 rounded">---</code>; fields <code class="bg-dark-600 px-1 rounded">name</code> e <code class="bg-dark-600 px-1 rounded">description</code> required; description in natural language; valid YAML without tabs.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📝</span>
+<div><span class="font-medium">Markdown body</span><span class="text-neutral-500 text-sm ml-2">- instructions, rules, examples</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">After the frontmatter, SKILL.md contains the Markdown body with: a workflow (numbered sections), hard rules ("NEVER do X"), examples of good and bad usage, references to supporting files, and confirmation gates before irreversible actions.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">The body is the skill's brain. This is where you program its detailed behavior: the order of steps, what to check, how to report results. A good body replaces dozens of repetitive manual prompts.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Sections with ## for workflows; - lists for steps; ``` blocks for code; tables for good/bad comparisons; prominent hard rules (**NEVER**); references to ./scripts/ and ./references/.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🗂️</span>
+<div><span class="font-medium">Where skills are located</span><span class="text-neutral-500 text-sm ml-2">- ~/.claude/skills/ global</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Global skills are in <code class="bg-dark-600 px-1 rounded">~/.claude/skills/</code> and are available in any project. Project-local skills can live in <code class="bg-dark-600 px-1 rounded">.claude/skills/</code> at the repo root — scope limited to the project.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Separating global skills (reusable utilities) from project skills (repo-specific logic) avoids namespace pollution and ensures that a client’s sensitive skills don’t leak into other projects.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Global: <code class="bg-dark-600 px-1 rounded">~/.claude/skills/</code>; Local: <code class="bg-dark-600 px-1 rounded">.claude/skills/</code>; Local overrides global settings with the same name; skills apply to the active context.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔍</span>
+<div><span class="font-medium">How the agent discovers the skill</span><span class="text-neutral-500 text-sm ml-2">- automatic reading of SKILL.md</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Claude Code scans the skills directory and injects the metadata (name + description) into the system context. When the user's message matches the description, the agent uses the Skill tool to load and run the complete SKILL.md.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Understanding the discovery mechanism explains why description is the most critical field. The agent doesn't read the skill body until it decides to activate it — the description is the only relevance signal available when it makes that decision.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Automatic scan on startup; metadata injection into the system prompt; semantic match between description and user request; lazy activation (the body is read only when activated).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">⚖️</span>
+<div><span class="font-medium">Skill vs. prompt vs. command</span><span class="text-neutral-500 text-sm ml-2">- when to use each one</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Skill = reusable specialized behavior with state and rules (e.g., formato-curso). Prompt = one-off instruction with no persistence. Slash command = keyboard shortcut for a repetitive prompt. Skills load context, scripts, and references; prompts and commands don’t.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Choosing the wrong tool costs time. Did a complex 10-step workflow become a prompt? You’ll forget steps. Did you turn it into a skill? The agent ensures complete execution every time.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Skill: persistent, multi-file, with rules; Prompt: stateless, inline, disposable; Slash command: quick shortcut; Use a skill when: the workflow is complex, rules are strict, or helper scripts are needed.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-1')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-1.html">View Full</a>
+</div>
+</div>
+<!-- MÓDULO 3.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🎯 Description and triggers</h3>
+<p class="text-neutral-400 text-sm">The description field is what triggers the skill. Learn to write strong triggers, avoid false triggers, and name skills in kebab-case.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🎯</span>
+<div><span class="font-medium">The description field as a trigger</span><span class="text-neutral-500 text-sm ml-2">- the heart of activation</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The field <code class="bg-dark-600 px-1 rounded">description</code> of the frontmatter is semantically analyzed by the agent. It compares the user's message with all available descriptions and invokes the most relevant skill. A poor description makes a skill invisible.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Without understanding how the agent uses the description, you'll write skills that never trigger or skills that compete with each other. The description is the skill's only "advertisement" — it needs to be clear, specific, and cover real-world usage scenarios.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Semantic match (not literal); description such as "announcement"; specificity &gt; generality; include an action verb ("Use when...", "Trigger when..."); cover variations in user phrasing.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">⚡</span>
+<div><span class="font-medium">Explicit trigger phrases</span><span class="text-neutral-500 text-sm ml-2">- "use when...", "trigger when..."</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Trigger phrases are explicit clauses in the description that list activation scenarios: "Use when the user asks you to create HTML course pages", "Trigger when mentioning learning paths, modules, or INEMA.CLUB". They are the skill’s "list of use cases".</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Explicit trigger phrases make activation behavior predictable and auditable. Without them, activation becomes guesswork. With them, you can test: “If I say X, should skill Y activate?”</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Standard prefixes: "Use when", "Trigger when", "TRIGGER when"; list contexts (not just keywords); include domain synonyms; separate with semicolons for clarity.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🚫</span>
+<div><span class="font-medium">Avoid incorrect triggering (SKIP)</span><span class="text-neutral-500 text-sm ml-2">- clarity about limits</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">SKIP clauses in the description list cases where the skill should NOT trigger, even when there is thematic overlap. E.g.: "SKIP: file imports <code class="bg-dark-600 px-1 rounded">openai</code>, generic code without the Anthropic SDK". Defines the scope with surgical precision.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Overly generic skills trigger for everything and add noise. SKIP draws clear boundaries: the skill specializes in X, not everything that superficially looks like X. This reduces conflicts between skills and improves precision.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Explicit "SKIP:" prefix; list of anti-cases; complements TRIGGER; the more specific the skill, the less SKIP you need; negation test ("if you do Y, it should not trigger").</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔤</span>
+<div><span class="font-medium">Name in kebab case</span><span class="text-neutral-500 text-sm ml-2">- convention and readability</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The folder and field name <code class="bg-dark-600 px-1 rounded">name</code> in the frontmatter follow kebab case: lowercase letters, with words separated by hyphens. E.g., <code class="bg-dark-600 px-1 rounded">formato-curso</code>, <code class="bg-dark-600 px-1 rounded">ads-skill</code>, <code class="bg-dark-600 px-1 rounded">n8n-code-python</code>.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Kebab-case is URL-safe, filesystem-safe, and visually readable in the terminal. It enables automatic slash commands (<code class="bg-dark-600 px-1 rounded">/formato-curso</code>) and unquoted references in bash scripts. Mixing conventions creates silent bugs.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">All lowercase; hyphen separator; no spaces, underscores, or camelCase; descriptive name (2-4 words); consistency between folder and frontmatter name; avoid ambiguous abbreviations.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Good description examples</span><span class="text-neutral-500 text-sm ml-2">- what works in practice</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">A good description combines: (1) what the skill does in one sentence, (2) trigger phrases covering multiple phrasings, (3) SKIP to define the scope. Example from the skill <code class="bg-dark-600 px-1 rounded">claude-api</code>: "Build, debug, and optimize Claude API apps. TRIGGER when: code imports anthropic/SDK. SKIP: openai, other-provider SDK."</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Reading real examples speeds up learning more than any theory. Patterns that work in production reveal nuances that theoretical documentation leaves out: ideal length, level of specificity, and the balance between TRIGGER and SKIP.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">3–6 lines of description is ideal; summary sentence + TRIGGER + SKIP; test with 5 real questions before publishing; review after using it 10 times in practice.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">❌</span>
+<div><span class="font-medium">Bad description examples</span><span class="text-neutral-500 text-sm ml-2">- common pitfalls</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Poor descriptions are: (1) too generic — "Helps with code" (everything is code), (2) ambiguous — "Use when you need AI" (every skill uses AI), (3) too technical — "Processes tokens via API" (users don't think that way), (4) missing TRIGGER/SKIP — leaves the agent to guess.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Description errors cause silent problems: the skill exists but is never used, or worse, it triggers in the wrong contexts and produces unexpected results. Identifying anti-patterns saves hours of debugging.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Anti-patterns: vague, circular, too technical, lacking contextual anchors; the "1-sentence" test: can someone unfamiliar with the skill tell when to use it just by reading the description?</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-2')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-2.html">View Full</a>
+</div>
+</div>
+<!-- MÓDULO 3.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📂 Helper scripts and references</h3>
+<p class="text-neutral-400 text-sm">Complete structure of a professional skill: bash scripts, reference files, .env.example, progressive disclosure, and hard rules.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">⚙️</span>
+<div><span class="font-medium">scripts/ folder</span><span class="text-neutral-500 text-sm ml-2">- shell automation</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The subfolder <code class="bg-dark-600 px-1 rounded">scripts/</code> contains files <code class="bg-dark-600 px-1 rounded">.sh</code> (or .py, .js) that the agent can run via Bash. Each script performs an atomic task: check dependencies, process files, call APIs, format output. SKILL.md references each script by its relative path.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Scripts externalize the operational logic from SKILL.md, keeping it readable. A 50-line script shouldn’t be inline in the markdown—it belongs in scripts/, and SKILL.md only describes when and how to call it.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Atomic scripts (1 script = 1 responsibility); name with verb-noun (check-deps.sh, analyze-video.sh); chmod +x required; relative path in SKILL.md (<code class="bg-dark-600 px-1 rounded">./scripts/check.sh</code>).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📚</span>
+<div><span class="font-medium">reference.md files</span><span class="text-neutral-500 text-sm ml-2">- separate detailed documentation</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Files <code class="bg-dark-600 px-1 rounded">reference.md</code> (or in <code class="bg-dark-600 px-1 rounded">references/</code>) contain detailed documentation: API specs, decision tables, extensive examples, decision history. SKILL.md mentions them but doesn't duplicate their contents — “see reference.md for the full table.”</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">SKILL.md needs to be short and easy to scan—the agent reads it in full every time it activates. Extensive details in SKILL.md increase token costs and make it harder to read. References are loaded on demand, when needed.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Short SKILL.md (50-150 lines); long references (no limit); explicit link in SKILL.md; references/ subfolder for multiple files; README.md explaining each file in the folder.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🔑</span>
+<div><span class="font-medium">.env.example for keys</span><span class="text-neutral-500 text-sm ml-2">- secrets outside the code</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The file <code class="bg-dark-600 px-1 rounded">.env.example</code> lists the required environment variables with example values (never real ones). The user copies them to <code class="bg-dark-600 px-1 rounded">.env</code> and fills it in. Scripts read from <code class="bg-dark-600 px-1 rounded">$VARNAME</code> — never hardcoded. SKILL.md instructs the agent to check whether .env exists before using the skill.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">API keys in code or logs are serious vulnerabilities. .env.example is the industry standard: it documents what’s needed without exposing secrets. A skill that follows this practice won’t accidentally leak credentials.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">.env.example in the repo (no real values); real .env in .gitignore; scripts use os_environ or source .env; verification gate in SKILL.md ("check whether .env exists"); hard rule "NEVER log API keys".</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🔽</span>
+<div><span class="font-medium">Progressive disclosure</span><span class="text-neutral-500 text-sm ml-2">- Short SKILL.md + detailed refs</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Progressive disclosure is the principle of showing what’s essential first and providing more detail on demand. In the context of skills: SKILL.md contains the main workflow + links to details; references/ and scripts/ contain the details. The agent decides when to dive into the extra documentation.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">A 500-line SKILL.md is hard to read, expensive in tokens, and prone to internal contradictions. Progressive disclosure forces clarity: what’s always needed goes in the main file; what’s rarely needed goes in the details.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Level 1 (SKILL.md): workflow, critical rules, references; Level 2 (references/): detailed specs, extensive tables; Level 3 (scripts/): implementation; explicit links between levels; SKILL.md is always read, details are read when relevant.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🚧</span>
+<div><span class="font-medium">Hard rules</span><span class="text-neutral-500 text-sm ml-2">- rules that never break</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Hard rules are absolute restrictions written in ALL CAPS in SKILL.md: "NEVER log the API key," "ALWAYS ask for confirmation before deleting," "NEVER paraphrase the transcript — verbatim only." They differ from guidelines (suggestions) — they are inviolable.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Hard rules protect against the costliest mistakes: data leaks, unnecessary credit spending, irreversible file loss. They are the skill's safety net — the more critical the skill, the more important its hard rules.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Formatting: capitalize “NEVER,” “ALWAYS,” “NEVER”; use a dedicated “## Hard Rules” section in SKILL.md; 3-7 rules (more than that becomes noise); give each rule a short justification; test each rule with an adversarial case.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔒</span>
+<div><span class="font-medium">Confirmation gates</span><span class="text-neutral-500 text-sm ml-2">- ask before acting</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">Confirmation gates are checkpoints in the skill’s workflow where the agent pauses and asks the user before performing a costly, irreversible, or high-impact action. E.g.: "Do you confirm generating the video? (this uses 10 Arcads credits)". Implemented as explicit steps in SKILL.md.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Gates save money and time. A video generation skill without a gate can trigger 50 accidental generations in a loop. The cost of confirming is zero; the cost of not confirming can be enormous. Gates also increase the user’s trust in the skill.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Gate before costly actions ($$); gate before irreversible actions (delete, publish); show estimated cost/impact; offer an option to cancel; document gates in the "Flow" section of SKILL.md.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-3')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-3.html">View Full</a>
+</div>
+</div>
+<!-- MÓDULO 3.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-3-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-purple-400 font-bold">3.4</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🎬 Case study: ads-skill (Arcads)</h3>
+<p class="text-neutral-400 text-sm">Dissect a real production skill: frame-by-frame analysis of viral UGC + regeneration via the Arcads API with intelligent routing across 4 AI models.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔬</span>
+<div><span class="font-medium">What the skill does: 2 powers</span><span class="text-neutral-500 text-sm ml-2">- analyze and regenerate UGC</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The ads-skill does 2 distinct things: (1) <strong>Analysis</strong>: extracts frames+audio from a UGC video via ffmpeg, identifies the HOOK→SHOW→PROOF→CTA narrative structure, and produces a viral report; (2) <strong>Generation</strong>: receives 4 inputs (image/audio/video/actor) and generates a new ad via the Arcads API, routing it through the best model.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Seeing a skill with two complementary capabilities shows how to group related functionality instead of creating 2 separate skills. Analysis + generation are inseparable in the ads workflow—analysis informs the inputs for generation.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Multimodal skill (processes video/audio/images); ffmpeg for frame extraction; 15s UGC structure: [0-2s HOOK][2-6s SHOW][6-11s PROOF][11-14s CTA][14-15s LOGO]; Arcads API for generation.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🤖</span>
+<div><span class="font-medium">Routing between 4 models</span><span class="text-neutral-500 text-sm ml-2">- Seedance, Veo, Sora, Kling</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The skill routes between 4 models: <strong>Seedance 2.0</strong> (default, best lip sync), <strong>Veo 3.1</strong> (locked initial frame, visual consistency), <strong>Sora 2</strong> (long/cinematic videos), <strong>Kling 3.0</strong> (silent/aesthetic content). The routing logic is in <code class="bg-dark-600 px-1 rounded">prompting/model-routing.md</code>.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Intelligent routing within a skill shows how SKILL.md can contain nontrivial decision logic. Instead of requiring you to know 4 models, the skill abstracts the choice with clear rules.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Seedance: default for UGC with speech; Veo: when the reference frame is critical; Sora: &gt;30s or cinematic style; Kling: no audio, visual focus; rules in a dedicated routing file.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">📁</span>
+<div><span class="font-medium">Skill file structure</span><span class="text-neutral-500 text-sm ml-2">- SKILL.md + scripts + prompting</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The ads-skill has: <code class="bg-dark-600 px-1 rounded">SKILL.md</code> (frontmatter + flow + hard rules), <code class="bg-dark-600 px-1 rounded">scripts/arcads_check.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_analyze.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_actors.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_upload.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_generate.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_talking.sh</code>, <code class="bg-dark-600 px-1 rounded">arcads_status.sh</code> + <code class="bg-dark-600 px-1 rounded">prompting/</code> with 3+ files <code class="bg-dark-600 px-1 rounded">reference.md</code> + <code class="bg-dark-600 px-1 rounded">.env.example</code>.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">The ads-skill folder structure is a reference template for any skill that integrates an external API. The 7 scripts cover the full cycle: check (dependencies) → analyze (input) → actors (options) → upload (media) → generate (job) → talking (variant) → status (polling).</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Scripts named with the API prefix (arcads_*); check→analyze→upload→generate→status cycle; prompting/ with 3 files (viral-analysis, ugc-formulas, model-routing); reference.md with API docs.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">⚠️</span>
+<div><span class="font-medium">ads-skill hard rules</span><span class="text-neutral-500 text-sm ml-2">- verbatim, dialogue gate, no logs</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The 3 hard rules of the ads-skill: (1) NEVER paraphrase the video's transcript — always verbatim; (2) ALWAYS run the "dialogue gate" before generating (confirm inputs with the user to avoid wasting Arcads credits); (3) NEVER log the API key in any output or debug log.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">These 3 rules protect: (1) the integrity of viral content (paraphrasing kills the timing); (2) the budget (video generation costs real money); (3) security (leaked API keys = compromised account). They’re the bare minimum for using the skill in production.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Verbatim: copy the exact text, don't summarize or rewrite; dialogue gate: confirmation screen with estimated cost; API key: read from $ARCADS_API_KEY, never print it; 3 rules = memorable and testable.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⏱️</span>
+<div><span class="font-medium">15-second UGC structure</span><span class="text-neutral-500 text-sm ml-2">- HOOK→SHOW→PROOF→CTA</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The 15s UGC framework: <strong>[0-2s HOOK]</strong> scroll-stopping pattern interrupt; <strong>[2-6s SHOW]</strong> product/benefit demonstration; <strong>[6-11s PROOF]</strong> number/result/social proof; <strong>[11-14s CTA]</strong> clear call to action; <strong>[14-15s LOGO]</strong> brand. The skill automatically identifies and extracts each segment.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">The 15s UGC framework is the gold standard for viral mobile ads. Understanding it lets you evaluate existing UGC, identify weak spots, and regenerate the segments with issues — exactly what the skill does.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">HOOK (0-2s): surprise, question, contradiction; SHOW (2-6s): real demo, not stock footage; PROOF (6-11s): specific number, not vague; CTA (11-14s): 1 specific action; LOGO (14-15s): quick branding.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🔗</span>
+<div><span class="font-medium">How the skill exemplifies 3.1–3.3</span><span class="text-neutral-500 text-sm ml-2">- theory applied in practice</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-purple-400 font-semibold">What it is:</span><p class="text-neutral-300 text-sm">The ads-skill puts all the concepts into practice: (3.1) folder with SKILL.md + complete anatomy; (3.2) description with TRIGGER for "analyze UGC" + SKIP for non-advertising videos + kebab-case name; (3.3) 7 atomic scripts + 3 references + .env.example + progressive disclosure + 3 hard rules + dialogue gate.</p></div>
+<div><span class="text-purple-400 font-semibold">Why learn:</span><p class="text-neutral-300 text-sm">Seeing the concepts in real code removes the ambiguity of theory. Every design decision in ads-skill has a reason—and understanding the "why" behind each choice prepares you to create your own production-ready skills.</p></div>
+<div><span class="text-purple-400 font-semibold">Key Concepts:</span><p class="text-neutral-300 text-sm">Theory (3.1-3.3) → implementation (ads-skill); each skill element maps to a concept; a good skill = checklist of the previous modules; your next skill: copy the structure, adapt the domain.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-3-4')">View in Modal</button>
+<a class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors" href="modulo-3-4.html">View Full</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO -->
+<div class="flex flex-col sm:flex-row gap-4 mt-8">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha2/index.html">← Installation (T2)</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="../trilha4/index.html">Automation (T4) →</a>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-purple-400 font-bold">3.1</span><span class="font-semibold">🧩 What is a Skill</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-purple-400 font-bold">3.2</span><span class="font-semibold">🎯 Description and triggers</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-purple-400 font-bold">3.3</span><span class="font-semibold">📂 Helper scripts and references</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-3-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3"><span class="text-purple-400 font-bold">3.4</span><span class="font-semibold">🎬 Case study: ads-skill</span></div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-3-4.html"></iframe>
+</div>
+</div>
+<script>
+function toggleTopic(button) {
+  const topicItem = button.closest('.topic-item');
+  const explanation = topicItem.querySelector('.topic-explanation');
+  const moduleCard = button.closest('.bg-dark-800');
+  moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+    if (exp !== explanation) exp.classList.remove('active');
+  });
+  explanation.classList.toggle('active');
+}
+
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+}
+
+function closeModal() {
+  document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+  document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const html = document.documentElement;
+
+if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+  themeToggleDarkIcon.classList.remove('hidden');
+  html.classList.remove('dark');
+} else {
+  themeToggleLightIcon.classList.remove('hidden');
+}
+
+themeToggle.addEventListener('click', () => {
+  themeToggleDarkIcon.classList.toggle('hidden');
+  themeToggleLightIcon.classList.toggle('hidden');
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

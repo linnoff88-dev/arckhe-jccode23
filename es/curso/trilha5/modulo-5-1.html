@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>5.1 Arquitectura de un proyecto | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-teal-400 { color: #0f766e; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: #ccfbf1; }
+    html:not(.dark) .border-teal-500\/30 { border-color: #99f6e4; }
+    html:not(.dark) .from-teal-900\/30 { --tw-gradient-from: #f0fdfa; }
+    html:not(.dark) .bg-gradient-to-b,
+    html:not(.dark) .bg-gradient-to-r,
+    html:not(.dark) .bg-gradient-to-br { background-image: none; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha5/modulo-5-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha5/modulo-5-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha5/modulo-5-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha5/modulo-5-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-5-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2" href="../../index.html">
+<span class="text-xl">🤖</span>
+<span class="font-bold text-primary">Claude Code</span>
+</a>
+<a class="text-sky-400 text-sm font-medium hidden sm:block" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1">
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentos</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalación</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automatización</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Proyectos</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
+<button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="w-5 h-5" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-teal-400 transition-colors" href="../../index.html">Claude Code</a>
+<span class="mx-2">›</span>
+<a class="hover:text-teal-400 transition-colors" href="index.html">Ruta 5</a>
+<span class="mx-2">›</span>
+<span class="text-neutral-300">Módulo 5.1</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8 mb-12">
+<div class="flex items-center space-x-3 mb-4">
+<span class="text-teal-400 font-bold text-lg">5.1</span>
+<span class="text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full">Ruta 5</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h1 class="text-2xl font-bold mb-3">🏗️ Arquitectura de un proyecto</h1>
+<p class="text-neutral-300">Estructurar un proyecto duradero: carpetas, módulos, separación de responsabilidades, elección de stack, documentación de decisiones y estrategia de crecimiento incremental.</p>
+</div>
+<!-- SEÇÃO 1 — Estrutura de pastas -->
+<section class="mb-16" id="topico-1">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 📁 Estructura de carpetas que tiene sentido</h2>
+<!-- SVG inline -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-4 mb-8">
+<svg aria-label="Estructura de carpetas de un proyecto: raíz con src, scripts, docs y tests como subcarpetas directas" class="w-full h-auto" role="img" viewbox="0 0 700 200">
+<defs>
+<filter id="m51-glow"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="m51-grid" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<path d="M 20 0 L 0 0 0 20" fill="none" opacity="0.25" stroke="#2dd4bf" stroke-width="0.12"></path>
+</pattern>
+<marker id="m51-ah" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#2dd4bf"></path>
+</marker>
+</defs>
+<rect fill="url(#m51-grid)" height="200" width="700"></rect>
+<!-- Root -->
+<g filter="url(#m51-glow)">
+<rect fill="#0c1f1c" height="40" rx="10" stroke="#2dd4bf" stroke-width="2" width="160" x="270" y="12"></rect>
+</g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="350" y="37">📦 my-project/</text>
+<!-- Lines from root -->
+<line marker-end="url(#m51-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="290" x2="90" y1="52" y2="100"></line>
+<line marker-end="url(#m51-ah)" stroke="#2dd4bf" stroke-width="1.2" x1="320" x2="240" y1="52" y2="100"></line>
+<line marker-end="url(#m51-ah)" stroke="#38bdf8" stroke-width="1.2" x1="380" x2="460" y1="52" y2="100"></line>
+<line marker-end="url(#m51-ah)" stroke="#38bdf8" stroke-width="1.2" x1="410" x2="610" y1="52" y2="100"></line>
+<!-- Children -->
+<rect fill="#0c1f1c" height="40" rx="8" stroke="#2dd4bf" stroke-width="1.5" width="140" x="20" y="100"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="90" y="124">src/ — código</text>
+<rect fill="#0c1f1c" height="40" rx="8" stroke="#2dd4bf" stroke-width="1.5" width="140" x="170" y="100"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="240" y="124">scripts/ — automatización</text>
+<rect fill="#0c1f1c" height="40" rx="8" stroke="#38bdf8" stroke-width="1.5" width="140" x="390" y="100"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="460" y="124">docs/ — decisiones</text>
+<rect fill="#0c1f1c" height="40" rx="8" stroke="#38bdf8" stroke-width="1.5" width="140" x="540" y="100"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="610" y="124">tests/ — cobertura</text>
+<!-- Sub labels -->
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="90" y="160">components, utils, types</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="240" y="160">build, deploy, seed</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="460" y="160">ADRs, CHANGELOG</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="610" y="160">unit, integration, e2e</text>
+<style>
+            @media (prefers-reduced-motion: no-preference) {
+              #m51-glow feGaussianBlur { animation: none; }
+            }
+          </style>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-2">Estructura canónica de carpetas — cada directorio con una única responsabilidad</p>
+</div>
+<p class="text-neutral-300 mb-6">La estructura de carpetas es el primer contrato del proyecto. Le indica a Claude (y a cualquier colaborador) qué va en cada lugar antes de leer una línea de código.</p>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">estructura de carpetas — proyecto típico</span>
+</div>
+<pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code>my-project/
+├── src/
+│   ├── components/     # UI e lógica de apresentação
+│   ├── lib/            # Utilitários puros
+│   ├── types/          # TypeScript interfaces
+│   └── data/           # Artefatos JSON gerados
+├── scripts/
+│   ├── aggregate.ts    # Data pipeline
+│   └── setup.ts        # Setup único
+├── docs/
+│   ├── adr/            # Architecture Decision Records
+│   └── CHANGELOG.md
+├── tests/
+├── CLAUDE.md           # Instruções do agente
+├── package.json
+└── .env.example        # Template de variáveis</code></pre>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Hacer</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Cada carpeta con una responsabilidad única</li>
+<li>• Nombres en minúsculas y sin espacios</li>
+<li>• README.md o index.ts en cada carpeta</li>
+<li>• scripts/ separado de src/</li>
+<li>• docs/ para decisiones y changelog</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Evitar</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Carpeta <code class="text-red-300">misc/</code> o <code class="text-red-300">stuff/</code></li>
+<li>• Utils gigante con 50 archivos</li>
+<li>• Mezclar scripts de build con código</li>
+<li>• Archivos en la raíz sin un propósito claro</li>
+<li>• Anidamiento de más de 4 niveles</li>
+</ul>
+</div>
+</div>
+<!-- Tip box -->
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Consejo práctico</p>
+<p class="text-neutral-300 text-sm">Muestra la estructura de carpetas en CLAUDE.md con <code class="font-mono bg-dark-700 px-1 rounded text-teal-300">tree -L 2</code>. Claude entiende el proyecto sin tener que explorar archivo por archivo.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 2 — Separação de responsabilidades -->
+<section class="mb-16" id="topico-2">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 🔩 Separación de responsabilidades</h2>
+<p class="text-neutral-300 mb-6">Cada módulo debe tener una razón para existir y una razón para cambiar. Cuando esto no se respeta, cualquier cambio propaga efectos inesperados a todo el sistema.</p>
+<!-- Timeline -->
+<div class="mb-8">
+<h3 class="font-semibold mb-4 text-neutral-200">Cómo evoluciona la separación en un proyecto real</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V1</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Todo en un archivo</p>
+<p class="text-neutral-400 text-sm">Normal al principio. Un index.ts con fetch, lógica y renderizado mezclados. Funciona, pero escala mal.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V2</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Separación por capas</p>
+<p class="text-neutral-400 text-sm">Obtención de datos en <code class="font-mono text-teal-300 bg-dark-700 px-1 rounded text-xs">lib/api.ts</code>, token de sesión, reautenticación cuando vence. <code class="font-mono text-teal-300 bg-dark-700 px-1 rounded text-xs">types/</code>, componentes React aislados. Cada parte es comprobable.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">V3</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Módulos con interfaces definidas</p>
+<p class="text-neutral-400 text-sm">Cada módulo exporta una interfaz pública. La implementación interna puede cambiar sin romper otros módulos. Claude modifica un módulo a la vez.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Módulo bien separado</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Una responsabilidad clara</li>
+<li>• Interfaz pública mínima</li>
+<li>• Dependencias explícitas (parámetros)</li>
+<li>• Se puede probar de forma aislada</li>
+<li>• Se puede sustituir sin efecto en cascada</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Módulo acoplado</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Lee directamente las variables globales</li>
+<li>• Hace I/O y lógica en el mismo lugar</li>
+<li>• Importa half the codebase</li>
+<li>• Necesita una base de datos real para probar</li>
+<li>• Cambiar rompe otras 5 cosas</li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Regla práctica</p>
+<p class="text-neutral-300 text-sm">Si necesitas explicar más de dos cosas que hace un módulo, probablemente hace demasiadas. Pídele a Claude: «Identifica las responsabilidades mezcladas en este archivo».</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 3 — Escolha de stack -->
+<section class="mb-16" id="topico-3">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 🧱 Elección de stack</h2>
+<p class="text-neutral-300 mb-6">El stack es una decisión a largo plazo. Cambiar de runtime a mitad de un proyecto es costoso. Elegir bien al inicio ahorra meses de trabajo.</p>
+<!-- Conceitos box -->
+<div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6 mb-6">
+<h3 class="text-teal-400 font-semibold mb-4">Criterios para elegir stack en proyectos con Claude Code</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-2">✅ Criterios técnicos</p>
+<ul class="space-y-1 text-sm text-neutral-400">
+<li>• Rendimiento adecuado para el problema</li>
+<li>• Ecosistema de paquetes maduro</li>
+<li>• TypeScript nativo o fácil de agregar</li>
+<li>• Soporte integrado para pruebas</li>
+</ul>
+</div>
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-2">🤖 Criterios para Claude</p>
+<ul class="space-y-1 text-sm text-neutral-400">
+<li>• Stack popular = Claude lo conoce bien</li>
+<li>• Documentación pública bien indexada</li>
+<li>• Abundantes ejemplos en el entrenamiento</li>
+<li>• Errores con mensajes claros</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">ADR-001-stack.md — ejemplo de registro de decisión</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># ADR-001: Escolha de runtime — Bun
+
+## Status: Aceito (2026-05-01)
+
+## Contexto
+Projeto precisa de: TypeScript nativo, execução rápida
+de scripts, bundler integrado, compatibilidade Node.js.
+
+## Opções consideradas
+- Node.js + tsx: familiar, mas startup lento
+- Deno: boa DX, mas ecossistema menor
+- Bun: startup 3x mais rápido, bundler nativo, TS out-of-box
+
+## Decisão
+Usar Bun como runtime principal.
+
+## Consequências
++ Scripts de build ~200ms (vs ~600ms com Node)
++ Sem configuração adicional de TypeScript
+- Alguns pacotes npm com compatibilidade parcial
+- Equipe precisa instalar Bun (curl ... | bash)</code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Stacks con mejor soporte de Claude en 2026</p>
+<p class="text-neutral-300 text-sm">TypeScript/Node/Bun, React/Next.js, Python/FastAPI, Go stdlib. Los frameworks de nicho o muy nuevos reciben menos soporte; prefiere los más populares cuando te dé igual cuál elegir.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4 — Documentar decisões -->
+<section class="mb-16" id="topico-4">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📝 Documentar decisiones con ADRs</h2>
+<p class="text-neutral-300 mb-6">Los Architecture Decision Records (ADRs) son documentos breves que registran por qué se tomó una decisión, qué opciones se consideraron y cuáles son las consecuencias esperadas.</p>
+<!-- Grid de cards de conceito -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<div class="text-2xl mb-2">📍</div>
+<h4 class="font-semibold text-teal-400 mb-2">Contexto</h4>
+<p class="text-sm text-neutral-400">¿Por qué hubo que tomar esta decisión? ¿Cuál era el problema o la oportunidad?</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<div class="text-2xl mb-2">🔀</div>
+<h4 class="font-semibold text-teal-400 mb-2">Opciones</h4>
+<p class="text-sm text-neutral-400">¿Qué alternativas se evaluaron? ¿Por qué se aceptó o rechazó cada una?</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<div class="text-2xl mb-2">⚖️</div>
+<h4 class="font-semibold text-teal-400 mb-2">Consecuencias</h4>
+<p class="text-sm text-neutral-400">¿Qué cambia después de la decisión? Beneficios positivos y negativos esperados.</p>
+</div>
+</div>
+<!-- Alerta -->
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5 mb-6">
+<div class="flex items-start gap-3">
+<span class="text-red-400 text-lg">⚠️</span>
+<div>
+<p class="text-red-400 font-semibold text-sm mb-1">Cuidado con los ADR desactualizados</p>
+<p class="text-neutral-300 text-sm">Un ADR que ya no refleja la realidad es peor que no tener ninguno. Claude seguirá instrucciones obsoletas. Revisa los ADR cada vez que cambie la decisión, aunque sea para marcar "Reemplazado por ADR-007".</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 5 — Começar pequeno -->
+<section class="mb-16" id="topico-5">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🌱 Empezar poco a poco y crecer</h2>
+<p class="text-neutral-300 mb-6">Los proyectos con Claude evolucionan rápido. La trampa es planificar una arquitectura compleja antes de validar el núcleo. Primero, un walking skeleton; después, los detalles.</p>
+<!-- Timeline de evolução -->
+<div class="mb-8">
+<h3 class="font-semibold mb-4 text-neutral-200">Ciclo de crecimiento saludable</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">🥚</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Semana 1 — Núcleo funcional</p>
+<p class="text-neutral-400 text-sm">Un archivo que hace lo más importante. Sin abstracciones prematuras. Valida la hipótesis principal.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">🐣</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Semana 2-4 — Separación</p>
+<p class="text-neutral-400 text-sm">Extraer módulos a medida que surjan patrones. Agregar pruebas para el núcleo validado.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">🐔</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Mes 2+ — Escala</p>
+<p class="text-neutral-400 text-sm">Agregar features sobre una base sólida. La arquitectura se estableció de forma orgánica, no se diseñó en el vacío.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">YAGNI con Claude</p>
+<p class="text-neutral-300 text-sm">"You Aren't Gonna Need It" es doblemente importante con los LLM. Claude puede generar abstracciones elaboradas rápidamente, pero las abstracciones prematuras crean deuda técnica invisible. Pide siempre primero la solución más simple.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 6 — Visão de longo prazo -->
+<section class="mb-12" id="topico-6">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔭 Visión a largo plazo</h2>
+<p class="text-neutral-300 mb-6">Los proyectos perduran cuando tienen rituales de mantenimiento, no solo features. Lo que haces cada semana importa más que la arquitectura inicial.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Rituales saludables</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Revisión semanal de TODOs/FIXMEs</li>
+<li>• CHANGELOG actualizado con cada versión</li>
+<li>• Dependencias actualizadas mensualmente</li>
+<li>• CLAUDE.md revisado trimestralmente</li>
+<li>• Métricas de cobertura monitoreadas</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Señales de un proyecto enfermo</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• CHANGELOG abandonado en la V0.1</li>
+<li>• Dependencias con 2 años de retraso</li>
+<li>• CLAUDE.md nunca se actualizó</li>
+<li>• TODO que se acumulan sin limpieza</li>
+<li>• Nadie sabe por qué existe X</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8">
+<h2 class="text-xl font-bold mb-6">📋 Resumen del módulo</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">✅ Aprendiste</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• Estructura de carpetas con responsabilidad única</li>
+<li>• Separación de responsabilidades por módulo</li>
+<li>• Criterios para elegir el stack</li>
+<li>• ADR como memoria de decisiones</li>
+<li>• Crecimiento incremental con YAGNI</li>
+<li>• Rituales de mantenimiento saludable</li>
+</ul>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">🚀 Próximos pasos</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• Crea la estructura de carpetas de tu proyecto</li>
+<li>• Escribe el primer ADR de stack</li>
+<li>• Define las responsabilidades de cada módulo</li>
+<li>• Configura el CLAUDE.md con el mapa de carpetas</li>
+</ul>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 justify-start">
+<a class="px-5 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors font-medium" href="modulo-5-2.html">Siguiente: 5.2 CLAUDE.md →</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="index.html">← Volver a la ruta</a>
+</div>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

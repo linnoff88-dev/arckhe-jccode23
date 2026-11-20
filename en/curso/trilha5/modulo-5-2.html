@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>5.2 CLAUDE.md and persistent memory | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-teal-400 { color: #0f766e; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: #ccfbf1; }
+    html:not(.dark) .border-teal-500\/30 { border-color: #99f6e4; }
+    html:not(.dark) .from-teal-900\/30 { --tw-gradient-from: #f0fdfa; }
+    html:not(.dark) .bg-gradient-to-b,
+    html:not(.dark) .bg-gradient-to-r,
+    html:not(.dark) .bg-gradient-to-br { background-image: none; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha5/modulo-5-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha5/modulo-5-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha5/modulo-5-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-5-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha5/modulo-5-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2" href="../../index.html">
+<span class="text-xl">🤖</span>
+<span class="font-bold text-primary">Claude Code</span>
+</a>
+<a class="text-sky-400 text-sm font-medium hidden sm:block" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1">
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentals</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Installation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projects</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
+<button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="w-5 h-5" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-teal-400 transition-colors" href="../../index.html">Claude Code</a>
+<span class="mx-2">›</span>
+<a class="hover:text-teal-400 transition-colors" href="index.html">Track 5</a>
+<span class="mx-2">›</span>
+<span class="text-neutral-300">Module 5.2</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8 mb-12">
+<div class="flex items-center space-x-3 mb-4">
+<span class="text-teal-400 font-bold text-lg">5.2</span>
+<span class="text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full">Track 5</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h1 class="text-2xl font-bold mb-3">🧠 CLAUDE.md and persistent memory</h1>
+<p class="text-neutral-300">CLAUDE.md as the project's permanent instructions. Memory between sessions, what to keep vs. avoid, concise context, and team conventions that Claude actually follows.</p>
+</div>
+<!-- SEÇÃO 1 — O que é o CLAUDE.md -->
+<section class="mb-16" id="topico-1">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 📄 What is CLAUDE.md?</h2>
+<!-- SVG inline — fluxo de leitura do CLAUDE.md -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-4 mb-8">
+<svg aria-label="Flow: Claude starts a session → reads CLAUDE.md → understands project context → responds accurately" class="w-full h-auto" role="img" viewbox="0 0 700 160">
+<defs>
+<filter id="m52-glow"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="m52-grid" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<path d="M 20 0 L 0 0 0 20" fill="none" opacity="0.25" stroke="#2dd4bf" stroke-width="0.12"></path>
+</pattern>
+<marker id="m52-ah" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#2dd4bf"></path>
+</marker>
+<marker id="m52-ahc" markerheight="6" markerwidth="6" orient="auto" refx="3" refy="3">
+<path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"></path>
+</marker>
+</defs>
+<rect fill="url(#m52-grid)" height="160" width="700"></rect>
+<!-- Step 1 -->
+<rect fill="#0c1f1c" height="50" rx="10" stroke="#2dd4bf" stroke-width="2" width="140" x="10" y="55"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="80" y="76">🚀 Session</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="80" y="94">Claude starts</text>
+<line marker-end="url(#m52-ah)" stroke="#2dd4bf" stroke-width="1.5" x1="150" x2="178" y1="80" y2="80"></line>
+<!-- Step 2 -->
+<g filter="url(#m52-glow)">
+<rect fill="#0c1f1c" height="70" rx="10" stroke="#2dd4bf" stroke-width="2" width="160" x="180" y="45"></rect>
+</g>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="260" y="73">📄 CLAUDE.md</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="260" y="91">automatic reading</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="260" y="107">at startup</text>
+<line marker-end="url(#m52-ah)" stroke="#2dd4bf" stroke-width="1.5" x1="340" x2="368" y1="80" y2="80"></line>
+<!-- Step 3 -->
+<rect fill="#0e1b26" height="60" rx="10" stroke="#38bdf8" stroke-width="1.5" width="150" x="370" y="50"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="445" y="75">🧠 Context</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="445" y="93">understood project</text>
+<line marker-end="url(#m52-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="520" x2="548" y1="80" y2="80"></line>
+<!-- Step 4 -->
+<rect fill="#0e1b26" height="50" rx="10" stroke="#38bdf8" stroke-width="1.5" width="140" x="550" y="55"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="620" y="76">✅ Response</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="620" y="94">precise and consistent</text>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-2">CLAUDE.md is read automatically at the start of each session</p>
+</div>
+<p class="text-neutral-300 mb-6">CLAUDE.md isn't just a README. It's the instruction file Claude reads before any prompt. It defines what the project is, how it works, and which rules the agent must follow.</p>
+<!-- Code box — CLAUDE.md de exemplo -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">CLAUDE.md — recommended structure</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># my-project — Instruções do agente
+
+## Visão geral
+Dashboard pessoal de produtividade. Stack: Bun + React +
+Vite + Tailwind. Deploy: Cloudflare Pages via wrangler.
+
+## Estrutura do projeto
+```
+src/          → componentes React e lógica de UI
+scripts/      → data pipeline e automação
+docs/adr/     → decisões de arquitetura
+```
+
+## Regras obrigatórias
+- NUNCA ler ou escrever arquivos fora deste repo
+- Dashboard é READ-ONLY — sem mutações de dados
+- Variáveis sensíveis em .env (nunca em src/)
+- Commits seguem Conventional Commits
+
+## Stack e versões
+- Bun 1.1.x como runtime
+- React 19 + TanStack Query v5
+- Tailwind CSS 4.x
+
+## Convenções de código
+- TypeScript strict mode ativado
+- Nomes de arquivos em kebab-case
+- Componentes em PascalCase
+- testes com Vitest</code></pre>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Effective CLAUDE.md</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Overview in 2-3 lines</li>
+<li>• Folder structure with a purpose</li>
+<li>• Explicit mandatory rules</li>
+<li>• Pinned stack versions</li>
+<li>• Naming conventions</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Problematic CLAUDE.md</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• 500 lines of project history</li>
+<li>• API tokens in plain text</li>
+<li>• Vague rules ("be careful")</li>
+<li>• 6 months out of date</li>
+<li>• Copying and pasting generic docs</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 2 — Memória entre sessões -->
+<section class="mb-16" id="topico-2">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 💾 Memory across sessions</h2>
+<p class="text-neutral-300 mb-6">Claude has no native memory between sessions. All "memory" must be built explicitly as files Claude can read in the next session.</p>
+<!-- Timeline de estratégias de memória -->
+<div class="mb-8">
+<h3 class="font-semibold mb-4 text-neutral-200">Explicit memory hierarchy</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">📄</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">CLAUDE.md — permanent memory</p>
+<p class="text-neutral-400 text-sm">Instructions that never change between sessions: architecture, rules, stack, conventions. Read automatically.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">📋</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">docs/decisions.md — decision log</p>
+<p class="text-neutral-400 text-sm">Log of decisions made with Claude. "On 2026-05-10, we decided to use TanStack Query instead of SWR because..."</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">💬</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Session handoff prompt — previous session context</p>
+<p class="text-neutral-400 text-sm">When wrapping up: "Summarize what we did today in 5 bullets and save it to docs/session-2026-05-15.md".</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Tip: session handoff</p>
+<p class="text-neutral-300 text-sm">At the end of a long session, ask: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Escreva um handoff de sessão em docs/handoff.md: o que foi feito, o que está pendente e quaisquer decisões tomadas."</code> In your next session, ask Claude to read the handoff before getting started.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 3 — Contexto enxuto -->
+<section class="mb-16" id="topico-3">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> ✂️ Lean context</h2>
+<p class="text-neutral-300 mb-6">A 2,000-line CLAUDE.md is as useless as a 10-line one. Critical information should come first, and every line should justify its presence.</p>
+<div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6 mb-6">
+<h3 class="text-teal-400 font-semibold mb-4">Information priority in CLAUDE.md</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+<div class="bg-dark-800 rounded-lg p-3 flex-1">
+<p class="font-medium text-sm">Overview + project purpose</p>
+<p class="text-neutral-500 text-xs">What the project does in 2-3 lines</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+<div class="bg-dark-800 rounded-lg p-3 flex-1">
+<p class="font-medium text-sm">Mandatory rules and restrictions</p>
+<p class="text-neutral-500 text-xs">What Claude must NEVER do</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+<div class="bg-dark-800 rounded-lg p-3 flex-1">
+<p class="font-medium text-sm">Stack and folder structure</p>
+<p class="text-neutral-500 text-xs">Where everything goes</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-dark-600 border border-dark-600 text-neutral-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+<div class="bg-dark-800 rounded-lg p-3 flex-1 opacity-70">
+<p class="font-medium text-sm">Conventions and preferences</p>
+<p class="text-neutral-500 text-xs">Names, commits, code review</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ What to include</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Project purpose (2 lines)</li>
+<li>• Critical security restrictions</li>
+<li>• Stack with important versions</li>
+<li>• Folder map with tree</li>
+<li>• Conventions that differ from the standard</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ What not to include</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Tokens, API keys, passwords</li>
+<li>• Complete decision history</li>
+<li>• Tutorials on how to use the stack</li>
+<li>• All CHANGELOG content</li>
+<li>• Comments about past sessions</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4 — Convenções do time -->
+<section class="mb-16" id="topico-4">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📋 Team conventions</h2>
+<p class="text-neutral-300 mb-6">Claude follows conventions when they are written explicitly. Without that, it adopts its own conventions — which may be good, but won't be yours.</p>
+<!-- Code box de convenções -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">CLAUDE.md — conventions section</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>## Convenções de código
+
+### Nomenclatura
+- Arquivos: kebab-case (meu-componente.tsx)
+- Componentes React: PascalCase (MeuComponente)
+- Funções: camelCase (calcularTotal)
+- Constantes: UPPER_SNAKE_CASE (MAX_RETRIES)
+- Tipos/interfaces: PascalCase (UserData)
+
+### Commits (Conventional Commits)
+- feat: nova feature
+- fix: correção de bug
+- refactor: refatoração sem mudança de comportamento
+- docs: documentação
+- test: testes
+
+### Git
+- Branches: feat/nome-da-feature ou fix/nome-do-bug
+- Sem commits direto na main
+- PR revisado antes de merge
+
+### Imports
+- Absolutos quando disponível (src/lib/utils)
+- Relativos para arquivos no mesmo diretório</code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Vague conventions don't work</p>
+<p class="text-neutral-300 text-sm">"Use descriptive names" isn't a convention; it's an aspiration. "Functions in camelCase, files in kebab-case, constants in UPPER_SNAKE" is a convention Claude can follow mechanically.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 5 — O que guardar vs não guardar -->
+<section class="mb-16" id="topico-5">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🔐 What to Store vs. What Not to Store</h2>
+<p class="text-neutral-300 mb-6">CLAUDE.md is a version-controlled file—any sensitive data in it can leak through git history, an accidental push to a public repository, or API logs.</p>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5 mb-6">
+<div class="flex items-start gap-3">
+<span class="text-red-400 text-lg">⚠️</span>
+<div>
+<p class="text-red-400 font-semibold text-sm mb-1">Never put in CLAUDE.md</p>
+<ul class="text-neutral-300 text-sm space-y-1 mt-2">
+<li>• <code class="font-mono bg-dark-800 px-1 rounded text-red-300">OPENAI_API_KEY=sk-...</code></li>
+<li>• Database credentials</li>
+<li>• OAuth or JWT tokens</li>
+<li>• Users' personal data</li>
+<li>• Private keys or certificates</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Code box — .env.example -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">.env.example — safe template</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># Copie para .env e preencha os valores reais
+# NUNCA commit o .env — está no .gitignore
+
+OPENAI_API_KEY=          # sua chave OpenAI
+ANTHROPIC_API_KEY=       # sua chave Anthropic
+PINECONE_API_KEY=        # sua chave Pinecone
+DATABASE_URL=            # postgresql://...
+CLOUDFLARE_ACCOUNT_ID=   # ver Cloudflare Dashboard</code></pre>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ In CLAUDE.md</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Environment variable names (no values)</li>
+<li>• Where the configs are stored</li>
+<li>• Access and permission rules</li>
+<li>• Which data is sensitive</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ In CLAUDE.md</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Actual API key values</li>
+<li>• Connection strings with passwords</li>
+<li>• Production user data</li>
+<li>• Internal company secrets</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 6 — Evolução do CLAUDE.md -->
+<section class="mb-12" id="topico-6">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔄 Evolution of CLAUDE.md</h2>
+<p class="text-neutral-300 mb-6">CLAUDE.md is a living document. Projects change, stacks evolve, and conventions improve. The file needs to keep up with that evolution.</p>
+<!-- Timeline de revisão -->
+<div class="mb-8">
+<h3 class="font-semibold mb-4 text-neutral-200">Review cadence</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">📅</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600">
+<p class="font-semibold text-sm mb-1">With every stack change — immediate</p>
+<p class="text-neutral-400 text-sm">Switched from Node to Bun? Update CLAUDE.md in the same PR. Never let it diverge from reality.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">🗓️</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600">
+<p class="font-semibold text-sm mb-1">Monthly — remove obsolete items</p>
+<p class="text-neutral-400 text-sm">Remove references to deleted modules, update package versions, and review rules that no longer make sense.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center text-lg flex-shrink-0">📆</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600">
+<p class="font-semibold text-sm mb-1">Quarterly — full review</p>
+<p class="text-neutral-400 text-sm">Reread everything with a critical eye: what is still true? What changed? What is missing?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">CLAUDE.md in git</p>
+<p class="text-neutral-300 text-sm">Version the CLAUDE.md file in git like any other file. This creates a history of how the instructions evolved and lets you roll back if a change causes unexpected behavior.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8">
+<h2 class="text-xl font-bold mb-6">📋 Module summary</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">✅ You learned</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• CLAUDE.md as permanent instructions</li>
+<li>• Explicit memory hierarchy</li>
+<li>• Lean, prioritized context</li>
+<li>• Mechanical language conventions</li>
+<li>• Security: what should never go in CLAUDE.md</li>
+<li>• Document review cadence</li>
+</ul>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">🚀 Next Steps</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• Write your project's CLAUDE.md</li>
+<li>• Create a .env.example with all vars</li>
+<li>• Configure the session handoff workflow</li>
+<li>• Schedule a quarterly review on the calendar</li>
+</ul>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 justify-start">
+<a class="px-5 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors font-medium" href="modulo-5-3.html">Next: 5.3 Version Control →</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="modulo-5-1.html">← 5.1 Architecture</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="index.html">↩ Track 5</a>
+</div>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 2.2 — Autenticación y primer uso | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.4s} .wf-a:nth-child(3){animation-delay:.8s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha2/modulo-2-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha2/modulo-2-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha2/modulo-2-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha2/modulo-2-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-2-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Ruta 2</a>
+<span>/</span>
+<span class="text-blue-400">Módulo 2.2</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔑 Autenticación y primer uso</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Ejecutar <code class="font-mono text-sm">claude</code> por primera vez, flujo de inicio de sesión, diferencia entre API key y suscripción, el prompt interactivo y cómo retomar sesiones.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Básico</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Práctica</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: Primeiro boot -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🚀 Ejecutar claude por primera vez</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Escribe <code class="font-mono bg-dark-700 px-2 py-0.5 rounded">claude</code> en la terminal. En la <strong class="text-blue-400">primera ejecución</strong>, Claude Code no abre el REPL directamente: detecta que no hay credenciales e inicia el flujo de configuración inicial.</p>
+<!-- Timeline de primeiro boot -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Detecta la falta de credenciales</h4>
+<p class="text-sm text-neutral-400 mb-2">Claude Code verifica <code class="font-mono text-xs">~/.claude/</code></p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>Welcome to Claude Code!
+To get started, you'll need to authenticate...</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Muestra las opciones de autenticación</h4>
+<p class="text-sm text-neutral-400 mb-2">Elige entre una cuenta de Anthropic (OAuth) o una API key</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>1. Login with Anthropic account (browser)
+2. Enter API key manually
+&gt; </code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Browser abierto (opción 1)</h4>
+<p class="text-sm text-neutral-400 mb-2">Se autentica mediante OAuth, el token se guarda localmente</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>Opening browser for authentication...
+✓ Authentication successful
+✓ Session saved to ~/.claude/</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">El REPL interactivo se abre</h4>
+<p class="text-sm text-neutral-400 mb-2">Listo para recibir tu primer prompt</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>Claude Code (claude-sonnet-4-5)
+Working directory: /home/user/meu-projeto
+&gt; </code></pre>
+</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 2: Login e autenticação -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔐 Flujo de inicio de sesión detallado</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code usa <strong class="text-blue-400">OAuth2 vía browser</strong> como método principal. Las credenciales están en <code class="font-mono bg-dark-700 px-2 py-0.5 rounded text-sm">~/.claude/</code> y son válidas hasta que expiran (por lo general, semanas).</p>
+<!-- SVG: fluxo de autenticação -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Flujo de autenticación OAuth: terminal claude → Anthropic OAuth → inicio de sesión en el navegador → token → ~/.claude/ → REPL listo" class="w-full h-auto" role="img" viewbox="0 0 860 170">
+<defs>
+<lineargradient id="m22-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m22-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="26" id="m22-grid" patternunits="userSpaceOnUse" width="26">
+<circle cx="1.2" cy="1.2" fill="#3b82f6" opacity="0.10" r="1.2"></circle>
+</pattern>
+<marker id="m22-ah" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#60a5fa"></path></marker>
+<marker id="m22-ahc" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m22-grid)" height="170" width="860"></rect>
+<!-- Setas -->
+<g fill="none" opacity="0.55" stroke-width="1.8">
+<path d="M115,85 L148,85" marker-end="url(#m22-ah)" stroke="#60a5fa"></path>
+<path d="M265,85 L298,85" marker-end="url(#m22-ah)" stroke="#60a5fa"></path>
+<path d="M416,85 L449,85" marker-end="url(#m22-ahc)" stroke="#38bdf8"></path>
+<path d="M567,85 L600,85" marker-end="url(#m22-ahc)" stroke="#38bdf8"></path>
+<path d="M718,85 L748,85" marker-end="url(#m22-ah)" stroke="#60a5fa"></path>
+</g>
+<!-- Caixas -->
+<g filter="url(#m22-glow)"><rect fill="#0e1622" height="54" rx="10" stroke="url(#m22-grad)" stroke-width="2" width="105" x="10" y="58"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="62" y="82">$ claude</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="62" y="100">en auth</text>
+<rect fill="#0e1622" height="54" rx="10" stroke="#60a5fa" stroke-width="2" width="117" x="148" y="58"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="207" y="82">Anthropic</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="207" y="98">OAuth server</text>
+<rect fill="#0e1b26" height="54" rx="10" stroke="#38bdf8" stroke-width="2" width="118" x="298" y="58"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="357" y="80">Browser</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="357" y="97">inicio de sesión/aprobación</text>
+<rect fill="#0e1b26" height="54" rx="10" stroke="#38bdf8" stroke-width="2" width="118" x="449" y="58"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="508" y="80">Token OAuth</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="508" y="97">vuelve al CLI</text>
+<rect fill="#0e1622" height="54" rx="10" stroke="#60a5fa" stroke-width="2" width="118" x="600" y="58"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="659" y="78">~/.claude/</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="659" y="95">token guardado</text>
+<g filter="url(#m22-glow)"><rect fill="#0e1622" height="54" rx="10" stroke="url(#m22-grad)" stroke-width="2.5" width="100" x="748" y="58"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="798" y="80">REPL</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="798" y="97">listo ✓</text>
+</svg>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Comandos de autenticación</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Autenticar pela primeira vez (abre browser)</span>
+claude
+
+<span class="text-blue-400"># Verificar status de autenticação</span>
+claude --status
+
+<span class="text-blue-400"># Forçar reautenticação</span>
+claude --logout
+claude
+
+<span class="text-blue-400"># Ver onde as credenciais estão salvas</span>
+ls ~/.claude/
+
+<span class="text-blue-400"># Autenticar em ambiente sem browser (API key)</span>
+export ANTHROPIC_API_KEY="sk-ant-..."
+claude</code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> ¿El token vence? No te preocupes</h3>
+<p class="text-neutral-300">Cuando el token OAuth vence, Claude Code te avisa en la siguiente sesión y vuelve a abrir el navegador automáticamente. El flujo es idéntico al del primer inicio de sesión. Tus configuraciones e historial no se ven afectados.</p>
+</div>
+</section>
+<!-- TÓPICO 3: API key vs assinatura -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">💳 API key vs. suscripción</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Dos formas de pagar por el uso. La elección correcta depende de tu volumen de uso — <strong class="text-blue-400">uso esporádico</strong> favorece la API key, <strong class="text-blue-400">uso diario intenso</strong> favorece la suscripción Claude Max.</p>
+<!-- Grid comparativo -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">🔑 API Key (pago por uso)</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Pagas por token consumido (input + output)</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Ideal para uso ocasional o scripts automatizados</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Control granular de costos</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Límites de rate por minuto/día</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Variable: <code class="font-mono text-xs bg-dark-700 px-1 rounded">ANTHROPIC_API_KEY</code></span></li>
+</ul>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">📋 Claude Max (suscripción)</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Cuota fija mensual generosa</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Mejor relación costo-beneficio para uso diario (8h/día)</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Acceso a los modelos más recientes</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>Inicio de sesión mediante OAuth en el navegador (sin API key)</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">•</span><span>La cuota se restablece mensualmente</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Usar una clave de API en Claude Code</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Opção 1: variável de ambiente (sessão atual)</span>
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+claude
+
+<span class="text-blue-400"># Opção 2: persistir no .bashrc ou .zshrc</span>
+echo 'export ANTHROPIC_API_KEY="sk-ant-api03-..."' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+<span class="text-blue-400"># Opção 3: informar na autenticação interativa</span>
+claude
+<span class="text-neutral-500"># Escolher opção 2 (Enter API key manually)</span>
+<span class="text-neutral-500"># Colar a chave quando solicitado</span>
+
+<span class="text-blue-400"># Verificar qual método está sendo usado</span>
+claude --status</code></pre>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Nunca expongas tu API key</h3>
+<p class="text-neutral-300">No hagas <code class="font-mono text-sm bg-dark-700 px-1.5 rounded">git add .env</code> o commit de archivos con <code class="font-mono text-sm bg-dark-700 px-1.5 rounded">ANTHROPIC_API_KEY</code>. Añade a <code class="font-mono text-sm bg-dark-700 px-1.5 rounded">.gitignore</code>. Anthropic detecta y revoca automáticamente las claves expuestas en repos públicos, pero el daño puede estar hecho.</p>
+</div>
+</section>
+<!-- TÓPICO 4: O prompt interativo -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">💬 El prompt interactivo (REPL)</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">El REPL de Claude Code acepta <strong class="text-blue-400">lenguaje natural</strong>, comandos slash y referencias a archivos con @. Entender estos tres inputs multiplica tu productividad.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Qué puedes escribir</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Solicitudes en portugués: "Crea un servidor Express básico"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Referencia a archivos: "Refactoriza @src/api.js"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Comandos slash: <code class="font-mono text-xs">/help</code>, <code class="font-mono text-xs">/clear</code>, <code class="font-mono text-xs">/status</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Mensajes largos: Shift+Enter para una nueva línea</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Contexto acumulativo: Claude recuerda la conversación</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Evitar en el REPL</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Solicitudes vagas sin contexto: "mejora el código"</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tareas muy grandes en un solo prompt</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pegar secretos/tokens directamente en el chat</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignorar las confirmaciones de permisos</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Comandos slash más útiles</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>/help          <span class="text-neutral-500"># Lista todos os comandos disponíveis</span>
+/clear         <span class="text-neutral-500"># Limpa o contexto da conversa atual</span>
+/status        <span class="text-neutral-500"># Mostra modelo, uso de contexto, autenticação</span>
+/exit          <span class="text-neutral-500"># Sair do REPL (ou Ctrl+C)</span>
+/mcp           <span class="text-neutral-500"># Lista servidores MCP conectados</span>
+/init          <span class="text-neutral-500"># Gera CLAUDE.md para o projeto atual</span>
+/cost          <span class="text-neutral-500"># Mostra tokens usados na sessão</span></code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Usa @ para hacer referencia a archivos</h3>
+<p class="text-neutral-300 mb-2">Escribir <code class="font-mono bg-dark-700 px-2 py-0.5 rounded text-sm">@</code> en el REPL se abre el autocompletado de archivos del proyecto. Puedes hacer referencia a un archivo específico sin pegar el contenido manualmente:</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-700/50 rounded p-3 mt-2"><code>&gt; Explique o que faz @src/auth/middleware.js e sugira melhorias</code></pre>
+</div>
+</section>
+<!-- TÓPICO 5: Primeiros comandos reais -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">⌨️ Primeros comandos reales</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Ponte manos a la obra ahora. Estas son las primeras solicitudes que le harás a Claude Code; cada una demuestra una capacidad diferente.</p>
+<div class="space-y-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-2">1. Crear un archivo</h4>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded p-3"><code>&gt; Crie um arquivo README.md para este projeto com seções básicas</code></pre>
+<p class="text-xs text-neutral-500 mt-2">Claude pide confirmación antes de escribir → tú apruebas → archivo creado</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-2">2. Explorar el proyecto</h4>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded p-3"><code>&gt; O que faz este projeto? Leia os arquivos principais e me explique</code></pre>
+<p class="text-xs text-neutral-500 mt-2">La lectura es segura: no requiere confirmación. Claude lee y resume el codebase</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-2">3. Ejecutar comando</h4>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded p-3"><code>&gt; Rode os testes e me diga se todos passaram</code></pre>
+<p class="text-xs text-neutral-500 mt-2">Claude pide permiso para ejecutar bash → tú apruebas → ejecuta e informa</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-2">4. Refactorizar código</h4>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded p-3"><code>&gt; Refatore @src/index.js para usar async/await em vez de callbacks</code></pre>
+<p class="text-xs text-neutral-500 mt-2">Claude muestra el diff antes de aplicarlo → tú revisas → apruebas o cancelas</p>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Bucle de confirmación</h3>
+<p class="text-neutral-300 mb-3">Toda acción que <strong>modifica archivos o ejecuta comandos</strong> pasa por una confirmación. Este es el mecanismo central de seguridad:</p>
+<ul class="space-y-2 text-neutral-300">
+<li><strong class="text-blue-400">y</strong> → aprobar y ejecutar</li>
+<li><strong class="text-blue-400">n</strong> → rechazar (Claude intenta un enfoque alternativo)</li>
+<li><strong class="text-blue-400">a</strong> → aprobar todas las acciones pendientes de esta tarea</li>
+<li><strong class="text-blue-400">Ctrl+C</strong> → cancelar tarea actual</li>
+</ul>
+</div>
+</section>
+<!-- TÓPICO 6: Sair e retomar -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔄 Salir, retomar y administrar sesiones</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Las sesiones de Claude Code tienen un contexto que se puede retomar. Entender el ciclo de vida de la sesión evita perder contexto importante a mitad de un proyecto.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Comandos de sesión</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Sair do REPL</span>
+/exit          <span class="text-neutral-500"># ou Ctrl+C duas vezes</span>
+
+<span class="text-blue-400"># Retomar sessão anterior do mesmo diretório</span>
+claude --resume
+
+<span class="text-blue-400"># Ver sessões disponíveis</span>
+claude --list-sessions
+
+<span class="text-blue-400"># Iniciar sessão sem histórico (limpa)</span>
+claude --no-resume
+
+<span class="text-blue-400"># Usar claude sem REPL (modo print, para scripts)</span>
+claude --print "Gere um script Python para ordenar arquivos por data"
+
+<span class="text-blue-400"># Passar contexto via stdin</span>
+cat meu_arquivo.py | claude --print "Explique este código"</code></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Buenas prácticas de sesión</h4>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usa <code class="font-mono text-xs">/clear</code> cuando cambies de tarea</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Retoma con <code class="font-mono text-xs">--resume</code> para continuar con los bugs</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usa <code class="font-mono text-xs">/status</code> para ver los tokens usados</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6">
+<h4 class="font-bold text-primary mb-4">💡 Contexto y tokens</h4>
+<p class="text-neutral-300 text-sm">Cada sesión consume tokens de contexto. Las sesiones largas se vuelven más costosas y lentas. Usa <code class="font-mono text-xs">/clear</code> para restablecer cuando el contexto ya no sea necesario.</p>
+</div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumen del Módulo 2.2</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Primer arranque</strong><span class="text-neutral-400"> detecta la ausencia de credenciales e inicia el onboarding automático</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">OAuth vía browser</strong><span class="text-neutral-400"> es el método más sencillo para una cuenta de Anthropic</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">API key</strong><span class="text-neutral-400"> vía <code class="font-mono text-sm">ANTHROPIC_API_KEY</code> para automatización y CI/CD</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">REPL</strong><span class="text-neutral-400"> acepta lenguaje natural, comandos slash y referencias @archivo</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Bucle de confirmación</strong><span class="text-neutral-400"> protege toda acción destructiva</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">2.3 — Configuración: settings.json y permisos. Control total del comportamiento de Claude Code en tu entorno.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-2-1.html">← Módulo 2.1</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-3.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

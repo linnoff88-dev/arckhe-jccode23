@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Automação | Claude Code — Do Zero ao Projeto</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides - Base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (T4 Amber) */
+    html:not(.dark) .text-amber-400 { color: #92400e; }
+    html:not(.dark) .bg-amber-500\/20 { background-color: rgba(217, 119, 6, 0.12); }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(217, 119, 6, 0.25); }
+    html:not(.dark) .hover\:bg-amber-500\/30:hover { background-color: rgba(217, 119, 6, 0.18); }
+    html:not(.dark) .hover\:text-amber-400:hover { color: #92400e; }
+    html:not(.dark) .hover\:border-amber-500\/30:hover { border-color: rgba(217, 119, 6, 0.25); }
+    html:not(.dark) .from-amber-900\/30 { --tw-gradient-from: rgba(120, 53, 15, 0.1); }
+    html:not(.dark) .bg-amber-900\/20 { background-color: rgba(120, 53, 15, 0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-amber-400 { color: #92400e; }
+
+    /* Light mode - remove gradientes */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+
+    /* Light mode - cores especiais */
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+
+    /* Light mode - nav */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG light mode */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Pulse animation */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha4/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha4/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha4/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha4/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha4/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVEGAÇÃO GLOBAL -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="ml-2 p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors" id="theme-toggle">
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-4 h-4" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- HEADER DA TRILHA -->
+<div class="bg-gradient-to-br from-amber-900/30 via-dark-800 to-dark-800 rounded-2xl border border-amber-500/30 p-8 mb-8">
+<div class="flex flex-col lg:flex-row items-start lg:items-center gap-8">
+<div class="flex-1">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-400 text-sm font-semibold mb-4">
+            TRILHA 4
+          </div>
+<h1 class="text-3xl sm:text-4xl font-bold mb-3">🔁 Automação</h1>
+<p class="text-neutral-400 text-lg mb-6">Subagents, hooks, slash commands e tarefas recorrentes — coloque o Claude Code no piloto automático e multiplique sua produtividade.</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-700/50 rounded-xl p-4 text-center">
+<div class="text-2xl font-bold text-amber-400">4</div>
+<div class="text-xs text-neutral-500 mt-1">Módulos</div>
+</div>
+<div class="bg-dark-700/50 rounded-xl p-4 text-center">
+<div class="text-2xl font-bold text-amber-400">24</div>
+<div class="text-xs text-neutral-500 mt-1">Tópicos</div>
+</div>
+<div class="bg-dark-700/50 rounded-xl p-4 text-center">
+<div class="text-2xl font-bold text-amber-400">~3h</div>
+<div class="text-xs text-neutral-500 mt-1">Duração</div>
+</div>
+<div class="bg-dark-700/50 rounded-xl p-4 text-center">
+<div class="text-2xl font-bold text-amber-400">Inter</div>
+<div class="text-xs text-neutral-500 mt-1">Intermediário</div>
+</div>
+</div>
+</div>
+<!-- Hero SVG -->
+<div class="w-full lg:w-96 rounded-2xl border border-amber-500/30 bg-dark-900/40 p-2 flex-shrink-0">
+<svg aria-label="Orquestrador central dispara subagents em paralelo (hooks, slash commands, cron) que convergem num resultado automatizado" class="w-full h-auto" role="img" viewbox="0 0 420 240">
+<defs>
+<lineargradient id="t4i-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
+</lineargradient>
+<filter height="180%" id="t4i-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="32" id="t4i-grid" patternunits="userSpaceOnUse" width="32">
+<circle cx="1.3" cy="1.3" fill="#f59e0b" opacity="0.12" r="1.3"></circle>
+</pattern>
+<marker id="t4i-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fbbf24"></path></marker>
+<marker id="t4i-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#t4i-grid)" height="240" width="420" x="0" y="0"></rect>
+<!-- Orquestrador -->
+<g filter="url(#t4i-glow)">
+<rect fill="#1f1604" height="60" rx="12" stroke="url(#t4i-grad)" stroke-width="2.5" width="110" x="20" y="90"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="75" y="117">Orquestrador</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="10" opacity="0.7" text-anchor="middle" x="75" y="134">Claude Code</text>
+<!-- Linhas para agentes -->
+<line marker-end="url(#t4i-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="130" x2="200" y1="105" y2="60"></line>
+<line marker-end="url(#t4i-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="130" x2="200" y1="120" y2="120"></line>
+<line marker-end="url(#t4i-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.5" x1="130" x2="200" y1="135" y2="175"></line>
+<!-- Agentes (ciano) -->
+<g class="wf-a">
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="90" x="200" y="38"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="245" y="57">🤖 Subagent</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="245" y="72">pesquisa</text>
+</g>
+<g class="wf-a">
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="90" x="200" y="98"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="245" y="117">🪝 Hook</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="245" y="132">lint automático</text>
+</g>
+<g class="wf-a">
+<rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="90" x="200" y="158"></rect>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="245" y="177">⏰ Cron</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="245" y="192">review diário</text>
+</g>
+<!-- Linhas de volta -->
+<line marker-end="url(#t4i-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="290" x2="330" y1="60" y2="110"></line>
+<line marker-end="url(#t4i-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="290" x2="330" y1="120" y2="120"></line>
+<line marker-end="url(#t4i-ah)" opacity="0.6" stroke="#fbbf24" stroke-width="1.5" x1="290" x2="330" y1="175" y2="132"></line>
+<!-- Resultado -->
+<g filter="url(#t4i-glow)">
+<rect fill="#1f1604" height="60" rx="12" stroke="url(#t4i-grad)" stroke-width="2.5" width="78" x="328" y="90"></rect>
+</g>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="367" y="117">Resultado</text>
+<text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" opacity="0.7" text-anchor="middle" x="367" y="133">automatizado</text>
+</svg>
+</div>
+</div>
+</div>
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🤖 Subagents</h3>
+<p class="text-xs text-neutral-400">Delegar é multiplicar</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">🪝 Hooks</h3>
+<p class="text-xs text-neutral-400">Harness no piloto automático</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">⌨️ Slash Commands</h3>
+<p class="text-xs text-neutral-400">Workflows determinísticos</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="#modulo-4-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold text-sm">4.4</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-amber-400 transition-colors">⏰ Cron</h3>
+<p class="text-xs text-neutral-400">Agentes que não dormem</p>
+</a>
+</div>
+</section>
+<!-- CONTEÚDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+<!-- MÓDULO 4.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-4-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.1</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🤖 Subagents: delegar tarefas</h3>
+<p class="text-neutral-400 text-sm">Aprenda a delegar tarefas complexas a subagentes paralelos e multiplique a capacidade do Claude Code sem aumentar o tempo de espera.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- Tópico 1 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">1</span>
+<span class="font-medium">🤖 O que é um subagent</span>
+<span class="text-xs text-neutral-500 ml-auto">Delegação inteligente</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um subagent é uma instância de Claude Code lançada pelo agente principal para executar uma tarefa específica de forma isolada. Ele recebe um prompt bem definido, executa de forma independente e retorna o resultado resumido ao orquestrador.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Com subagents você paraleliza trabalho — enquanto um pesquisa docs, outro escreve testes e um terceiro revisa o código. O que levaria horas em série acontece em minutos.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Isolamento: cada subagent tem seu próprio contexto</li>
+<li>• Retorno resumido: apenas o resultado volta ao principal</li>
+<li>• Ferramenta Task: mecanismo interno de lançamento</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tópico 2 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">2</span>
+<span class="font-medium">🎯 Quando delegar a um subagent</span>
+<span class="text-xs text-neutral-500 ml-auto">Critérios de decisão</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Nem toda tarefa merece um subagent. A delegação faz sentido quando a tarefa é independente, tem escopo claro e seu resultado pode ser consumido de forma atômica pelo orquestrador.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Delegar de forma errada aumenta custo sem ganho. Saber quando delegar é a diferença entre automação eficiente e overhead desnecessário.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Tarefas independentes: não precisam de contexto compartilhado</li>
+<li>• Buscas amplas: explorar múltiplas fontes ao mesmo tempo</li>
+<li>• Escopo atômico: resultado cabe em poucas linhas</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tópico 3 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">3</span>
+<span class="font-medium">⚡ Fan-out paralelo</span>
+<span class="text-xs text-neutral-500 ml-auto">N × velocidade</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Fan-out é o padrão onde um orquestrador dispara N subagents simultaneamente, cada um resolvendo uma parte do problema. Os resultados são coletados e integrados ao final.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Fan-out é o padrão mais poderoso de automação com Claude Code. Pesquisas que levariam 1 hora em série completam em minutos quando paralelizadas com 4-8 subagents.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Orquestrador: agente principal que distribui tarefas</li>
+<li>• Workers: subagents que executam em paralelo</li>
+<li>• Agregação: orquestrador integra os resultados</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tópico 4 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">4</span>
+<span class="font-medium">🔬 Tipos de subagent</span>
+<span class="text-xs text-neutral-500 ml-auto">Explore vs General</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">O Claude Code suporta diferentes perfis de subagent: o tipo Explore foca em leitura e análise (sem escrita); o General pode executar qualquer ferramenta. A escolha determina permissões e risco.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Usar o tipo errado de subagent pode criar riscos de segurança (um agente de pesquisa com permissão de escrita) ou limitar funcionalidade (um agente de codificação sem permissão de exec).</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Explore: somente leitura — ideal para pesquisa e análise</li>
+<li>• General: acesso completo às ferramentas</li>
+<li>• Princípio do menor privilégio: sempre use o tipo mínimo necessário</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tópico 5 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">5</span>
+<span class="font-medium">📦 Resultado resumido</span>
+<span class="text-xs text-neutral-500 ml-auto">Como o resultado volta</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">O resultado de um subagent retorna ao orquestrador como texto comprimido — um resumo do que foi feito, não o log completo de execução. Isso preserva o contexto do agente principal.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Entender como o resultado retorna ajuda a formular prompts melhores: especificar o formato de saída esperado (JSON, markdown, lista) garante que o orquestrador consuma o resultado sem retrabalho.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Retorno atômico: uma mensagem com o resultado consolidado</li>
+<li>• Formato explícito: instrua o subagent sobre como formatar</li>
+<li>• Context pressure: resultados longos consomem tokens do orquestrador</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tópico 6 -->
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">6</span>
+<span class="font-medium">💰 Custo e viabilidade</span>
+<span class="text-xs text-neutral-500 ml-auto">Quando vale a pena</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Cada subagent consome tokens: o prompt de instrução + a execução + o resultado. Com múltiplos subagents em paralelo o custo pode escalar rapidamente se não houver controle.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Automação mal planejada pode custar mais do que o trabalho manual equivalente. Calcular o ROI antes de implementar subagents é uma prática profissional essencial.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Custo por subagent: prompt + execução + output</li>
+<li>• Prompt caching: reutilizar contexto reduz custo em até 90%</li>
+<li>• ROI: velocidade ganho × valor do tempo vs custo API</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-4-1')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-1.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 4.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-4-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.2</span>
+<span class="text-xs text-neutral-500">~50 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🪝 Hooks: automatizar o harness</h3>
+<p class="text-neutral-400 text-sm">Configure ganchos de eventos para automatizar ações antes e depois de cada ferramenta — lint, segurança e injeção de contexto sem tocar no código do agente.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">1</span>
+<span class="font-medium">🪝 O que são hooks</span>
+<span class="text-xs text-neutral-500 ml-auto">Ganchos de ciclo de vida</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Hooks são scripts externos executados pelo harness em momentos específicos do ciclo de vida do agente: antes de uma ferramenta (PreToolUse), após (PostToolUse), ao iniciar sessão (SessionStart) ou ao parar (Stop).</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Com hooks você adiciona comportamento sem modificar o prompt ou o código do agente. É a forma mais limpa de impor políticas: lint sempre roda, comandos proibidos são bloqueados automaticamente.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• PreToolUse: antes de executar qualquer ferramenta</li>
+<li>• PostToolUse: após a ferramenta retornar resultado</li>
+<li>• SessionStart: ao abrir nova sessão</li>
+<li>• Stop: ao encerrar o agente</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">2</span>
+<span class="font-medium">⚙️ Configurar em settings.json</span>
+<span class="text-xs text-neutral-500 ml-auto">Onde e como definir</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Hooks são configurados na chave <code class="text-amber-400 bg-dark-900/50 px-1 rounded">hooks</code> do arquivo <code class="text-amber-400 bg-dark-900/50 px-1 rounded">settings.json</code> (global em ~/.claude/ ou local em .claude/). Cada hook é um objeto com evento, matcher de ferramenta e comando shell.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">A configuração declarativa no settings.json permite versionar os hooks junto com o projeto. Times inteiros herdam as políticas automaticamente sem onboarding manual.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Global: ~/.claude/settings.json — vale para todos os projetos</li>
+<li>• Local: .claude/settings.json — específico do projeto</li>
+<li>• matcher: filtra por nome de ferramenta (glob)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">3</span>
+<span class="font-medium">🔒 Bloquear comandos</span>
+<span class="text-xs text-neutral-500 ml-auto">Política de negação</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um hook PreToolUse pode retornar exit code não-zero para abortar a ferramenta antes de executar. Isso permite criar listas negras de comandos — por exemplo, bloquear <code class="text-red-400 bg-dark-900/50 px-1 rounded">git push --force</code>.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Comandos destrutivos como <code class="text-red-400 bg-dark-900/50 px-1 rounded">rm -rf</code> ou force push em main podem causar danos irreversíveis. Um hook de bloqueio é a última linha de defesa.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Exit 1: sinaliza bloqueio ao harness</li>
+<li>• Mensagem de stderr: explica o motivo ao agente</li>
+<li>• Padrões regex: detectar comandos proibidos</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">4</span>
+<span class="font-medium">🧹 Lint automático</span>
+<span class="text-xs text-neutral-500 ml-auto">PostToolUse em ação</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um hook PostToolUse pode rodar lint ou formatação automaticamente sempre que o agente salvar um arquivo. O output do lint é injetado de volta no contexto, permitindo que o agente corrija os erros na próxima iteração.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Sem lint automático o agente pode gerar código com erros de formatação que só aparecem no CI. Com o hook, cada save já produz código limpo — feedback loop instantâneo.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Trigger: PostToolUse em Write/Edit</li>
+<li>• Output injection: stdout do hook entra no contexto</li>
+<li>• Exemplos: eslint, prettier, ruff, black</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">5</span>
+<span class="font-medium">💉 Injetar contexto</span>
+<span class="text-xs text-neutral-500 ml-auto">SessionStart e enrichment</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">O hook SessionStart executa quando uma nova sessão começa. Seu output é injetado como mensagem inicial no contexto — ideal para carregar metadados do projeto, branch atual, variáveis de ambiente, ou memórias relevantes.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Ao invés de repetir o estado do projeto em todo novo prompt, o SessionStart injeta automaticamente. O agente começa cada sessão já contextualizado — menos tokens gastos, mais foco no trabalho.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• git status, branch, último commit</li>
+<li>• Tarefas pendentes do projeto</li>
+<li>• Variáveis de ambiente relevantes</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">6</span>
+<span class="font-medium">🛡️ Segurança e fail-open</span>
+<span class="text-xs text-neutral-500 ml-auto">Comportamento em falha</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Por padrão, se um hook falha (timeout, erro de script), o harness continua a execução — comportamento "fail-open". Em hooks de segurança críticos você pode configurar fail-closed para parar tudo.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Confiar demais em fail-open pode deixar lacunas de segurança. Entender o modelo de falha dos hooks permite desenhar sistemas mais robustos onde as políticas críticas nunca são ignoradas silenciosamente.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Fail-open: hook com erro não bloqueia execução</li>
+<li>• Timeout: hooks lentos são abortados</li>
+<li>• Princípio: hooks de auditoria fail-open; de segurança fail-closed</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-4-2')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-2.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 4.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-4-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.3</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">⌨️ Slash commands e workflows</h3>
+<p class="text-neutral-400 text-sm">Crie atalhos reutilizáveis e pipelines determinísticos que orquestram múltiplos agentes em sequência ou paralelo com um único comando.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">1</span>
+<span class="font-medium">⌨️ O que são slash commands</span>
+<span class="text-xs text-neutral-500 ml-auto">Atalhos de prompt</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Slash commands são atalhos de texto que expandem para prompts completos. Ao digitar <code class="text-amber-400 bg-dark-900/50 px-1 rounded">/review</code> no Claude Code, o harness expande para um prompt de revisão de código pré-configurado.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Em vez de reescrever o mesmo prompt longo repetidamente, você digita 3 caracteres e obtém consistência total. Times inteiros usam os mesmos padrões sem memorizar instruções complexas.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Expansão: /comando → prompt completo</li>
+<li>• Argumentos: /comando arg1 arg2</li>
+<li>• Escopo: global ou por projeto</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">2</span>
+<span class="font-medium">🛠️ Criar commands próprios</span>
+<span class="text-xs text-neutral-500 ml-auto">Seus atalhos personalizados</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Comandos customizados são definidos como arquivos <code class="text-amber-400 bg-dark-900/50 px-1 rounded">.md</code> dentro da pasta <code class="text-amber-400 bg-dark-900/50 px-1 rounded">.claude/commands/</code>. O nome do arquivo vira o comando. O conteúdo é o prompt que será expandido.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Cada projeto tem necessidades únicas. Um projeto React pode ter <code class="text-amber-400 bg-dark-900/50 px-1 rounded">/component</code>, um de dados tem <code class="text-amber-400 bg-dark-900/50 px-1 rounded">/migrate</code>. Customizar é parte do setup profissional.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Local: .claude/commands/meu-cmd.md</li>
+<li>• Global: ~/.claude/commands/meu-cmd.md</li>
+<li>• Variáveis: $ARGUMENTS, $FILE, $SELECTION</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">3</span>
+<span class="font-medium">🔄 Workflows determinísticos</span>
+<span class="text-xs text-neutral-500 ml-auto">Sequência garantida</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um workflow determinístico é uma sequência pré-definida de steps — cada step pode ser um agente, um comando shell, ou uma transformação de dados. O resultado de um step alimenta o próximo, sem variação aleatória.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Quando o processo precisa ser auditável e reproduzível (CI/CD, releases, revisões obrigatórias), a determinação é mais valiosa que a criatividade. Workflows garantem que cada passo sempre acontece.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Idempotência: rodar 2x produz o mesmo resultado</li>
+<li>• Rollback: cada step deve ter undo definido</li>
+<li>• Logging: registrar cada step para auditoria</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">4</span>
+<span class="font-medium">🔀 Pipeline vs Parallel</span>
+<span class="text-xs text-neutral-500 ml-auto">Sequência ou simultâneo</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Pipeline: steps encadeados onde a saída de A é entrada de B. Parallel: múltiplos agentes rodando ao mesmo tempo sem dependência mútua. Muitos workflows combinam os dois padrões.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Escolher o padrão errado pode duplicar o tempo de execução (quando deveria paralelizar) ou produzir resultados inconsistentes (quando deveria serializar). O design do workflow é tão importante quanto o conteúdo.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Pipeline: dependência de dados entre steps</li>
+<li>• Parallel: independência total entre workers</li>
+<li>• Barrier: ponto de sincronização após paralelo</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">5</span>
+<span class="font-medium">🎯 Quando usar workflows</span>
+<span class="text-xs text-neutral-500 ml-auto">Critério de uso</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Workflows são mais adequados quando a tarefa é repetida frequentemente, envolve múltiplos agentes, ou precisa de auditabilidade. Tarefas únicas e criativas são melhor tratadas com prompts livres.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Over-engeneering workflows para tarefas simples é desperdício. Under-engineering para tarefas críticas é risco. Saber o ponto certo é a habilidade mais valiosa em automação.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Frequência: tarefas diárias valem o investimento</li>
+<li>• Risco: tarefas destrutivas precisam de workflow controlado</li>
+<li>• Equipe: padrões compartilhados precisam de workflow</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">6</span>
+<span class="font-medium">📦 Orquestrar múltiplos agentes</span>
+<span class="text-xs text-neutral-500 ml-auto">Meta-agente</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um meta-agente (ou orquestrador de nível superior) pode invocar workflows inteiros como sub-tarefas. Isso cria uma hierarquia: orquestrador → workflow → subagents — cada nível com responsabilidades bem definidas.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Para projetos grandes, um único agente monolítico se perde em complexidade. A hierarquia de orquestradores divide o problema em camadas gerenciáveis — cada camada bem testada e substituível.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Composição: workflows como building blocks</li>
+<li>• Interface: cada workflow tem inputs e outputs claros</li>
+<li>• Observabilidade: logs propagam pela hierarquia</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-4-3')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-3.html">Ver Completo</a>
+</div>
+</div>
+<!-- MÓDULO 4.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-4-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-2">
+<span class="text-amber-400 font-bold">4.4</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">⏰ Cron e tarefas recorrentes</h3>
+<p class="text-neutral-400 text-sm">Agende agentes para rodar em intervalos definidos — revisões diárias, relatórios automáticos e monitoramento contínuo sem intervenção humana.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">1</span>
+<span class="font-medium">⏰ Cron e schedule</span>
+<span class="text-xs text-neutral-500 ml-auto">Agentes no relógio</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Cron permite agendar tarefas para rodarem em horários específicos (diariamente, semanalmente, a cada hora). O Claude Code integra com cron via skill /schedule para criar rotinas de agente.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Tarefas recorrentes são o maior desperdiçador de tempo de desenvolvedores. Code review diário, atualização de deps, relatório de métricas — tudo pode rodar sem intervenção humana.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Sintaxe cron: minuto hora dia mês diasemana</li>
+<li>• /schedule: skill nativa do Claude Code</li>
+<li>• Trigger: evento de tempo ou evento de sistema</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">2</span>
+<span class="font-medium">🔁 Loop e intervalo</span>
+<span class="text-xs text-neutral-500 ml-auto">Polling e /loop</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">O comando <code class="text-amber-400 bg-dark-900/50 px-1 rounded">/loop</code> repete uma tarefa em intervalos definidos enquanto a sessão está ativa. É ideal para polling de status, monitoramento de build, ou observação contínua de um sistema.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300"><code class="text-amber-400 bg-dark-900/50 px-1 rounded">/loop</code> é mais simples que cron para tarefas de curta duração. Não requer setup de infraestrutura — roda na sessão atual e para quando você fecha o terminal.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• /loop 5m /status: roda /status a cada 5 minutos</li>
+<li>• Auto-pace: sem intervalo, o agente decide o ritmo</li>
+<li>• Cancelamento: Ctrl+C encerra o loop</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">3</span>
+<span class="font-medium">🌐 Agentes remotos</span>
+<span class="text-xs text-neutral-500 ml-auto">Serverless agents</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Agentes remotos rodam na infraestrutura do Claude sem precisar de um terminal local aberto. Eles são disparados por eventos (webhook, cron) e executam de forma completamente autônoma.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Agentes remotos são a fronteira entre automação local e automação de produção. Quando você não quer (nem pode) ter um laptop ligado 24h para rodar tarefas, agentes remotos são a solução.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• RemoteTrigger: lança agente sem sessão local</li>
+<li>• Resultado assíncrono: notificação quando termina</li>
+<li>• Permissões: definidas em settings.json antes do deploy</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">4</span>
+<span class="font-medium">📋 Review diário automatizado</span>
+<span class="text-xs text-neutral-500 ml-auto">Exemplo prático</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Um agente de review diário roda via cron todo dia às 9h, analisa o código commitado no dia anterior, gera um relatório de qualidade e envia por notificação ou salva em arquivo.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Code review automático não substitui o humano — mas pega os 80% de erros mecânicos antes da revisão humana. O revisor humano foca no que importa: arquitetura e lógica de negócio.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• git log --since=yesterday: pega commits do dia</li>
+<li>• /code-review: skill nativa do Claude Code</li>
+<li>• Output: arquivo .md ou webhook para Slack/Discord</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">5</span>
+<span class="font-medium">📥 Capturar o resultado</span>
+<span class="text-xs text-neutral-500 ml-auto">Output de agentes assíncronos</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Agentes assíncronos não retornam resultado imediato. O output pode ser coletado via PushNotification (webhook), arquivo gerado, ou polling com Monitor — dependendo do mecanismo de entrega configurado.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Automação sem observabilidade é automação cega. Saber onde e como o resultado chega é fundamental para confiar na automação — e para debugar quando algo dá errado às 3h da manhã.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• PushNotification: webhook com resultado</li>
+<li>• Monitor: stream de eventos em tempo real</li>
+<li>• Arquivo: path configurável de output</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full p-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold flex-shrink-0">6</span>
+<span class="font-medium">⚠️ Custo e idempotência</span>
+<span class="text-xs text-neutral-500 ml-auto">Cuidados em produção</span>
+</button>
+<div class="topic-explanation px-4 pb-4 space-y-3">
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">O que é</h4>
+<p class="text-sm text-neutral-300">Agentes recorrentes acumulam custo ao longo do tempo. Idempotência garante que rodar o agente duas vezes produz o mesmo resultado — crucial quando falhas levam a re-execuções.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Por que aprender</h4>
+<p class="text-sm text-neutral-300">Uma tarefa cron que falha e é re-executada 5× pode criar 5 PRs idênticos ou cobrar 5× o custo esperado. Idempotência não é detalhe — é requisito de produção.</p>
+</div>
+<div class="bg-dark-700/50 rounded-lg p-4">
+<h4 class="text-sm font-semibold text-amber-400 mb-2">Conceitos-chave</h4>
+<ul class="text-sm text-neutral-300 space-y-1">
+<li>• Check-antes-agir: verificar se tarefa já foi feita</li>
+<li>• Lock file: evitar execuções simultâneas</li>
+<li>• Budget alerts: notificar quando custo supera threshold</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+<button class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors" onclick="openModal('modal-4-4')">Ver em Modal</button>
+<a class="px-4 py-2 text-sm bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-colors" href="modulo-4-4.html">Ver Completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO ENTRE TRILHAS -->
+<div class="flex flex-col sm:flex-row gap-4 mt-8">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="../trilha3/index.html">← Trilha 3: Skills</a>
+<a class="flex-1 text-center px-6 py-3 bg-amber-600 text-white rounded-lg font-semibold hover:bg-amber-500 transition-colors" href="../trilha5/index.html">Trilha 5: Projetos →</a>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="mt-16 border-t border-dark-600 bg-dark-800">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center space-x-3">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg text-yellow-400">Claude Code</span>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<p class="text-neutral-500 text-sm">Trilha 4 — Automação</p>
+</div>
+</div>
+</footer>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-4-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-amber-400 font-bold">4.1</span>
+<span class="font-semibold">🤖 Subagents: delegar tarefas</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-4-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-4-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-amber-400 font-bold">4.2</span>
+<span class="font-semibold">🪝 Hooks: automatizar o harness</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-4-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-4-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-amber-400 font-bold">4.3</span>
+<span class="font-semibold">⌨️ Slash commands e workflows</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-4-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-4-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-amber-400 font-bold">4.4</span>
+<span class="font-semibold">⏰ Cron e tarefas recorrentes</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-4-4.html"></iframe>
+</div>
+</div>
+<script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Toggle Tópicos
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) exp.classList.remove('active');
+      });
+      explanation.classList.toggle('active');
+    }
+
+    // Modal
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.add('hidden');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

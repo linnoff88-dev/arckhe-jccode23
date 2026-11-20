@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ruta 6 — Deploy y portafolio | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'dark': { 600: '#4b5563', 700: '#374151', 800: '#1f2937', 900: '#111827' },
+            'primary': '#FACC15'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Tópicos expansíveis */
+    .topic-explanation { display: none; }
+    .topic-item.open .topic-explanation { display: block; }
+
+    /* Light mode overrides - OBRIGATORIO */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - cores de acento (trilha rose) */
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .from-rose-900\/30 { --tw-gradient-from: rgba(136, 19, 55, 0.15); }
+    html:not(.dark) .hover\:border-rose-500\/30:hover { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) .group:hover .group-hover\:text-rose-400 { color: #9f1239; }
+
+    /* Light mode - remove gradientes */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+
+    /* Light mode - cores especiais */
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+
+    /* Light mode - nav */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    /* Dark mode - bordas suavizadas */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* SVG pulse animation */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha6/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha6/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha6/" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha6/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20">
+<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+</svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- HEADER DA TRILHA -->
+<div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-900 rounded-2xl border border-rose-500/30 p-8 mb-12">
+<div class="flex flex-col lg:flex-row gap-8 items-center">
+<div class="flex-1">
+<span class="inline-block bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">RUTA 6</span>
+<h1 class="text-4xl font-bold mb-4">🚀 Deploy y portafolio</h1>
+<p class="text-neutral-300 text-lg mb-6">Git, GitHub, Pages y portafolio: lleva tu proyecto de la computadora al mundo en minutos. Control de versiones, publicación gratuita y estrategias para mantener vivo el proyecto.</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800/80 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-rose-400">4</div>
+<div class="text-xs text-neutral-500 mt-1">Módulos</div>
+</div>
+<div class="bg-dark-800/80 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-rose-400">24</div>
+<div class="text-xs text-neutral-500 mt-1">Temas</div>
+</div>
+<div class="bg-dark-800/80 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-rose-400">~3h</div>
+<div class="text-xs text-neutral-500 mt-1">Duración</div>
+</div>
+<div class="bg-dark-800/80 rounded-xl p-4 text-center border border-dark-600">
+<div class="text-2xl font-bold text-rose-400">⚡</div>
+<div class="text-xs text-neutral-500 mt-1">Intermedio</div>
+</div>
+</div>
+</div>
+<!-- HERO SVG -->
+<div class="w-full lg:w-80 flex-shrink-0">
+<svg aria-label="Flujo: código local → commit → push a GitHub → GitHub Pages en línea" class="w-full h-auto" role="img" viewbox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="t6-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#fb7185"></stop><stop offset="1" stop-color="#f43f5e"></stop>
+</lineargradient>
+<filter height="180%" id="t6-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="2"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="t6-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.3" cy="1.3" fill="#f43f5e" opacity="0.1" r="1.1"></circle>
+</pattern>
+<marker id="t6-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#fb7185"></path></marker>
+<marker id="t6-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<!-- fundo grid -->
+<rect fill="#1a0a10" height="220" rx="12" width="320"></rect>
+<rect fill="url(#t6-grid)" height="220" rx="12" width="320"></rect>
+<!-- caixa local -->
+<rect class="wf-a" fill="#2a0f16" filter="url(#t6-glow)" height="56" rx="8" stroke="#fb7185" stroke-width="1.5" width="72" x="12" y="80"></rect>
+<text fill="#fb7185" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle" x="48" y="100">LOCAL</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="48" y="114">git add</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="48" y="126">commit</text>
+<!-- seta local → github -->
+<line marker-end="url(#t6-ah)" stroke="#fb7185" stroke-width="1.5" x1="84" x2="118" y1="108" y2="108"></line>
+<text fill="#fb7185" font-family="monospace" font-size="7" text-anchor="middle" x="101" y="101">push</text>
+<!-- caixa github -->
+<rect class="wf-a" fill="#2a0f16" filter="url(#t6-glow)" height="56" rx="8" stroke="#fb7185" stroke-width="1.5" width="80" x="120" y="80"></rect>
+<text fill="#fb7185" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle" x="160" y="100">GITHUB</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="114">repositorio</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="126">branches</text>
+<!-- seta github → pages -->
+<line marker-end="url(#t6-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="200" x2="234" y1="108" y2="108"></line>
+<text fill="#38bdf8" font-family="monospace" font-size="7" text-anchor="middle" x="217" y="101">deploy</text>
+<!-- caixa pages -->
+<rect class="wf-a" fill="#0e1b26" filter="url(#t6-glow)" height="56" rx="8" stroke="#38bdf8" stroke-width="1.5" width="72" x="236" y="80"></rect>
+<text fill="#38bdf8" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="272" y="100">PAGES</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="7" text-anchor="middle" x="272" y="114">usuario</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="7" text-anchor="middle" x="272" y="126">.github.io</text>
+<!-- portfólio bottom -->
+<rect fill="#0e1b26" height="40" rx="8" stroke="#38bdf8" stroke-width="1.2" width="128" x="96" y="164"></rect>
+<text fill="#38bdf8" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="160" y="180">🌐 PORTAFOLIO EN VIVO</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="7" text-anchor="middle" x="160" y="196">difundir · evolucionar · versionar</text>
+<!-- seta github → portfólio -->
+<line marker-end="url(#t6-ahc)" stroke="#38bdf8" stroke-dasharray="4,2" stroke-width="1.2" x1="160" x2="160" y1="136" y2="163"></line>
+<!-- label top -->
+<text fill="#fb7185" filter="url(#t6-glow)" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle" x="160" y="24">DEL CÓDIGO AL MUNDO</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="42">git · github · pages · portafolio</text>
+<!-- ícones topo caixas -->
+<text font-size="14" text-anchor="middle" x="48" y="78">💻</text>
+<text font-size="14" text-anchor="middle" x="160" y="78">🐙</text>
+<text font-size="14" text-anchor="middle" x="272" y="78">🚀</text>
+</svg>
+</div>
+</div>
+</div>
+<!-- MAPA DA TRILHA -->
+<section class="mb-12">
+<h2 class="text-2xl font-bold mb-6">Mapa de la ruta</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-5 transition-all" href="#modulo-6-1">
+<div class="flex items-center justify-between mb-2">
+<span class="text-rose-400 font-bold text-sm">6.1</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-rose-400 transition-colors">🌿 Git esencial</h3>
+<p class="text-xs text-neutral-400">La versión como superpoder</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-5 transition-all" href="#modulo-6-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-rose-400 font-bold text-sm">6.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-rose-400 transition-colors">🐙 GitHub y repositorios</h3>
+<p class="text-xs text-neutral-400">Tu código en la nube</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-5 transition-all" href="#modulo-6-3">
+<div class="flex items-center justify-between mb-2">
+<span class="text-rose-400 font-bold text-sm">6.3</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-rose-400 transition-colors">🚀 GitHub Pages</h3>
+<p class="text-xs text-neutral-400">Deploy gratuito en minutos</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-rose-500/30 p-5 transition-all" href="#modulo-6-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-rose-400 font-bold text-sm">6.4</span>
+<span class="text-xs text-neutral-500">~35 min</span>
+</div>
+<h3 class="font-semibold mb-1 group-hover:text-rose-400 transition-colors">📣 Evolucionar y difundir</h3>
+<p class="text-xs text-neutral-400">Proyecto vivo, no archivo</p>
+</a>
+</div>
+</section>
+<!-- CONTEUDO DETALHADO -->
+<h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+<!-- MÓDULO 6.1 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-6-1">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-3">
+<span class="text-rose-400 font-bold text-sm">6.1</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🌿 Git esencial</h3>
+<p class="text-neutral-400">Control de versiones desde cero: init, commit, branches y cómo dejar que Claude Code trabaje con git por ti.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<!-- Tópico 1 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">📦</span>
+<div><span class="font-medium">Qué es git</span><span class="text-neutral-500 text-sm ml-2">- Historial de snapshots</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Sistema de control de versiones distribuido que guarda «fotos» de tu proyecto a lo largo del tiempo, lo que te permite recorrer el historial y trabajar en paralelo.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin git, no tienes forma de deshacer errores, colaborar ni publicar. Es la base de todo desarrollo moderno: los proyectos profesionales dependen de ello.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Repositorio (repo), commit (snapshot), HEAD (posición actual), working tree (archivos en el disco), staging area (próximo commit).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 2 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🚀</span>
+<div><span class="font-medium">init / add / commit</span><span class="text-neutral-500 text-sm ml-2">- Los 3 comandos del día a día</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm"><code class="text-rose-300">git init</code> crea el repositorio, <code class="text-rose-300">git add</code> prepara archivos para commit, <code class="text-rose-300">git commit -m "msg"</code> guarda la instantánea de forma permanente.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Son los comandos que se ejecutan decenas de veces al día. Automatizarlos con Claude Code es aún más productivo: genera mensajes de commit descriptivos automáticamente.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Flujo: modificar → <code>git add .</code> → <code>git commit -m "feat: descrição"</code>. Staged vs. unstaged. Commit atómico (un cambio lógico por commit).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 3 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🕐</span>
+<div><span class="font-medium">Historial y registro</span><span class="text-neutral-500 text-sm ml-2">- Navegar por el pasado</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm"><code class="text-rose-300">git log</code> muestra todos los commits; <code class="text-rose-300">git diff</code> muestra cambios; <code class="text-rose-300">git show</code> muestra detalles de un commit específico.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Entender el historial permite auditar, depurar y revertir errores. Saber dónde estaba el proyecto ayer es valioso en cualquier situación.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code>git log --oneline</code> (resumido), hash del commit (SHA-1), <code>git diff HEAD~1</code> (cambios del último commit), <code>git status</code> (estado actual).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 4 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🌿</span>
+<div><span class="font-medium">Branches</span><span class="text-neutral-500 text-sm ml-2">- Trabajar en paralelo</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Una branch es una línea independiente de desarrollo. <code class="text-rose-300">git branch</code> lista, <code class="text-rose-300">git checkout -b nome</code> crea e intercambia, <code class="text-rose-300">git merge</code> une.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Permite probar funciones sin arriesgar el código principal. Flujos como feature branch y GitHub Flow dependen de las ramas.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">main/master (rama principal), feature branch, merge, conflicto de merge, <code>git stash</code> (guardar cambios temporalmente).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 5 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🚫</span>
+<div><span class="font-medium">.gitignore</span><span class="text-neutral-500 text-sm ml-2">- Lo que no debes versionar</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Archivo <code class="text-rose-300">.gitignore</code> en la raíz del proyecto, enumera patrones de archivos que git debe ignorar: nunca rastrear ni enviar a GitHub.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Evita filtrar credenciales, contraseñas y archivos pesados. Mantiene el repositorio libre de archivos generados automáticamente (node_modules, .env, __pycache__).</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Patrones glob (<code>*.log</code>, <code>dist/</code>), comentarios con <code>#</code>, denegación con <code>!</code>, gitignore global (~/.gitignore_global).</p></div>
+</div>
+</div>
+</div>
+<!-- Tópico 6 -->
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">🤖</span>
+<div><span class="font-medium">Claude Code hace commits por ti</span><span class="text-neutral-500 text-sm ml-2">- Mensajes de commit profesionales</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Claude Code ejecuta git add/commit/push automáticamente y genera mensajes en formato Conventional Commits (<code>feat:</code>, <code>fix:</code>, <code>docs:</code>) al final de cada tarea.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Reduce la fricción y garantiza mensajes descriptivos sin esfuerzo. El historial queda claro para cualquier persona que lo revise después.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Conventional Commits (<code>tipo(escopo): descrição</code>), <code>--no-verify</code> (bypass hooks), mensaje en imperativo ("agrega X", no "agregado X").</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 flex justify-start space-x-3">
+<button class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" onclick="openModal('modal-6-1')">Ver en modal</button>
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-1.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 6.2 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-6-2">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-3">
+<span class="text-rose-400 font-bold text-sm">6.2</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🐙 GitHub y repositorios</h3>
+<p class="text-neutral-400">Crear repos, configurar el remote, hacer push, SSH vs. HTTPS, gh CLI, PRs y colaboración: todo lo que necesitas para trabajar de verdad con GitHub.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🏗️</span>
+<div><span class="font-medium">Crear un repositorio</span><span class="text-neutral-500 text-sm ml-2">- Web vs gh CLI</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un repositorio en GitHub es la versión remota (en la nube) de tu repo local. Puedes crearlo desde la interfaz web o mediante <code class="text-rose-300">gh repo create</code>.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Un repositorio remoto es una copia de seguridad, una vitrina para tu portafolio y un punto de publicación. Todo proyecto profesional vive en GitHub.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Público vs. privado, README inicial, licencia (MIT, Apache), plantilla de .gitignore, fork vs. clone.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">📡</span>
+<div><span class="font-medium">Remote y push</span><span class="text-neutral-500 text-sm ml-2">- Conectar lo local con GitHub</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm"><code class="text-rose-300">git remote add origin URL</code> conecta tu repo local al remoto. <code>git push -u origin main</code> envía commits y configura el tracking.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es el paso obligatorio para sincronizar tu trabajo con la nube, y la base para Pages, CI/CD y la colaboración.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">origin (remote predeterminado), upstream, fetch vs pull, <code>git push --force-with-lease</code> (seguro), rama de seguimiento.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🔑</span>
+<div><span class="font-medium">SSH vs. HTTPS</span><span class="text-neutral-500 text-sm ml-2">- Autenticación sin contraseña a cada rato</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">SSH usa un par de claves pública/privada para autenticar sin escribir una contraseña. HTTPS usa un token personal (PAT). Se recomienda SSH para el uso diario.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin SSH configurado, cada push te pide credenciales. Con SSH, el flujo es transparente, algo fundamental para la automatización y para que Claude Code opere sin interrupciones.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code>ssh-keygen -t ed25519</code>, agregar clave pública a GitHub, <code>ssh -T git@github.com</code> (probar), git credential helper (caché de contraseña HTTPS).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">⚡</span>
+<div><span class="font-medium">gh CLI</span><span class="text-neutral-500 text-sm ml-2">- GitHub en la terminal</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm"><code class="text-rose-300">gh</code> es la CLI oficial de GitHub: crea repos, PRs, issues, administra releases y mucho más, todo sin abrir el navegador.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Claude Code usa gh ampliamente para crear PR, verificar checks y hacer releases. Entender los comandos facilita auditar y personalizar lo que hace Claude.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code>gh auth login</code>, <code>gh repo create</code>, <code>gh pr create</code>, <code>gh issue list</code>, <code>gh release create</code>.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">🔀</span>
+<div><span class="font-medium">Pull Requests</span><span class="text-neutral-500 text-sm ml-2">- Colaboración estructurada</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un PR es una propuesta de cambio: desarrollas en una rama separada y abres un PR para revisar e integrar en main. Es el proceso estándar en cualquier equipo.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Los PR son el mecanismo universal de revisión de código. Incluso si trabajas en solitario, el flujo de PR obliga a revisar antes del deploy, lo que reduce los bugs en producción.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Rama base vs. rama head, PR en borrador, revisión (aprobar/solicitar cambios), estrategias de merge (squash, rebase, commit de merge), plantilla de PR.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">📖</span>
+<div><span class="font-medium">README eficaz</span><span class="text-neutral-500 text-sm ml-2">- Primera impresión del proyecto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">README.md es la página de inicio del repositorio en GitHub. En Markdown, describe el proyecto, cómo instalarlo, usarlo y contribuir.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Un buen README duplica la participación en el proyecto. Los reclutadores y colaboradores evalúan el proyecto por el README antes de ver cualquier código.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Insignias (shields.io), capturas de pantalla/GIFs, secciones estándar (instalación, uso, contribuciones), LICENSE, código de conducta.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 flex justify-start space-x-3">
+<button class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" onclick="openModal('modal-6-2')">Ver en modal</button>
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-2.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 6.3 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-6-3">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-3">
+<span class="text-rose-400 font-bold text-sm">6.3</span>
+<span class="text-xs text-neutral-500">~40 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">🚀 GitHub Pages: publica gratis</h3>
+<p class="text-neutral-400">Activa GitHub Pages en minutos y publica tu proyecto en usuario.github.io/repo/. Dominio personalizado, caché y verificación de que esté en línea.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🌐</span>
+<div><span class="font-medium">Qué es Pages</span><span class="text-neutral-500 text-sm ml-2">- Hosting gratuito de GitHub</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">GitHub Pages sirve archivos estáticos (HTML/CSS/JS) directamente desde el repositorio como un sitio público. Es gratis, con HTTPS automático y CDN.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin costo para portafolios, proyectos de cursos y demos. Ideal para los proyectos que creas con Claude Code: publicar requiere una sola línea de configuración.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Sitio estático vs. dinámico, CDN de GitHub (Fastly), HTTPS gratuito (Let's Encrypt), límite de 1GB por repositorio y 100GB/mes de ancho de banda.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">⚙️</span>
+<div><span class="font-medium">Activar Pages</span><span class="text-neutral-500 text-sm ml-2">- Branch o Actions</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">En Settings → Pages, elige la fuente: una branch específica (main o gh-pages) y una carpeta (/ o /docs), o GitHub Actions para builds personalizados.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La configuración toma 2 minutos mediante la interfaz. Con la gh CLI es aún más rápido y automatizable; se integra bien al flujo con Claude Code.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Branch source, fuente de deployment (legacy vs Actions), branch gh-pages dedicada, carpeta /docs para proyectos que tienen código + sitio en el mismo repo.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">🔗</span>
+<div><span class="font-medium">URL usuario.github.io</span><span class="text-neutral-500 text-sm ml-2">- Dirección predeterminada de tu sitio</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Cada repositorio activado genera la URL <code class="text-rose-300">usuario.github.io/nome-do-repo/</code>. El repo especial <code>usuario.github.io</code> (sin barra) queda en <code>usuario.github.io</code>.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Es la dirección que compartes en entrevistas, redes sociales y currículums. Fácil de recordar y profesional, incluso sin un dominio propio.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Sitio de usuario vs. sitio de proyecto, index.html obligatorio, 404.html personalizable, barra final, distinción entre mayúsculas y minúsculas.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">🌍</span>
+<div><span class="font-medium">Dominio personalizado y CNAME</span><span class="text-neutral-500 text-sm ml-2">- Tu dirección profesional</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Archivo <code class="text-rose-300">CNAME</code> en la raíz del repo con tu dominio (<code>meusite.com</code>) + registro DNS CNAME que apunta a <code>usuario.github.io</code>.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Un dominio propio transmite credibilidad. Comprar un dominio cuesta ~R$50/año. GitHub Pages con dominio personalizado sigue siendo gratuito para el alojamiento.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">CNAME record, A record (apex domain), www vs apex, «Enforce HTTPS» en GitHub, propagación de DNS (hasta 48h), verificación de dominio.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">⏱️</span>
+<div><span class="font-medium">Caché y actualización</span><span class="text-neutral-500 text-sm ml-2">- ¿Por qué el sitio no se actualizó?</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Pages tiene caché de CDN y el deploy tarda 1-10 minutos después del push. El navegador también almacena en caché. Fuerza una actualización completa (<code>Ctrl+Shift+R</code>) y esperar a que termine la compilación.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La frustración más común al empezar: "hice push pero el sitio no cambió". Entender la caché te ahorra horas de depuración innecesaria.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Cola de build, logs de Actions, encabezado Cache-Control, versionado de assets (query string <code>?v=2</code>), invalidación del Service Worker.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">✅</span>
+<div><span class="font-medium">Verificar que esté en línea</span><span class="text-neutral-500 text-sm ml-2">- Confirmar que el deploy funcionó</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Después del push, sigue el deploy en Actions (pestaña en GitHub) o mediante <code class="text-rose-300">gh run watch</code>. El sitio queda activo cuando termina el workflow "pages build and deployment".</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Saber interpretar el estado del deploy evita la ansiedad de «¿habrá funcionado?». Los registros de errores en Actions muestran exactamente qué falló.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code>gh run list</code>, <code>gh run view</code>, workflow de Actions "pages", badge de estado (shields.io), monitoreo con UptimeRobot.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 flex justify-start space-x-3">
+<button class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" onclick="openModal('modal-6-3')">Ver en modal</button>
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-3.html">Ver completo</a>
+</div>
+</div>
+<!-- MÓDULO 6.4 -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 mb-6" id="modulo-6-4">
+<div class="p-6 border-b border-dark-600">
+<div class="flex items-center justify-between mb-3">
+<span class="text-rose-400 font-bold text-sm">6.4</span>
+<span class="text-xs text-neutral-500">~35 min</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">📣 Evolucionar y difundir</h3>
+<p class="text-neutral-400">El deploy fue el comienzo, no el final. Itera, versiona releases, construye tu portafolio, documenta y mantén el proyecto activo. Cierre del curso.</p>
+</div>
+<div class="divide-y divide-dark-600">
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+<span class="text-lg">🔄</span>
+<div><span class="font-medium">Iterar después del deploy</span><span class="text-neutral-500 text-sm ml-2">- El ciclo nunca se detiene</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">La iteración es el ciclo feedback → mejora → deploy. Los proyectos activos tienen commits regulares; los proyectos abandonados se quedan en la v1.0 para siempre.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La primera versión nunca es la mejor. Los usuarios reales revelan qué falta. Claude Code acelera cada ciclo de mejora — de horas a minutos.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Sprint de 1-2 semanas, rastreador de issues, roadmap público, changelog, hotfix vs feature, SemVer (major.minor.patch).</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+<span class="text-lg">🏷️</span>
+<div><span class="font-medium">Versiones y etiquetas</span><span class="text-neutral-500 text-sm ml-2">- Versiones formales de tu proyecto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Una etiqueta de git marca un commit específico como versión. GitHub Release es la página pública con notas de la versión, recursos descargables y changelog con formato.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Las versiones comunican la evolución a usuarios y reclutadores. Muestran que el proyecto tiene un ciclo de vida saludable y mantenimiento activo.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm"><code>git tag v1.0.0</code>, <code>gh release create v1.0.0</code>, notas de la versión automáticas (GitHub las genera a partir del historial de PR), pre-release vs. stable.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+<span class="text-lg">💼</span>
+<div><span class="font-medium">Construir un portafolio</span><span class="text-neutral-500 text-sm ml-2">- Tus proyectos como escaparate</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El portafolio es una colección pública de proyectos que demuestra tus habilidades. Puede ser tu propio perfil de GitHub, un sitio Pages dedicado o ambos.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">En la práctica, el portafolio reemplaza los certificados: muestra lo que realmente haces. Con Claude Code, crear proyectos impresionantes está al alcance de quienes recién empiezan.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">README del perfil de GitHub (usuario/usuario), repos fijados, gráfico de contribuciones, sitio personal (usuario.github.io), proyectos destacados con descripción.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+<span class="text-lg">📚</span>
+<div><span class="font-medium">Documentar bien</span><span class="text-neutral-500 text-sm ml-2">- Tu yo del futuro te lo agradecerá</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">La documentación incluye: README con instalación y uso, comentarios en el código en los puntos menos obvios, Wiki de GitHub o archivo CONTRIBUTING.md.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Sin documentación, ni siquiera tú entenderás tu propio proyecto dentro de 3 meses. Claude Code puede generar automáticamente la documentación inicial.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">README estructurado, CHANGELOG.md, ADR (Architecture Decision Records), Docusaurus para documentación extensa, comentarios JSDoc/docstring.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+<span class="text-lg">📢</span>
+<div><span class="font-medium">Pedir feedback y difundir</span><span class="text-neutral-500 text-sm ml-2">- Crear una audiencia para el proyecto</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Difundir es compartir el proyecto en comunidades relevantes (dev.to, Reddit r/programming, Twitter/X, LinkedIn) y pedir comentarios honestos a usuarios reales.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">Retroalimentación real &gt; suposiciones. Los usuarios revelan errores que nunca encontrarías por tu cuenta y funcionalidades que cambian el rumbo del proyecto para mejor.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Product Hunt, GitHub Discussions, Show HN (Hacker News), cantidad de estrellas como métrica de tracción, issues como canal de feedback estructurado.</p></div>
+</div>
+</div>
+</div>
+<div class="topic-item">
+<button class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left" onclick="toggleTopic(this)">
+<span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+<span class="text-lg">♻️</span>
+<div><span class="font-medium">Mantener vivo el proyecto</span><span class="text-neutral-500 text-sm ml-2">- Constancia &gt; intensidad</span></div>
+</button>
+<div class="topic-explanation px-6 pb-4">
+<div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+<div><span class="text-rose-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un proyecto vivo tiene commits regulares, issues respondidas, dependencias actualizadas y un roadmap que evoluciona con el feedback. No necesita grandes sprints: bastan pequeñas mejoras constantes.</p></div>
+<div><span class="text-rose-400 font-semibold">Por qué aprender:</span><p class="text-neutral-300 text-sm">La mayoría de los proyectos muere después de la euforia del primer deploy. Mantener la consistencia es lo que distingue los portafolios promedio de los que impresionan.</p></div>
+<div><span class="text-rose-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Dependabot (actualizaciones automáticas), pautas para contribuir, Good First Issues (para atraer colaboradores), planificación de hitos, «archive» al cerrar el proyecto.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 flex justify-start space-x-3">
+<button class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" onclick="openModal('modal-6-4')">Ver en modal</button>
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-4.html">Ver completo</a>
+</div>
+</div>
+<!-- NAVEGAÇÃO -->
+<div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-600">
+<a class="flex items-center space-x-2 text-neutral-400 hover:text-neutral-200 transition-colors" href="../trilha5/index.html">
+<span>←</span><span>Ruta 5: Proyectos</span>
+</a>
+<a class="flex items-center space-x-2 text-rose-400 hover:text-rose-300 transition-colors" href="../../index.html">
+<span>🏆 Completar el curso</span><span>→</span>
+</a>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<!-- MODAIS -->
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-6-1" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-rose-400 font-bold">6.1</span>
+<span class="font-semibold">🌿 Git esencial</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-6-1.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-6-2" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-rose-400 font-bold">6.2</span>
+<span class="font-semibold">🐙 GitHub y repositorios</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-6-2.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-6-3" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-rose-400 font-bold">6.3</span>
+<span class="font-semibold">🚀 GitHub Pages: publica gratis</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-6-3.html"></iframe>
+</div>
+</div>
+<div class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" id="modal-6-4" onclick="if(event.target === this) closeModal()">
+<div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+<div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center space-x-3">
+<span class="text-rose-400 font-bold">6.4</span>
+<span class="font-semibold">📣 Evolucionar y difundir</span>
+</div>
+<button class="text-neutral-400 hover:text-white text-2xl leading-none" onclick="closeModal()">×</button>
+</div>
+<iframe class="flex-1 w-full rounded-b-xl" src="modulo-6-4.html"></iframe>
+</div>
+</div>
+<script>
+    // Toggle de tópicos
+    function toggleTopic(btn) {
+      const item = btn.closest('.topic-item');
+      const parent = item.closest('.divide-y');
+      parent.querySelectorAll('.topic-item').forEach(t => {
+        if (t !== item) t.classList.remove('open');
+      });
+      item.classList.toggle('open');
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Modal
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

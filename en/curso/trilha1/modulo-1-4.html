@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.4 Terminal and CLI for Beginners | Fundamentals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/modulo-1-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/modulo-1-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/modulo-1-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-1-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha1/modulo-1-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Track 1 — Fundamentals</a>
+<span>/</span>
+<span class="text-emerald-400">Module 1.4</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MODULE 1.4</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">⌨️ Terminal and CLI for beginners</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">From zero to the terminal in 40 minutes: what it is, how to navigate it, the commands you’ll use every day with Claude Code, and how to stay out of trouble.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Practical</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🖥️ What Is the Terminal</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O <strong class="text-emerald-400">terminal</strong> is a program that receives text commands and executes them on the operating system. It’s the most direct and powerful interface to a computer — predating graphical interfaces and far more efficient for automation.</p>
+<!-- SVG: Mock de Terminal -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Illustrative terminal mockup with a title bar, prompt, and a few typed commands — not a real screenshot" class="w-full h-auto" role="img" viewbox="0 0 760 200">
+<defs>
+<lineargradient id="m14-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m14-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m14-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.08" r="1.2"></circle>
+</pattern>
+</defs>
+<rect fill="url(#m14-grid)" height="200" width="760" x="0" y="0"></rect>
+<!-- Janela de terminal -->
+<rect fill="#0d1117" height="160" opacity="0.9" rx="12" stroke="#34d399" stroke-width="1.5" width="700" x="30" y="20"></rect>
+<!-- Barra de título -->
+<rect fill="#1c1c1c" height="30" rx="12" width="700" x="30" y="20"></rect>
+<rect fill="#1c1c1c" height="15" width="700" x="30" y="35"></rect>
+<!-- Bolinhas -->
+<circle cx="52" cy="35" fill="#ff5f57" r="6"></circle>
+<circle cx="70" cy="35" fill="#febc2e" r="6"></circle>
+<circle cx="88" cy="35" fill="#28c840" r="6"></circle>
+<!-- Título -->
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="380" y="39">Terminal — bash — ~/meu-projeto</text>
+<!-- Conteúdo do terminal -->
+<text fill="#6b7280" font-family="monospace" font-size="12" x="50" y="72">user@mac ~/meu-projeto</text>
+<g filter="url(#m14-glow)">
+<text fill="#34d399" font-family="monospace" font-size="13" x="50" y="88">$ claude</text>
+</g>
+<text fill="#9ca3af" font-family="monospace" font-size="12" x="50" y="106">Claude Code v1.x.x — ready to use</text>
+<text fill="#6b7280" font-family="monospace" font-size="12" x="50" y="122">user@mac ~/meu-projeto</text>
+<text fill="#34d399" font-family="monospace" font-size="13" x="50" y="138">$ <text fill="#e5e7eb">ls src/</text></text>
+<text fill="#9ca3af" font-family="monospace" font-size="12" x="50" y="155">auth/   components/   pages/   utils/</text>
+<!-- Cursor piscando -->
+<rect fill="#34d399" height="14" opacity="0.8" width="8" x="50" y="165"></rect>
+<!-- Label ilustrativo -->
+<text fill="#4b5563" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="380" y="194">illustrative recreation — not an actual screenshot</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🖥️</span> Where to find the terminal</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-dark-800 rounded-lg p-4">
+<div class="text-emerald-400 font-semibold mb-2">🍎 macOS</div>
+<p class="text-neutral-300 text-sm">Spotlight (⌘+Space) → "Terminal" or install the <strong>iTerm2</strong> for a better experience.</p>
+</div>
+<div class="bg-dark-800 rounded-lg p-4">
+<div class="text-emerald-400 font-semibold mb-2">🐧 Linux</div>
+<p class="text-neutral-300 text-sm">Comes with terminals (gnome-terminal, konsole, xterm). Shortcut: <strong>Ctrl+Alt+T</strong> on most distros.</p>
+</div>
+<div class="bg-dark-800 rounded-lg p-4">
+<div class="text-emerald-400 font-semibold mb-2">🪟 Windows</div>
+<p class="text-neutral-300 text-sm">Use <strong>WSL2</strong> (Windows Subsystem for Linux) for a real Unix environment. PowerShell works, but there are differences.</p>
+</div>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: The prompt tells you where you are</h3>
+<p class="text-neutral-300">The prompt <code class="bg-dark-700 px-1 rounded text-emerald-400">user@mac ~/projetos/meu-app $</code> has three parts: <strong>user@machine</strong>, <strong>current directory</strong> (~ = home), and <strong>$</strong> indicating that you can type. Read the prompt before typing any command.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Shell</div><div class="text-xs text-neutral-400">bash/zsh — command interpreter</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Prompt</div><div class="text-xs text-neutral-400">Where you type (ends in $)</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">stdout</div><div class="text-xs text-neutral-400">Command's standard output</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Exit code</div><div class="text-xs text-neutral-400">0 = success, ≠0 = error</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📂 Folders and paths</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The file system is a <strong class="text-emerald-400">tree</strong>: one root, with folders inside folders inside folders. Knowing where you are and how to reference files is terminal skill #1.</p>
+<!-- Box de código: Árvore de diretórios -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">🌳 Typical directory structure</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4">
+<div class="text-neutral-500">/          ← root — absolute</div>
+<div class="text-neutral-300">├── home/</div>
+<div class="text-neutral-300">│   └── user/    ← ~ (user's home)</div>
+<div class="text-neutral-300">│       ├── projetos/</div>
+<div class="text-neutral-300">│       │   └── meu-app/   ← you're here</div>
+<div class="text-neutral-300">│       │       ├── src/</div>
+<div class="text-neutral-300">│       │       └── package.json</div>
+<div class="text-neutral-300">│       └── Downloads/</div>
+<div class="mt-2 text-neutral-500"># Absolute path: /home/user/projetos/meu-app</div>
+<div class="text-neutral-500"># Relative path (from ~/projetos): ./meu-app</div>
+<div class="text-neutral-500"># Go up one level: ../  (goes to ~/projetos)</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Absolute path</h4>
+<ul class="space-y-2 text-neutral-300 text-sm font-mono">
+<li>/home/user/projetos/app</li>
+<li>/etc/nginx/nginx.conf</li>
+<li>/usr/local/bin/node</li>
+</ul>
+<p class="text-neutral-400 text-xs mt-3">Starts with / — works from anywhere</p>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">→ Relative path</h4>
+<ul class="space-y-2 text-neutral-300 text-sm font-mono">
+<li>./src/index.ts</li>
+<li>../config/env.json</li>
+<li>../../outro-projeto/</li>
+</ul>
+<p class="text-neutral-400 text-xs mt-3">Relative to the current directory — shorter</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/</div><div class="text-xs text-neutral-400">System root</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">~</div><div class="text-xs text-neutral-400">User's home</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.</div><div class="text-xs text-neutral-400">Current directory</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">..</div><div class="text-xs text-neutral-400">Parent directory</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">⚡ Essential commands</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">You don't need to memorize 200 Unix commands. With <strong class="text-emerald-400">10 commands</strong> you can navigate, create, move, and inspect any project with Claude Code.</p>
+<!-- Box código mono: Referência de comandos -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">📖 Quick reference — 10 essential commands</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-3">
+<div>
+<div><span class="text-emerald-400">pwd</span><span class="text-neutral-500">          # print working directory — where am I?</span></div>
+<div class="text-neutral-400 ml-4">→ /home/user/projetos/meu-app</div>
+</div>
+<div>
+<div><span class="text-emerald-400">ls</span><span class="text-neutral-500">           # list — what's here?</span></div>
+<div><span class="text-emerald-400">ls -la</span><span class="text-neutral-500">        # with details and hidden files</span></div>
+<div class="text-neutral-400 ml-4">→ src/  package.json  .gitignore  node_modules/</div>
+</div>
+<div>
+<div><span class="text-emerald-400">cd</span><span class="text-neutral-500"> folder     # change directory — navigate</span></div>
+<div><span class="text-emerald-400">cd ..</span><span class="text-neutral-500">         # go up one level</span></div>
+<div><span class="text-emerald-400">cd ~</span><span class="text-neutral-500">          # go back to home</span></div>
+</div>
+<div>
+<div><span class="text-emerald-400">mkdir</span><span class="text-neutral-500"> name    # make directory — create folder</span></div>
+<div><span class="text-emerald-400">mkdir -p</span><span class="text-neutral-500"> a/b/c # creates complete hierarchy</span></div>
+</div>
+<div>
+<div><span class="text-emerald-400">cat</span><span class="text-neutral-500"> file  # view file contents</span></div>
+<div><span class="text-emerald-400">cp</span><span class="text-neutral-500"> src dest # copy file</span></div>
+<div><span class="text-emerald-400">mv</span><span class="text-neutral-500"> src dest # move/rename file</span></div>
+</div>
+</div>
+</div>
+<!-- Timeline: Como o Claude Code usa esses comandos -->
+<h3 class="text-lg font-semibold mb-4 text-neutral-300">How Claude Code uses these commands day to day</h3>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">→</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1"><code class="text-emerald-400">ls</code> — explore the structure</h4>
+<p class="text-sm text-neutral-400">The agent uses ls to understand the project before taking action. It's the first thing it does in new sessions.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">→</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1"><code class="text-emerald-400">mkdir -p</code> — create structure</h4>
+<p class="text-sm text-neutral-400">To create features, the agent creates the necessary folders before writing the files.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">→</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1"><code class="text-emerald-400">mv</code> — refactoring</h4>
+<p class="text-sm text-neutral-400">Moving files to a new folder structure during refactoring is a daily task.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm font-mono mb-1">cd/pwd/ls</div><div class="text-xs text-neutral-400">Basic navigation</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm font-mono mb-1">mkdir/cp/mv</div><div class="text-xs text-neutral-400">File management</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm font-mono mb-1">cat/grep</div><div class="text-xs text-neutral-400">Inspect content</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm font-mono mb-1">man cmd</div><div class="text-xs text-neutral-400">Help for any command</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔌 What Is a CLI</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A <strong class="text-emerald-400">CLI</strong> (Command-Line Interface) is a program you control by typing text commands. Git, npm, Python, Docker, and Claude Code are all CLIs. Understanding the anatomy of a CLI command is a skill that transfers to all of them.</p>
+<!-- Box de código mono: Anatomia de um comando CLI -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">🔍 Anatomy of a CLI Command</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-4">
+<div>
+<div class="text-neutral-500"># General structure:</div>
+<div><span class="text-emerald-400">program</span> <span class="text-cyan-400">[subcommand]</span> <span class="text-yellow-400">[--flags]</span> <span class="text-neutral-300">[arguments]</span></div>
+</div>
+<div>
+<div class="text-neutral-500"># Real examples:</div>
+<div><span class="text-emerald-400">git</span> <span class="text-cyan-400">commit</span> <span class="text-yellow-400">-m</span> <span class="text-neutral-300">"message"</span></div>
+<div><span class="text-emerald-400">npm</span> <span class="text-cyan-400">install</span> <span class="text-yellow-400">--save-dev</span> <span class="text-neutral-300">TypeScript</span></div>
+<div><span class="text-emerald-400">claude</span> <span class="text-yellow-400">--dangerously-skip-permissions</span> <span class="text-neutral-300">-p "task"</span></div>
+</div>
+<div>
+<div class="text-neutral-500"># Help is always available:</div>
+<div><span class="text-emerald-400">claude</span> <span class="text-yellow-400">--help</span></div>
+<div><span class="text-emerald-400">git</span> <span class="text-yellow-400">--help</span></div>
+<div><span class="text-emerald-400">npm</span> <span class="text-cyan-400">help</span> <span class="text-neutral-300">install</span></div>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ CLI best practices</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Always use <code>--help</code> before guessing</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Tab completion — press Tab to autocomplete</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Use the ↑↓ arrows to navigate command history</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Ctrl+C cancels the current command</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ CLI pitfalls</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Copying a command from the internet without reading it</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignore error messages</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Use sudo unnecessarily</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Typing commands in the wrong folder</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Flags</div><div class="text-xs text-neutral-400">--flag or -f (short form)</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Subcommand</div><div class="text-xs text-neutral-400">git commit, npm install</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">--help</div><div class="text-xs text-neutral-400">Inline help always available</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tab</div><div class="text-xs text-neutral-400">Autocomplete — always use it</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">📦 Install tools</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">To use Claude Code, you need to install Node.js and the npm package. Understand <strong class="text-emerald-400">package managers</strong> is essential — they're the standard way to install CLIs on any system.</p>
+<!-- Timeline: Instalação do Claude Code passo a passo -->
+<h3 class="text-lg font-semibold mb-4 text-neutral-300">Installing Claude Code — step by step</h3>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Install Node.js</h4>
+<div class="font-mono text-sm bg-dark-900 rounded p-3">
+<div class="text-neutral-500"># macOS (Homebrew)</div>
+<div class="text-emerald-400">brew install node</div>
+<div class="mt-2 text-neutral-500"># Linux (Ubuntu/Debian)</div>
+<div class="text-emerald-400">curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -</div>
+<div class="text-emerald-400">sudo apt-get install -y nodejs</div>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Verify installation</h4>
+<div class="font-mono text-sm bg-dark-900 rounded p-3">
+<div><span class="text-emerald-400">node --version</span><span class="text-neutral-500">  # should show v18+</span></div>
+<div><span class="text-emerald-400">npm --version</span><span class="text-neutral-500">   # should show 9+</span></div>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-2">Install Claude Code</h4>
+<div class="font-mono text-sm bg-dark-900 rounded p-3">
+<div><span class="text-emerald-400">npm install -g @anthropic-ai/claude-code</span></div>
+<div class="mt-2"><span class="text-neutral-500"># verify:</span></div>
+<div><span class="text-emerald-400">which claude</span><span class="text-neutral-500">  # should show the path</span></div>
+<div><span class="text-emerald-400">claude --version</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> What PATH is</h3>
+<p class="text-neutral-300">When you type <code class="bg-dark-700 px-1 rounded text-emerald-400">claude</code>, the shell looks for the executable in the folders listed in the variable <code class="bg-dark-700 px-1 rounded text-emerald-400">PATH</code>. If you get "command not found," the global npm folder isn’t in your PATH. Solution: <code class="bg-dark-700 px-1 rounded text-emerald-400">export PATH="$PATH:$(npm root -g)/../.bin"</code>.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">npm</div><div class="text-xs text-neutral-400">Node Package Manager</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">-g flag</div><div class="text-xs text-neutral-400">Installs globally on the system</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">PATH</div><div class="text-xs text-neutral-400">Where the shell looks for executables</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">which</div><div class="text-xs text-neutral-400">Shows where an executable is located</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔒 Terminal Security</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The terminal has <strong class="text-emerald-400">real power</strong> about the system. A wrong command can delete unrecoverable files, expose credentials, or install malicious software. These simple rules prevent 99% of problems.</p>
+<!-- Box alerta -->
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-4 flex items-center"><span class="mr-2">⚠️</span> Commands you should NEVER copy without understanding</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-2">
+<div><span class="text-red-400">rm -rf /</span><span class="text-neutral-500">         ← erases the entire system</span></div>
+<div><span class="text-red-400">rm -rf ~</span><span class="text-neutral-500">         ← deletes all your files</span></div>
+<div><span class="text-red-400">curl URL | bash</span><span class="text-neutral-500">  ← runs unknown code</span></div>
+<div><span class="text-red-400">sudo chmod -R 777 /</span><span class="text-neutral-500"> ← removes system security</span></div>
+<div><span class="text-red-400">&gt; file.conf</span><span class="text-neutral-500"> ← erases the file's contents!</span></div>
+</div>
+<p class="text-neutral-300 text-sm mt-3"><strong>Rule:</strong> if you can’t explain what a command does, don’t run it.</p>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Security best practices</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Use <code>.env</code> for secrets, and never commit this file</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Check what you're about to delete first with <code>ls</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prefer <code>mv</code> to the Trash instead of <code>rm</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Read confirmation messages (y/n) carefully</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Common security errors</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Commit API keys or passwords to git</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Use sudo indiscriminately</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Run third-party scripts without reviewing them</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Leaving environment variables in the history</span></li>
+</ul>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Security with Claude Code</h3>
+<p class="text-neutral-300 mb-3">Claude Code can run any Bash command. Configure the <code class="bg-dark-700 px-1 rounded text-emerald-400">settings.json</code> with a <strong>denylist</strong> for destructive commands you never want it to run automatically. That way, you have autonomy with safeguards.</p>
+<p class="text-neutral-300 text-sm font-mono bg-dark-700 rounded p-2">"deny": ["Bash(rm -rf:*)", "Bash(git push --force:*)"]</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.env</div><div class="text-xs text-neutral-400">File for secret variables</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">.gitignore</div><div class="text-xs text-neutral-400">Lists files not to commit</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">sudo</div><div class="text-xs text-neutral-400">Superuser—use with care</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">denylist</div><div class="text-xs text-neutral-400">Block dangerous commands in Claude</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 1.4 Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Terminal = text interface</strong><span class="text-neutral-400"> — where Claude Code lives</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Directory tree</strong><span class="text-neutral-400"> — /, ~, ., .., and absolute/relative paths</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">10 essential commands</strong><span class="text-neutral-400"> — cd, ls, mkdir, pwd, cat, cp, mv, rm, grep, man</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">CLI: program + subcommand + flags + args</strong><span class="text-neutral-400"> — universal pattern</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">npm installs Claude Code</strong><span class="text-neutral-400"> — npm install -g @anthropic-ai/claude-code</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Security: read before running</strong><span class="text-neutral-400"> — never copy commands without understanding them</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">🎉 Track 1 complete!</h3>
+<p class="text-neutral-300">You have the complete foundation: what Claude Code is, how it thinks, how it manages context, and how to use the terminal. Next step: install Claude Code for real in Track 2 — Installation.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-3.html">← Module 1.3</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="../trilha2/index.html">Track 2: Installation →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

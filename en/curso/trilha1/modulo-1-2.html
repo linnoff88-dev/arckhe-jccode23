@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.2 How the Agent Thinks | Fundamentals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes m12-pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+    @media (prefers-reduced-motion: no-preference) {
+      .m12-a { animation: m12-pulse 2.4s ease-in-out infinite; }
+      .m12-a:nth-child(2){animation-delay:.4s} .m12-a:nth-child(3){animation-delay:.8s} .m12-a:nth-child(4){animation-delay:1.2s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/modulo-1-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/modulo-1-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/modulo-1-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-1-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha1/modulo-1-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Track 1 — Fundamentals</a>
+<span>/</span>
+<span class="text-emerald-400">Module 1.2</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MODULE 1.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧠 How the agent thinks</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Discover Claude Code's internal loop: how it plans, uses tools, handles uncertainty, and decides when to ask permission.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">45</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Theory</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🔄 The agent loop</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code doesn't read your message and respond immediately. It runs a <strong class="text-emerald-400">reasoning and action loop</strong> — the ReAct pattern — repeated until the task is complete or you can no longer make progress.</p>
+<!-- SVG: Loop Agente -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Agent loop: Task → Think → Use Tool → Observe → loop back to Think → Complete" class="w-full h-auto" role="img" viewbox="0 0 800 200">
+<defs>
+<lineargradient id="m12-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m12-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m12-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.09" r="1.2"></circle>
+</pattern>
+<marker id="m12-ah" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"></path></marker>
+<marker id="m12-ahc" markerheight="9" markerwidth="9" orient="auto" refx="6.5" refy="4.5"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m12-grid)" height="200" width="800" x="0" y="0"></rect>
+<!-- Nó: Tarefa -->
+<rect fill="#0e2018" height="44" rx="10" stroke="#34d399" stroke-width="2" width="90" x="20" y="78"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="65" y="104">Task</text>
+<!-- Seta → Pensar -->
+<path d="M110,100 L160,100" fill="none" marker-end="url(#m12-ah)" opacity="0.7" stroke="#34d399" stroke-width="1.8"></path>
+<!-- Nó: Pensar -->
+<g filter="url(#m12-glow)">
+<rect fill="#0e2018" height="56" rx="12" stroke="url(#m12-grad)" stroke-width="2.5" width="110" x="160" y="72"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="215" y="98">🧠 Thinking</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="215" y="116">internal reasoning</text>
+<!-- Seta → Ferramenta -->
+<path d="M270,100 L330,100" fill="none" marker-end="url(#m12-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.8"></path>
+<!-- Nó: Ferramenta (ciano) -->
+<g class="m12-a">
+<rect fill="#0e1b26" height="56" rx="12" stroke="#38bdf8" stroke-width="2" width="120" x="330" y="72"></rect>
+</g>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="390" y="98">🛠️ Tool</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="390" y="116">Read/Edit/Bash/Search</text>
+<!-- Seta → Observar -->
+<path d="M450,100 L510,100" fill="none" marker-end="url(#m12-ahc)" opacity="0.7" stroke="#38bdf8" stroke-width="1.8"></path>
+<!-- Nó: Observar -->
+<rect fill="#0e1b26" height="56" rx="12" stroke="#38bdf8" stroke-width="2" width="110" x="510" y="72"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="565" y="98">👁️ Observe</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="565" y="116">read the result</text>
+<!-- Seta → Concluir -->
+<path d="M620,100 L680,100" fill="none" marker-end="url(#m12-ah)" opacity="0.7" stroke="#34d399" stroke-width="1.8"></path>
+<!-- Nó: Concluir -->
+<g filter="url(#m12-glow)">
+<rect fill="#0e2018" height="44" rx="10" stroke="url(#m12-grad)" stroke-width="2" width="100" x="680" y="78"></rect>
+</g>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="730" y="104">✅ Ready</text>
+<!-- Seta de volta: Observar → Pensar -->
+<path d="M565,128 Q565,170 215,170 Q215,145 215,128" fill="none" marker-end="url(#m12-ah)" opacity="0.5" stroke="#34d399" stroke-dasharray="6 3" stroke-width="1.5"></path>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="390" y="185">repeats if needed</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🔄</span> ReAct in detail</h3>
+<p class="text-neutral-300 mb-4">ReAct (Reasoning + Acting) is the most common agent pattern. The model <strong>reasons through the problem</strong>, chooses a tool, runs it, observes the result, and reasons again — iterating until it finishes.</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Think:</strong> "I need to know what's in src/auth.ts before editing"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Act:</strong> Calls <code class="bg-dark-700 px-1 rounded text-emerald-400">Read("src/auth.ts")</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Observe:</strong> Receives the file contents</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Think:</strong> "I need to add the function on line 42..."</span></li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">ReAct</div><div class="text-xs text-neutral-400">Reasoning + Acting in a loop</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Scratchpad</div><div class="text-xs text-neutral-400">Invisible internal reasoning</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool call</div><div class="text-xs text-neutral-400">Tool call</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Iteration</div><div class="text-xs text-neutral-400">Repeat until complete</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🛠️ The Agent’s Tools</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code has a set of <strong class="text-emerald-400">native tools</strong> that you use in every cycle. Each tool has a token cost and requires specific permissions. Knowing them means knowing the agent’s hands.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Reading tools (safe)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 font-mono">Read</span><span class="ml-2">— reads the contents of a file</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 font-mono">Glob</span><span class="ml-2">— lists files matching a glob pattern</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 font-mono">Grep</span><span class="ml-2">— searches text/regex in files</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 font-mono">LS</span><span class="ml-2">— lists directories and structure</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">⚠️ Writing tools (require care)</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400 font-mono">Edit</span><span class="ml-2">— modifies sections of a file</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 font-mono">Write</span><span class="ml-2">— creates or overwrites a file</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 font-mono">Bash</span><span class="ml-2">— runs any shell command</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400 font-mono">TodoWrite</span><span class="ml-2">— manages an internal task list</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: Observe the tools in the logs</h3>
+<p class="text-neutral-300">Each tool appears in the logs with a prefix <code class="bg-dark-700 px-1 rounded text-emerald-400">●</code>. Learn to read these logs—they show exactly what the agent is doing and which file it’s working in. It’s the closest thing to “seeing the agent’s thoughts.”</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Reading</div><div class="text-xs text-neutral-400">Read, Glob, Grep, LS</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Writing</div><div class="text-xs text-neutral-400">Edit, Write</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Execution</div><div class="text-xs text-neutral-400">Bash — more powerful and dangerous</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Cost</div><div class="text-xs text-neutral-400">Each tool call uses tokens</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📋 How it plans</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Before acting, Claude Code makes a <strong class="text-emerald-400">implicit planning</strong>: breaks the problem into steps, identifies which files it needs to read first, and chooses the most efficient sequence of tools.</p>
+<!-- Timeline: Planejamento interno -->
+<h3 class="text-lg font-semibold mb-4 text-neutral-300">How the agent approaches "Add tests to the auth module"</h3>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Exploration — "what's there?"</h4>
+<p class="text-sm text-neutral-400 mb-2">Uses <code class="bg-dark-700 px-1 rounded">Glob("**/*.test.ts")</code> e <code class="bg-dark-700 px-1 rounded">Glob("src/auth/**")</code> to map the project.</p>
+<p class="text-sm text-neutral-300">You need to understand the structure before creating any files.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Reading — "what does it do?"</h4>
+<p class="text-sm text-neutral-400 mb-2">Reads <code class="bg-dark-700 px-1 rounded">src/auth/index.ts</code>, <code class="bg-dark-700 px-1 rounded">src/auth/utils.ts</code> and existing tests as a reference.</p>
+<p class="text-sm text-neutral-300">Without reading the code, you don't know what to test.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Writing — "create the tests"</h4>
+<p class="text-sm text-neutral-400 mb-2">Uses <code class="bg-dark-700 px-1 rounded">Write("src/auth/auth.test.ts", ...)</code> with the generated content.</p>
+<p class="text-sm text-neutral-300">Follow the pattern of the existing tests, respecting the detected framework.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+<span class="text-emerald-400 font-bold">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Validation — "does it work?"</h4>
+<p class="text-sm text-neutral-400 mb-2">Runs <code class="bg-dark-700 px-1 rounded">Bash("npm test src/auth")</code> and fixes issues.</p>
+<p class="text-sm text-neutral-300">Never deliver untested code—the feedback loop is automatic.</p>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">📋</span> Explicit vs. implicit plan</h3>
+<p class="text-neutral-300">By default, planning is internal (invisible). For complex tasks, you can ask the agent to create a plan before acting: <strong>"Before implementing, list the steps you'll follow"</strong>. This reduces errors on long tasks.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Explore</div><div class="text-xs text-neutral-400">Initial project mapping</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Read</div><div class="text-xs text-neutral-400">Reads relevant files first</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Act</div><div class="text-xs text-neutral-400">Modifies/creates with context</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Validate</div><div class="text-xs text-neutral-400">Runs and verifies the result</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🛡️ When It Asks for Permission</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code has a system of <strong class="text-emerald-400">granular permissions</strong>. It operates autonomously for permitted actions, but pauses and asks for confirmation before actions that could cause irreversible damage.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Does it without asking</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Read any file</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Edit code files (if on the allowlist)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Run npm test, git status, git diff</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Create new files</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">⚠️ Requests confirmation</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>Delete files or folders</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>Destructive commands (rm -rf, drop table)</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>Push to remote repositories</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>Install global dependencies</span></li>
+</ul>
+</div>
+</div>
+<!-- Box código mono: settings.json -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">⚙️ Configuring permissions in settings.json</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4">
+<div class="text-neutral-500">// .claude/settings.json</div>
+<div class="text-neutral-300">{</div>
+<div class="ml-4 text-neutral-300">"permissions": {</div>
+<div class="ml-8"><span class="text-emerald-400">"allow"</span><span class="text-neutral-300">: [</span><span class="text-yellow-400">"Bash(npm test:*)"</span><span class="text-neutral-300">,</span><span class="text-yellow-400">"Bash(git commit:*)"</span><span class="text-neutral-300">],</span></div>
+<div class="ml-8"><span class="text-red-400">"deny"</span><span class="text-neutral-300">: [</span><span class="text-yellow-400">"Bash(rm -rf:*)"</span><span class="text-neutral-300">]</span></div>
+<div class="ml-4 text-neutral-300">}</div>
+<div class="text-neutral-300">}</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: Configure the allowlist at the start</h3>
+<p class="text-neutral-300">Spending the first few hours with the agent asking permission for every npm test is annoying. Configure the project's settings.json during your first few sessions for the commands you use often.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">allowlist</div><div class="text-xs text-neutral-400">Commands allowed without confirmation</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">denylist</div><div class="text-xs text-neutral-400">Commands that are always blocked</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">settings.json</div><div class="text-xs text-neutral-400">Project configuration file</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">--skip</div><div class="text-xs text-neutral-400">Flag to skip confirmations (use caution)</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🚧 Agent Limitations</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Know the <strong class="text-emerald-400">the agent’s real limits</strong> is just as important as knowing its capabilities. Wrong expectations lead to frustration and mediocre results.</p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> What Claude Code doesn't do natively</h3>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">1.</span><span><strong>Without memory between sessions:</strong> each new session starts from scratch (without CLAUDE.md)</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">2.</span><span><strong>Without internet access:</strong> doesn’t consult online documentation without an extra tool</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">3.</span><span><strong>Without a GUI:</strong> doesn’t click buttons or navigate graphical apps</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">4.</span><span><strong>No vision:</strong> doesn’t read images, visual PDFs, or screenshots</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">5.</span><span><strong>Without parallel execution:</strong> one task at a time in the same session</span></li>
+</ul>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Work around it with CLAUDE.md</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Create a file <code>CLAUDE.md</code> in the project with persistent instructions</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Include project context, code rules, and preferences</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>The agent reads the file automatically at startup</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Real limitations (no hacks)</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Doesn't remember conversations from past sessions</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Doesn't monitor files in real time</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Doesn't schedule automatic tasks</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Manual persistent memory</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">MCP</div><div class="text-xs text-neutral-400">Protocol for adding tools</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Scope</div><div class="text-xs text-neutral-400">Local project, not the internet</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Session</div><div class="text-xs text-neutral-400">Context cleared when you close</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔍 Watching the Agent Work</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code is transparent: every action appears in the terminal in real time. Learning to read these logs is a skill that <strong class="text-emerald-400">accelerates your learning</strong> exponentially.</p>
+<!-- Box código mono: log de sessão real -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">💻 A typical session log</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-1">
+<div class="text-neutral-400">&gt; Add a password hashing function to auth.ts</div>
+<div class="mt-2 text-neutral-500">● Bash: find . -name "*.ts" -path "*/auth/*"</div>
+<div class="text-neutral-500">● Read: src/auth/auth.ts (342 lines)</div>
+<div class="text-neutral-500">● Read: src/auth/types.ts (89 lines)</div>
+<div class="text-neutral-500">● Bash: grep -r "bcrypt\|argon2\|crypto" package.json</div>
+<div class="text-neutral-500">● Edit: src/auth/auth.ts</div>
+<div class="text-neutral-500">● Bash: npx tsc --noEmit src/auth/auth.ts</div>
+<div class="text-emerald-400 mt-2">✓ hashPassword function added. Using crypto.pbkdf2...</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> What each log line means</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>Bash: find...</strong> — explore the project structure</li>
+<li><strong>Read: file (N lines)</strong> — reading N lines of context</li>
+<li><strong>Bash: grep...</strong> — checking for available dependencies</li>
+<li><strong>Edit: file</strong> — modifying the file</li>
+<li><strong>Bash: npx tsc...</strong> — checking for compilation errors</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tool log</div><div class="text-xs text-neutral-400">Line by line in real time</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Verbose</div><div class="text-xs text-neutral-400">Flag for more detail</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Ctrl+C</div><div class="text-xs text-neutral-400">Interrupt at any time</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Trace</div><div class="text-xs text-neutral-400">Every action is auditable</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 1.2 Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">ReAct loop</strong><span class="text-neutral-400"> — Think → Use Tool → Observe → repeat</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Native tools</strong><span class="text-neutral-400"> — Read, Edit, Write, Bash, Glob, Grep</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Sequential planning</strong><span class="text-neutral-400"> — explore → read → act → validate</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Configurable permissions</strong><span class="text-neutral-400"> — allowlist/denylist in settings.json</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Full transparency</strong><span class="text-neutral-400"> — real-time logs show each action</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">1.3 — Context, tokens, and the window: how the agent’s working memory works and why it has a limit.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-1.html">← Module 1.1</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-3.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

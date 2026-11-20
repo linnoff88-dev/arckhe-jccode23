@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>1.3 Contexto, tokens y ventana | Fundamentos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5, 150, 105, 0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5, 150, 105, 0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5, 150, 105, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes m13-fill { 0%{width:5%} 100%{width:85%} }
+    @media (prefers-reduced-motion: no-preference) {
+      .m13-bar { animation: m13-fill 3s ease-out forwards; }
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha1/modulo-1-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha1/modulo-1-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha1/modulo-1-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha1/modulo-1-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha1/modulo-1-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-1-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10" href="index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-emerald-400" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-emerald-400" href="index.html">Ruta 1 — Fundamentos</a>
+<span>/</span>
+<span class="text-emerald-400">Módulo 1.3</span>
+</div>
+</nav>
+<header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.3</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🪟 Contexto, tokens y ventana</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Entiende cómo funciona la memoria de trabajo del agente, qué son los tokens, por qué la ventana de contexto tiene un límite y cómo no desperdiciarla.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">6</div><div class="text-xs text-neutral-400">Temas</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">40</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Básico</div><div class="text-xs text-neutral-400">Nivel</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Teoría</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1 -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📝 Qué es el contexto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O <strong class="text-emerald-400">contexto</strong> es todo lo que el modelo sabe en ese momento: tu mensaje, la conversación anterior, los archivos que leyó el agente y los resultados de las herramientas. Es la "memoria de trabajo" activa de la sesión — y tiene un límite.</p>
+<!-- SVG: Anatomia do Contexto -->
+<div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+<svg aria-label="Anatomía del contexto: ventana total de 200K tokens dividida entre system prompt, historial de conversación, resultados de herramientas y CLAUDE.md" class="w-full h-auto" role="img" viewbox="0 0 820 200">
+<defs>
+<lineargradient id="m13-grad" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0" stop-color="#34d399"></stop><stop offset="1" stop-color="#10b981"></stop>
+</lineargradient>
+<filter height="180%" id="m13-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m13-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#34d399" opacity="0.09" r="1.2"></circle>
+</pattern>
+</defs>
+<rect fill="url(#m13-grid)" height="200" width="820" x="0" y="0"></rect>
+<!-- Barra total -->
+<text fill="#9ca3af" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="410" y="25">VENTANA DE CONTEXTO — 200.000 tokens</text>
+<rect fill="#1a1a1a" height="48" rx="10" stroke="#374151" stroke-width="2" width="760" x="30" y="35"></rect>
+<!-- Segmentos -->
+<rect fill="#0e2018" height="48" rx="10" stroke="#34d399" stroke-width="0" width="100" x="30" y="35"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="80" y="64">System</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="80" y="76">~2K tok</text>
+<rect fill="#0e2018" height="48" opacity="0.8" rx="0" stroke="#34d399" stroke-width="0" width="140" x="130" y="35"></rect>
+<text fill="#34d399" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="200" y="64">CLAUDE.md</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="200" y="76">~5K tok</text>
+<rect fill="#0e1b26" height="48" opacity="0.9" rx="0" stroke="#38bdf8" stroke-width="0" width="200" x="270" y="35"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="370" y="64">Historial de conversación</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="370" y="76">crece con el tiempo</text>
+<rect fill="#0e1b26" height="48" opacity="0.7" rx="0" stroke="#38bdf8" stroke-width="0" width="220" x="470" y="35"></rect>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="580" y="64">Resultados de herramientas (archivos leídos)</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="580" y="76">se acumula con cada Read/Bash</text>
+<rect fill="#1a1a1a" height="48" opacity="0.5" rx="10" stroke="#374151" stroke-width="2" width="100" x="690" y="35"></rect>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="740" y="64">libre</text>
+<!-- Linha de alerta -->
+<line stroke="#374151" stroke-dasharray="4 4" stroke-width="1" x1="30" x2="790" y1="115" y2="115"></line>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="410" y="135">Cuando se acerca al límite → compactación automática o degradación de la calidad</text>
+<!-- Labels abaixo -->
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="80" y="170">fijo</text>
+<text fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="200" y="170">persistente</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="370" y="170">volátil</text>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="580" y="170">mayor responsable</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">📝</span> Qué entra en el contexto</h3>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>System prompt:</strong> instrucciones internas de Claude Code (~2K tokens, fijo)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>CLAUDE.md:</strong> tus instrucciones personalizadas del proyecto (tú tienes el control)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Historial:</strong> toda la conversación desde el inicio de la sesión</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400 mt-1">•</span><span><strong>Resultados de herramientas:</strong> contenido de cada archivo leído, salida de cada Bash</span></li>
+</ul>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">System prompt</div><div class="text-xs text-neutral-400">Instrucciones base de Claude Code</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Tu contexto persistente</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Historial</div><div class="text-xs text-neutral-400">Conversación acumulada</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Resultados de herramientas</div><div class="text-xs text-neutral-400">Contenido de los archivos leídos</div></div>
+</div>
+</section>
+<!-- TÓPICO 2 -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔢 Qué son los tokens</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed"><strong class="text-emerald-400">Tokens</strong> son la unidad mínima de texto que procesan los modelos de lenguaje. No son exactamente palabras ni letras: son fragmentos de texto que el tokenizer divide según la frecuencia en el idioma.</p>
+<!-- Box dados -->
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Referencia de tokens</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>1 palabra en inglés</strong> ≈ 1.3 tokens</li>
+<li><strong>1 palabra en pt-BR</strong> ≈ 1.5-2 tokens</li>
+<li><strong>100 líneas de código</strong> ≈ 800-1.200 tokens</li>
+<li><strong>1 página A4 de texto</strong> ≈ 500-700 tokens</li>
+</ul>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li><strong>archivo de 1KB</strong> ≈ 250-400 tokens</li>
+<li><strong>archivo de 10KB</strong> ≈ 2.500-4.000 tokens</li>
+<li><strong>archivo de 100KB</strong> ≈ 25.000-40.000 tokens</li>
+<li><strong>CLAUDE.md típico</strong> ≈ 500-2.000 tokens</li>
+</ul>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Token eficiente</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Código en inglés/símbolos</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Textos concisos y directos</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Código sin comentarios largos</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>JSON sin espacios adicionales</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Consume muchos tokens</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Copiar archivos enteros en el mensaje</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Textos en idiomas con palabras largas</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Repetir el mismo contenido varias veces</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Respuestas verbosas del agente</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Tokenizer</div><div class="text-xs text-neutral-400">Algoritmo que divide el texto</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Input</div><div class="text-xs text-neutral-400">Tokens que envías</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Output</div><div class="text-xs text-neutral-400">Tokens que genera el modelo</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Costo</div><div class="text-xs text-neutral-400">Cobro por 1M de tokens</div></div>
+</div>
+</section>
+<!-- TÓPICO 3 -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🪟 Ventana de contexto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">A <strong class="text-emerald-400">ventana de contexto</strong> es el límite máximo de tokens que el modelo puede procesar de una sola vez. Es como la RAM de la computadora: rápida, pero finita. Claude 3 Sonnet tiene 200K tokens.</p>
+<div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🪟</span> 200.000 tokens en perspectiva</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<p class="text-neutral-300 text-sm mb-3">Parece mucho. Y lo es, pero se llena rápido en sesiones largas con mucha lectura de código.</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 500 páginas de texto denso</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 20.000 líneas de código</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>≈ 40-60 archivos de código de tamaño medio</span></li>
+</ul>
+</div>
+<div>
+<p class="text-neutral-300 text-sm mb-3">Con una sesión larga, puedes consumir esto en:</p>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>1 archivo de 500KB leído = 125K tokens</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>10 archivos de 50KB = lo mismo</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">⚠️</span><span>Sesión de 2h con mucho debugging = llena</span></li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Tip Box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Consejo: cuando el contexto está lleno</h3>
+<p class="text-neutral-300">Síntomas de una ventana casi llena: el agente empieza a «olvidar» instrucciones del inicio, hace cosas que ya dijiste que no hiciera o las respuestas se vuelven más genéricas. Usa <code class="bg-dark-700 px-1 rounded text-emerald-400">/compact</code> o <code class="bg-dark-700 px-1 rounded text-emerald-400">/clear</code>.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">200K tokens</div><div class="text-xs text-neutral-400">Ventana de Claude 3 Sonnet</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Truncamiento</div><div class="text-xs text-neutral-400">Elimina las partes antiguas cuando se llene</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Degradación</div><div class="text-xs text-neutral-400">Pérdida de calidad cerca del límite</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Analogía con la RAM</div><div class="text-xs text-neutral-400">Memoria de trabajo, no disco duro</div></div>
+</div>
+</section>
+<!-- TÓPICO 4 -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📈 Por qué se llena el contexto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">La ventana no se llena al azar. Hay <strong class="text-emerald-400">culpables comunes</strong> que consumen tokens de forma desproporcionada — e identificarlos permite actuar antes de perder contexto crítico.</p>
+<!-- Timeline de culpados -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-sm">1°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-red-400 mb-1">Archivos grandes leídos completos</h4>
+<p class="text-sm text-neutral-300">Un archivo de 500KB consume ~125K tokens, más de la mitad de la ventana. Si no hay instrucciones específicas, el agente lee más de lo que necesita.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="text-red-400 font-bold text-sm">2°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-red-400 mb-1">Historial de conversación largo</h4>
+<p class="text-sm text-neutral-300">Cada mensaje permanece en el contexto. Una sesión de 2h con muchos intercambios acumula fácilmente 30-50K tokens solo en el historial.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">3°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-amber-400 mb-1">Muchas llamadas a herramientas con salidas largas</h4>
+<p class="text-sm text-neutral-300">Cada <code class="bg-dark-700 px-1 rounded">Bash(npm install)</code> con output largo va directamente al contexto. Los logs de 10K líneas son comunes.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+<span class="text-amber-400 font-bold text-sm">4°</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-amber-400 mb-1">Respuestas verbosas del agente</h4>
+<p class="text-sm text-neutral-300">¿El agente explica cada paso en detalle? Eso también llena el contexto. Configura en CLAUDE.md: "sé conciso en las respuestas".</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-red-400 font-semibold text-sm mb-1">Archivo grande</div><div class="text-xs text-neutral-400">Mayor responsable individual</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-red-400 font-semibold text-sm mb-1">Historial largo</div><div class="text-xs text-neutral-400">Se acumula a lo largo de la sesión</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Resultado de herramienta</div><div class="text-xs text-neutral-400">Registros de comandos largos</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-amber-400 font-semibold text-sm mb-1">Verbose</div><div class="text-xs text-neutral-400">Respuestas innecesariamente largas</div></div>
+</div>
+</section>
+<!-- TÓPICO 5 -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🗜️ Compactación del contexto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code tiene mecanismos para manejar contextos llenos: el comando <strong class="text-emerald-400">/compact</strong> (manual) y la compactación automática que ocurre cuando la ventana está casi llena.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ /compact — cuándo usarlo</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Después de completar una feature</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cuando el historial se hizo muy largo</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Antes de iniciar una nueva subtarea</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cuando notes una degradación de la calidad</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Cuidado con /compact</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Es posible que se pierdan detalles de errores anteriores</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>No lo uses en medio de una tarea crítica</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>El resumen puede perder matices importantes</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Es mejor mantener algunos contextos íntegros</span></li>
+</ul>
+</div>
+</div>
+<!-- Box código mono -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h3 class="text-lg font-semibold text-emerald-400 mb-4">⌨️ Comandos para gestionar el contexto</h3>
+<div class="font-mono text-sm bg-dark-900 rounded-lg p-4 space-y-2">
+<div><span class="text-emerald-400">/compact</span><span class="text-neutral-400"> — resume la conversación y libera espacio</span></div>
+<div><span class="text-emerald-400">/clear</span><span class="text-neutral-400"> — borra por completo el historial</span></div>
+<div><span class="text-emerald-400">/tokens</span><span class="text-neutral-400"> — muestra cuántos tokens están en uso</span></div>
+<div class="mt-2 text-neutral-500"># CLAUDE.md como contexto persistente:</div>
+<div><span class="text-neutral-300">echo "# Contexto del Proyecto" &gt; CLAUDE.md</span></div>
+<div><span class="text-neutral-300">echo "Stack: Node.js + TypeScript + Prisma" &gt;&gt; CLAUDE.md</span></div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/compact</div><div class="text-xs text-neutral-400">Resume y libera contexto</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">/clear</div><div class="text-xs text-neutral-400">Borra el historial</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Compactación automática</div><div class="text-xs text-neutral-400">Se activa al llegar a ~95%</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">No desaparece después de compactar</div></div>
+</div>
+</section>
+<!-- TÓPICO 6 -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">💡 Buenas prácticas de contexto</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Gestionar bien el contexto es una de las habilidades que más diferencia a los usuarios avanzados de los principiantes. Algunas reglas simples tienen un gran impacto en la <strong class="text-emerald-400">calidad y costo de las sesiones</strong>.</p>
+<!-- Box dados -->
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📋</span> Las 5 reglas de oro del contexto</h3>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">1.</span><span><strong>Sesiones cortas y enfocadas:</strong> una sesión por feature/bug, no por día</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">2.</span><span><strong>CLAUDE.md para contexto fijo:</strong> stack, reglas de código, convenciones del proyecto</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">3.</span><span><strong>No pegues código en los mensajes:</strong> di "edita el archivo X" en lugar de copiar el contenido</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">4.</span><span><strong>/compact proactivo:</strong> úsalo antes de empezar una nueva tarea, no cuando la ventana ya está llena</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400 font-bold">5.</span><span><strong>Pide concisión:</strong> incluye en el CLAUDE.md "sé directo y conciso en las respuestas"</span></li>
+</ul>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> El CLAUDE.md perfecto para ahorrar contexto</h3>
+<p class="text-neutral-300 mb-3">Un buen CLAUDE.md tiene 3 secciones: (1) Contexto del proyecto — tecnologías, estructura, arquitectura; (2) Reglas de código — estilo, convenciones, patrones; (3) Instrucciones de sesión — "sé conciso", "pregunta antes de crear archivos".</p>
+<p class="text-neutral-300">Esto elimina la necesidad de repetir el contexto en cada sesión y el agente empieza a trabajar de inmediato.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Sesión focal</div><div class="text-xs text-neutral-400">Una tarea por sesión</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">CLAUDE.md</div><div class="text-xs text-neutral-400">Reemplaza la repetición de contexto</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Referencia por path</div><div class="text-xs text-neutral-400">"Edita src/x.ts" no pegues código</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600"><div class="text-emerald-400 font-semibold text-sm mb-1">Compactar pronto</div><div class="text-xs text-neutral-400">Antes de llenarlo, no después</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Resumen del Módulo 1.3</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Contexto = memoria de trabajo</strong><span class="text-neutral-400"> — todo lo que el modelo sabe en la sesión</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Los tokens son fragmentos de texto</strong><span class="text-neutral-400"> — ~1.5 tok/palabra en pt-BR</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Ventana de 200K tokens</strong><span class="text-neutral-400"> — se llena rápido con archivos grandes</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Culpables: archivos grandes e historial largo</strong><span class="text-neutral-400"> — monitorea y compacta pronto</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">CLAUDE.md es la solución</strong><span class="text-neutral-400"> — contexto persistente sin repeticiones</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-emerald-400 mb-2">Siguiente módulo:</h3>
+<p class="text-neutral-300">1.4 — Terminal y CLI para principiantes: de cero a usar la terminal en 40 minutos, incluidos los comandos que Claude Code más usa.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-1-2.html">← Módulo 1.2</a>
+<a class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors" href="modulo-1-4.html">Siguiente módulo →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

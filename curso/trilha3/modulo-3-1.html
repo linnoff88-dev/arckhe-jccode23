@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3.1 O que é uma Skill | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124, 58, 237, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .svg-flow { animation: flowpulse 2.5s ease-in-out infinite; }
+      @keyframes flowpulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha3/modulo-3-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha3/modulo-3-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha3/modulo-3-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-3-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha3/modulo-3-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha3/modulo-3-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html">
+<span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html">
+<span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html">
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
+<span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
+</a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html">
+<span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span>
+</a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Skills (T3)</a>
+<span>/</span>
+<span class="text-purple-400">Módulo 3.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🧩 O que é uma Skill</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Anatomia completa de uma skill: frontmatter YAML, corpo Markdown, localização em disco e o mecanismo de descoberta e ativação pelo agente.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">6</div>
+<div class="text-xs text-neutral-400">Tópicos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">40</div>
+<div class="text-xs text-neutral-400">Minutos</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Intermediário</div>
+<div class="text-xs text-neutral-400">Nível</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+<div class="text-xl font-bold text-purple-400">Teoria</div>
+<div class="text-xs text-neutral-400">Tipo</div>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: Anatomia da skill -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">📁 Anatomia: pasta + SKILL.md</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Uma skill é fundamentalmente uma <strong class="text-purple-400">pasta</strong> — não apenas um arquivo. O nome da pasta é o identificador da skill; o arquivo <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">SKILL.md</code> é o cérebro. Tudo que existe dentro dessa pasta serve à skill.</p>
+<!-- SVG: Anatomia da skill -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Anatomia de uma skill: pasta com SKILL.md, scripts/ e references/" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m31-glow">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur>
+<femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+</defs>
+<pattern height="18" id="m31-dots" patternunits="userSpaceOnUse" width="18" x="0" y="0">
+<circle cx="1" cy="1" fill="#374151" r="0.8"></circle>
+</pattern>
+<rect fill="url(#m31-dots)" height="240" opacity="0.4" width="600"></rect>
+<!-- Pasta raiz -->
+<rect fill="#1a1230" filter="url(#m31-glow)" height="180" rx="10" stroke="#a855f7" stroke-width="2" width="180" x="20" y="30"></rect>
+<text fill="#c084fc" font-size="11" font-weight="600" text-anchor="middle" x="110" y="55">📁 formato-curso/</text>
+<line stroke="#4b5563" stroke-width="1" x1="30" x2="190" y1="65" y2="65"></line>
+<!-- Arquivos dentro -->
+<text fill="#a855f7" font-size="10" font-weight="600" x="40" y="90">📄 SKILL.md</text>
+<text fill="#6b7280" font-size="9" x="55" y="105">└ frontmatter + corpo</text>
+<text fill="#9ca3af" font-size="10" x="40" y="125">📁 scripts/</text>
+<text fill="#6b7280" font-size="9" x="55" y="140">└ *.sh helpers</text>
+<text fill="#9ca3af" font-size="10" x="40" y="160">📁 references/</text>
+<text fill="#6b7280" font-size="9" x="55" y="175">└ docs detalhados</text>
+<text fill="#9ca3af" font-size="10" x="40" y="195">📄 .env.example</text>
+<!-- Seta para SKILL.md expandido -->
+<line stroke="#38bdf8" stroke-dasharray="4,3" stroke-width="1.5" x1="200" x2="240" y1="90" y2="90"></line>
+<polygon fill="#38bdf8" points="237,86 245,90 237,94"></polygon>
+<!-- SKILL.md expandido -->
+<rect fill="#0e1b26" height="180" rx="10" stroke="#38bdf8" stroke-width="1.5" width="170" x="245" y="30"></rect>
+<text fill="#38bdf8" font-size="11" font-weight="600" text-anchor="middle" x="330" y="55">SKILL.md</text>
+<line stroke="#374151" stroke-width="1" x1="255" x2="405" y1="65" y2="65"></line>
+<text fill="#7dd3fc" font-size="9" font-weight="600" x="260" y="85">--- (frontmatter YAML)</text>
+<text fill="#bfe6ff" font-size="9" x="260" y="100">name: formato-curso</text>
+<text fill="#bfe6ff" font-size="9" x="260" y="115">description: |</text>
+<text fill="#bfe6ff" font-size="9" x="268" y="128">Use quando criar HTML</text>
+<text fill="#bfe6ff" font-size="9" x="268" y="141">de curso INEMA.CLUB</text>
+<text fill="#7dd3fc" font-size="9" x="260" y="156">--- (fim frontmatter)</text>
+<line stroke="#374151" stroke-width="1" x1="255" x2="405" y1="163" y2="163"></line>
+<text fill="#9ca3af" font-size="9" x="260" y="178"># Fluxo de Trabalho</text>
+<text fill="#6b7280" font-size="9" x="260" y="193">## Hard Rules...</text>
+<!-- Seta para ativação -->
+<line stroke="#c084fc" stroke-dasharray="4,3" stroke-width="1.5" x1="415" x2="450" y1="120" y2="120"></line>
+<polygon fill="#c084fc" points="447,116 455,120 447,124"></polygon>
+<!-- Ativação -->
+<rect fill="#1a1230" filter="url(#m31-glow)" height="60" rx="8" stroke="#a855f7" stroke-width="1.5" width="125" x="455" y="90"></rect>
+<text fill="#c084fc" font-size="10" font-weight="600" text-anchor="middle" x="517" y="113">🤖 Agente</text>
+<text fill="#9ca3af" font-size="9" text-anchor="middle" x="517" y="128">skill ativada</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="517" y="141">corpo lido + executado</text>
+<text fill="#6b7280" font-size="9" text-anchor="middle" x="300" y="225">Pasta = contêiner · SKILL.md = cérebro · scripts/ = músculos</text>
+</svg>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Estrutura correta</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code class="bg-dark-700 px-1 rounded">~/.claude/skills/minha-skill/SKILL.md</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Pasta em kebab-case, SKILL.md na raiz</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Subpastas scripts/ e references/ opcionais</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cada arquivo com responsabilidade clara</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Erros comuns</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>SKILL.md solto em ~/.claude/ sem pasta</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pasta com espaços ou camelCase no nome</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Tudo misturado em um SKILL.md gigante</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Scripts inline no markdown em vez de arquivos</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-2xl mb-2">📁</div>
+<div class="text-xs font-semibold text-purple-400">Pasta raiz</div>
+<div class="text-xs text-neutral-500 mt-1">nome da skill</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-2xl mb-2">📄</div>
+<div class="text-xs font-semibold text-purple-400">SKILL.md</div>
+<div class="text-xs text-neutral-500 mt-1">obrigatório</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-2xl mb-2">⚙️</div>
+<div class="text-xs font-semibold text-purple-400">scripts/</div>
+<div class="text-xs text-neutral-500 mt-1">opcional</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-2xl mb-2">📚</div>
+<div class="text-xs font-semibold text-purple-400">references/</div>
+<div class="text-xs text-neutral-500 mt-1">opcional</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 2: Frontmatter YAML -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📄 Frontmatter YAML</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O frontmatter é o bloco YAML entre os delimitadores <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">---</code> no topo do SKILL.md. É aqui que você declara a identidade da skill e como ela deve ser ativada.</p>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-purple-400 font-semibold text-xs font-sans">SKILL.md — frontmatter completo</span>
+<span class="text-neutral-500 text-xs font-sans">YAML</span>
+</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed"><code><span class="text-neutral-500">---</span>
+<span class="text-purple-300">name</span><span class="text-neutral-400">:</span> <span class="text-emerald-300">formato-curso</span>
+<span class="text-purple-300">description</span><span class="text-neutral-400">: |-</span>
+  <span class="text-neutral-300">Template e padrões de design para criar páginas HTML</span>
+  <span class="text-neutral-300">de cursos no formato INEMA.CLUB.</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-yellow-300">Use esta skill SEMPRE que o usuário pedir para criar,</span>
+  <span class="text-yellow-300">editar ou revisar páginas HTML de curso — incluindo</span>
+  <span class="text-yellow-300">index de trilhas, páginas de módulos, componentes.</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-red-300">SKIP: páginas web genéricas sem contexto de curso INEMA.CLUB.</span>
+<span class="text-neutral-500">---</span>
+
+<span class="text-neutral-500"># Formato Curso - INEMA.CLUB</span>
+<span class="text-neutral-400"># (corpo do SKILL.md começa aqui)</span></code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica: o campo name = identificador</h3>
+<p class="text-neutral-300 text-sm">O <code class="bg-dark-700 px-1 rounded">name</code> no frontmatter deve ser idêntico ao nome da pasta. Isso cria coerência: a pasta <code class="bg-dark-700 px-1 rounded">formato-curso/</code> contém um SKILL.md com <code class="bg-dark-700 px-1 rounded">name: formato-curso</code>. O agente usa esse nome para referenciá-la em logs e para invocar via <code class="bg-dark-700 px-1 rounded">/formato-curso</code>.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Frontmatter válido</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Delimitadores <code class="bg-dark-700 px-1 rounded">---</code> no início e fim</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Indentação com 2 espaços (nunca tabs)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Campos <code class="bg-dark-700 px-1 rounded">name</code> e <code class="bg-dark-700 px-1 rounded">description</code> presentes</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Description em linguagem natural clara</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Frontmatter inválido</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>YAML com tabs em vez de espaços</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Falta de <code class="bg-dark-700 px-1 rounded">---</code> de fechamento</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Description vazia ou de 1 palavra</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Campos extras não reconhecidos (sem efeito)</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">name</div>
+<div class="text-xs text-neutral-500 mt-1">identificador único</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">description</div>
+<div class="text-xs text-neutral-500 mt-1">gatilho de ativação</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">YAML</div>
+<div class="text-xs text-neutral-500 mt-1">2 espaços, sem tabs</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">---</div>
+<div class="text-xs text-neutral-500 mt-1">delimitadores obr.</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 3: Corpo Markdown -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">📝 Corpo em Markdown</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Após o frontmatter, o corpo do SKILL.md é Markdown puro. É aqui que você programa o comportamento real da skill: o que fazer, em que ordem, e o que nunca fazer.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-purple-400 font-semibold text-xs font-sans">SKILL.md — estrutura do corpo</span>
+<span class="text-neutral-500 text-xs font-sans">Markdown</span>
+</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed"><code><span class="text-purple-300"># Nome da Skill</span>
+
+<span class="text-neutral-500">Parágrafo de contexto curto — o que esta skill faz.</span>
+
+<span class="text-purple-300">## Referências</span>
+<span class="text-neutral-400">Sempre leia estes arquivos antes de agir:</span>
+<span class="text-emerald-300">1. **`references/MASTER.md`** — Templates completos</span>
+<span class="text-emerald-300">2. **`references/CHECKLIST.md`** — Verificação final</span>
+
+<span class="text-purple-300">## Fluxo de Trabalho</span>
+<span class="text-neutral-400">1. Entender o que será criado</span>
+<span class="text-neutral-400">2. Ler referências relevantes</span>
+<span class="text-neutral-400">3. Criar seguindo os templates</span>
+<span class="text-neutral-400">4. Verificar com o checklist</span>
+
+<span class="text-purple-300">## Hard Rules</span>
+<span class="text-red-300">- **NUNCA** usar seta ▶ em tópicos (usar número em círculo)</span>
+<span class="text-red-300">- **SEMPRE** incluir INEMA.CLUB em todas as páginas</span>
+<span class="text-red-300">- **JAMAIS** simplificar o nav para páginas internas</span></code></pre>
+</div>
+<!-- Timeline: seções de um corpo bem estruturado -->
+<h3 class="text-lg font-semibold mb-4 text-purple-400">Seções recomendadas no corpo</h3>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Contexto / Referências</h4>
+<p class="text-sm text-neutral-400">Lista de arquivos que o agente deve ler antes de agir. Ponteiro para a documentação detalhada em references/.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Fluxo de Trabalho</h4>
+<p class="text-sm text-neutral-400">Passos numerados que o agente executa em ordem. Inclui gates de confirmação antes de ações custosas.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Erros Críticos / Hard Rules</h4>
+<p class="text-sm text-neutral-400">Regras invioláveis em MAIÚSCULAS. O que NUNCA fazer. Protege contra os erros mais caros e irreversíveis.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Tabelas de Referência Rápida</h4>
+<p class="text-sm text-neutral-400">Tabelas de decisão, mapeamentos de cores, listas de componentes. Informação densa em formato escaneável.</p>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Tamanho ideal do SKILL.md</h3>
+<p class="text-neutral-300 text-sm">O SKILL.md é lido completamente a cada ativação. <strong>50–150 linhas</strong> é o sweet spot: denso o suficiente para programar o comportamento, conciso o suficiente para não desperdiçar tokens. Conteúdo maior vai para references/.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">## Seções</div>
+<div class="text-xs text-neutral-500 mt-1">estrutura clara</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Hard Rules</div>
+<div class="text-xs text-neutral-500 mt-1">NUNCA em maiúsculo</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">50-150 linhas</div>
+<div class="text-xs text-neutral-500 mt-1">tamanho ideal</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Links → refs</div>
+<div class="text-xs text-neutral-500 mt-1">detalhe externo</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 4: Onde ficam as skills -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🗂️ Onde ficam as skills</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Skills podem existir em dois escopos: <strong class="text-purple-400">global</strong> (disponível em todos os projetos) ou <strong class="text-purple-400">local</strong> (restrito ao projeto atual). A escolha depende de quão específica é a skill.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🗺️</span> Mapa de localização</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h4 class="font-semibold text-emerald-400 mb-3">Global (~/.claude/skills/)</h4>
+<p class="text-sm text-neutral-300 mb-3">Skills utilitárias reutilizáveis em qualquer projeto. Exemplos: formato-curso, n8n-code-python, claude-api.</p>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs text-neutral-400">
+            ~/.claude/<br/>
+            └── skills/<br/>
+                ├── formato-curso/<br/>
+                ├── n8n-code-python/<br/>
+                └── ads-skill/
+          </div>
+</div>
+<div>
+<h4 class="font-semibold text-blue-400 mb-3">Local (.claude/skills/)</h4>
+<p class="text-sm text-neutral-300 mb-3">Skills específicas do projeto atual. Não aparecem em outros repositórios. Exemplo: skill com lógica de negócio do cliente.</p>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs text-neutral-400">
+            meu-projeto/<br/>
+            └── .claude/<br/>
+                └── skills/<br/>
+                    └── projeto-especifico/
+          </div>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Regra de precedência</h3>
+<p class="text-neutral-300 text-sm">Quando existe uma skill com o mesmo nome em ambos os escopos, a <strong>local sobrescreve a global</strong>. Isso permite que projetos específicos customizem o comportamento de uma skill global sem alterar a original.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Use global quando</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A skill é útil em múltiplos projetos</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Não contém dados sensíveis de clientes</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>É um utilitário genérico (formatter, analyzer)</span></li>
+</ul>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+<h4 class="font-bold text-blue-400 mb-4">✓ Use local quando</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Contém lógica de negócio específica</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Referencia APIs privadas do projeto</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>Deve ser versionada junto ao código</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">~/.claude/skills/</div>
+<div class="text-xs text-neutral-500 mt-1">escopo global</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">.claude/skills/</div>
+<div class="text-xs text-neutral-500 mt-1">escopo local</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Local &gt; Global</div>
+<div class="text-xs text-neutral-500 mt-1">precedência</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Sem conflito</div>
+<div class="text-xs text-neutral-500 mt-1">nomes distintos</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 5: Mecanismo de descoberta -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔍 Como o agente descobre e ativa</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O processo de descoberta e ativação acontece em duas fases: <strong class="text-purple-400">descoberta passiva</strong> (ao iniciar) e <strong class="text-purple-400">ativação ativa</strong> (quando a mensagem é relevante).</p>
+<!-- SVG: fluxo de descoberta -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Fluxo: Claude Code inicia → varre skills → injeta metadados → match semântico → ativa skill" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 580 180" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m31-glow2">
+<fegaussianblur result="b2" stddeviation="1.5"></fegaussianblur>
+<femerge><femergenode in="b2"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+</defs>
+<pattern height="18" id="m31-dots2" patternunits="userSpaceOnUse" width="18" x="0" y="0">
+<circle cx="1" cy="1" fill="#374151" r="0.8"></circle>
+</pattern>
+<rect fill="url(#m31-dots2)" height="180" opacity="0.35" width="580"></rect>
+<!-- Passo 1 -->
+<rect fill="#1a1230" filter="url(#m31-glow2)" height="50" rx="8" stroke="#a855f7" stroke-width="1.5" width="95" x="10" y="60"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="57" y="81">Claude Code</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="57" y="95">inicia sessão</text>
+<line stroke="#6b7280" stroke-width="1.5" x1="105" x2="125" y1="85" y2="85"></line>
+<polygon fill="#6b7280" points="122,81 130,85 122,89"></polygon>
+<!-- Passo 2 -->
+<rect fill="#1a1230" height="50" rx="8" stroke="#a855f7" stroke-width="1.5" width="95" x="130" y="60"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="177" y="81">Varre</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="177" y="95">~/.claude/skills/</text>
+<line stroke="#6b7280" stroke-width="1.5" x1="225" x2="245" y1="85" y2="85"></line>
+<polygon fill="#6b7280" points="242,81 250,85 242,89"></polygon>
+<!-- Passo 3 -->
+<rect fill="#1a1230" height="50" rx="8" stroke="#38bdf8" stroke-width="1.5" width="105" x="250" y="60"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="302" y="78">Injeta name +</text>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="302" y="91">description</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="302" y="104">no sistema prompt</text>
+<line stroke="#6b7280" stroke-width="1.5" x1="355" x2="375" y1="85" y2="85"></line>
+<polygon fill="#6b7280" points="372,81 380,85 372,89"></polygon>
+<!-- Passo 4 -->
+<rect fill="#1a1230" height="50" rx="8" stroke="#38bdf8" stroke-width="1.5" width="95" x="380" y="60"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="427" y="78">Match</text>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="427" y="91">semântico</text>
+<text fill="#9ca3af" font-size="8" text-anchor="middle" x="427" y="104">pedido ↔ description</text>
+<line stroke="#a855f7" stroke-width="1.5" x1="475" x2="495" y1="85" y2="85"></line>
+<polygon fill="#a855f7" points="492,81 500,85 492,89"></polygon>
+<!-- Passo 5 -->
+<rect fill="#1a1230" filter="url(#m31-glow2)" height="50" rx="8" stroke="#a855f7" stroke-width="2" width="70" x="500" y="60"></rect>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="535" y="81">Skill</text>
+<text fill="#c084fc" font-size="9.5" font-weight="600" text-anchor="middle" x="535" y="95">ativada</text>
+<!-- Labels de fase -->
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="57" y="130">Fase 1</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="177" y="130">Descoberta</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="302" y="130">Registro</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="427" y="130">Decisão</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="535" y="130">Execução</text>
+<text fill="#4b5563" font-size="8.5" text-anchor="middle" x="290" y="165">Corpo do SKILL.md é lido SOMENTE na etapa de ativação (lazy loading)</text>
+</svg>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Lazy loading: economia de tokens</h3>
+<p class="text-neutral-300 text-sm">O agente NÃO lê o corpo completo de todas as skills em cada sessão. Apenas os metadados (name + description) são injetados. O corpo completo é carregado <strong>somente</strong> quando a skill é ativada. Isso mantém o contexto leve mesmo com dezenas de skills instaladas.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Varredura</div>
+<div class="text-xs text-neutral-500 mt-1">ao iniciar sessão</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Metadados</div>
+<div class="text-xs text-neutral-500 mt-1">sempre injetados</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Corpo</div>
+<div class="text-xs text-neutral-500 mt-1">lazy loading</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Match</div>
+<div class="text-xs text-neutral-500 mt-1">semântico</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 6: Skill vs prompt vs comando -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">⚖️ Skill vs prompt vs comando</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Três ferramentas, três propósitos. Escolher a errada não quebra nada — mas escolher a certa economiza horas.</p>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">Tabela comparativa</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead>
+<tr class="border-b border-dark-600">
+<th class="text-left py-2 pr-4 text-neutral-400 font-semibold">Critério</th>
+<th class="text-left py-2 pr-4 text-purple-400 font-semibold">Skill</th>
+<th class="text-left py-2 pr-4 text-blue-400 font-semibold">Prompt</th>
+<th class="text-left py-2 text-emerald-400 font-semibold">Comando</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-dark-600">
+<tr>
+<td class="py-2 pr-4 text-neutral-400">Persistência</td>
+<td class="py-2 pr-4 text-neutral-300">Permanente (arquivo)</td>
+<td class="py-2 pr-4 text-neutral-300">Stateless</td>
+<td class="py-2 text-neutral-300">Salvo em config</td>
+</tr>
+<tr>
+<td class="py-2 pr-4 text-neutral-400">Complexidade</td>
+<td class="py-2 pr-4 text-neutral-300">Multi-etapa, scripts</td>
+<td class="py-2 pr-4 text-neutral-300">Instrução pontual</td>
+<td class="py-2 text-neutral-300">Atalho de prompt</td>
+</tr>
+<tr>
+<td class="py-2 pr-4 text-neutral-400">Regras rígidas</td>
+<td class="py-2 pr-4 text-emerald-400">Sim (hard rules)</td>
+<td class="py-2 pr-4 text-red-400">Não</td>
+<td class="py-2 text-red-400">Não</td>
+</tr>
+<tr>
+<td class="py-2 pr-4 text-neutral-400">Arquivos auxiliares</td>
+<td class="py-2 pr-4 text-emerald-400">Sim (scripts/, refs/)</td>
+<td class="py-2 pr-4 text-red-400">Não</td>
+<td class="py-2 text-red-400">Não</td>
+</tr>
+<tr>
+<td class="py-2 pr-4 text-neutral-400">Melhor para</td>
+<td class="py-2 pr-4 text-purple-400">Workflows complexos</td>
+<td class="py-2 pr-4 text-blue-400">Tarefas pontuais</td>
+<td class="py-2 text-emerald-400">Atalhos rápidos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Regra de ouro</h3>
+<p class="text-neutral-300 text-sm">Se você vai repetir o mesmo conjunto de passos mais de 3 vezes, crie uma skill. Se é pontual e específico, use um prompt inline. Se é um atalho para um prompt que você digita frequentemente, crie um comando slash.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-purple-400">Skill</div>
+<div class="text-xs text-neutral-500 mt-1">fluxo + regras + scripts</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-blue-400">Prompt</div>
+<div class="text-xs text-neutral-500 mt-1">instrução única</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-emerald-400">Comando</div>
+<div class="text-xs text-neutral-500 mt-1">atalho de teclado</div>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center">
+<div class="text-xs font-semibold text-primary">Regra 3x</div>
+<div class="text-xs text-neutral-500 mt-1">repetiu? vira skill</div>
+</div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧩</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Skill = pasta + SKILL.md</strong><span class="text-neutral-400"> — o diretório é o contêiner; SKILL.md é o cérebro obrigatório</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Frontmatter YAML</strong><span class="text-neutral-400"> — campos name + description entre delimitadores ---; YAML com espaços, nunca tabs</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Corpo Markdown</strong><span class="text-neutral-400"> — fluxo de trabalho, hard rules, referências para arquivos externos; 50-150 linhas ideal</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Global vs local</strong><span class="text-neutral-400"> — ~/.claude/skills/ para utilitários; .claude/skills/ para lógica de projeto; local sobrescreve global</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Lazy loading</strong><span class="text-neutral-400"> — apenas metadados injetados ao iniciar; corpo lido somente quando skill é ativada</span></div>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-1">✓</span>
+<div><strong class="text-white">Skill &gt; prompt &gt; comando</strong><span class="text-neutral-400"> — skill para fluxos complexos e recorrentes; regra dos 3x para decidir quando criar</span></div>
+</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">3.2 — Description e triggers: como escrever o campo description que faz a skill disparar na hora certa</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Voltar para Skills</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-2.html">Próximo: Description e triggers →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Do Zero ao Projeto · 2026</p>
+</div>
+</footer>
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const html = document.documentElement;
+if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+  themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+} else { themeToggleLightIcon.classList.remove('hidden'); }
+themeToggle.addEventListener('click', () => {
+  themeToggleDarkIcon.classList.toggle('hidden');
+  themeToggleLightIcon.classList.toggle('hidden');
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>

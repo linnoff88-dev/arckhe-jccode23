@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>5.3 Maintenance, versioning, and CHANGELOG | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-teal-400 { color: #0f766e; }
+    html:not(.dark) .bg-teal-500\/20 { background-color: #ccfbf1; }
+    html:not(.dark) .border-teal-500\/30 { border-color: #99f6e4; }
+    html:not(.dark) .from-teal-900\/30 { --tw-gradient-from: #f0fdfa; }
+    html:not(.dark) .bg-gradient-to-b,
+    html:not(.dark) .bg-gradient-to-r,
+    html:not(.dark) .bg-gradient-to-br { background-image: none; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha5/modulo-5-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha5/modulo-5-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha5/modulo-5-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha5/modulo-5-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-5-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha5/modulo-5-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2" href="../../index.html">
+<span class="text-xl">🤖</span>
+<span class="font-bold text-primary">Claude Code</span>
+</a>
+<a class="text-sky-400 text-sm font-medium hidden sm:block" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1">
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentals</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Installation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automation</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projects</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
+<button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
+<svg class="w-5 h-5 hidden" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="w-5 h-5" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- BREADCRUMB -->
+<nav class="text-sm text-neutral-500 mb-6">
+<a class="hover:text-teal-400 transition-colors" href="../../index.html">Claude Code</a>
+<span class="mx-2">›</span>
+<a class="hover:text-teal-400 transition-colors" href="index.html">Track 5</a>
+<span class="mx-2">›</span>
+<span class="text-neutral-300">Module 5.3</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8 mb-12">
+<div class="flex items-center space-x-3 mb-4">
+<span class="text-teal-400 font-bold text-lg">5.3</span>
+<span class="text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full">Track 5</span>
+<span class="text-xs text-neutral-500">~45 min</span>
+</div>
+<h1 class="text-2xl font-bold mb-3">📦 Maintenance, versioning, and CHANGELOG</h1>
+<p class="text-neutral-300">Semver, a structured CHANGELOG, safe rollback, confident refactoring, and how to manage technical debt in projects that run for months.</p>
+</div>
+<!-- SEÇÃO 1 — Semver -->
+<section class="mb-16" id="topico-1">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🏷️ Semver — versions that communicate intent</h2>
+<!-- SVG — escada de versões -->
+<div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-4 mb-8">
+<svg aria-label="Semver version ladder: PATCH moves up one step, MINOR moves up another, MAJOR breaks compatibility—represented by an ascending staircase" class="w-full h-auto" role="img" viewbox="0 0 700 180">
+<defs>
+<filter id="m53-glow"><fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<pattern height="20" id="m53-grid" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<path d="M 20 0 L 0 0 0 20" fill="none" opacity="0.25" stroke="#2dd4bf" stroke-width="0.12"></path>
+</pattern>
+</defs>
+<rect fill="url(#m53-grid)" height="180" width="700"></rect>
+<!-- Degraus -->
+<rect fill="#0c1f1c" height="30" rx="6" stroke="#2dd4bf" stroke-width="1.5" width="160" x="60" y="130"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="140" y="149">PATCH 1.2.1</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="140" y="173">bugfix — no breaking change</text>
+<rect fill="#0c1f1c" height="30" rx="6" stroke="#2dd4bf" stroke-width="1.5" width="170" x="260" y="95"></rect>
+<text fill="#2dd4bf" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="345" y="114">MINOR 1.3.0</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="345" y="138">new feature — compatible</text>
+<g filter="url(#m53-glow)">
+<rect fill="#0c1f1c" height="30" rx="6" stroke="#38bdf8" stroke-width="2" width="180" x="460" y="50"></rect>
+</g>
+<text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="550" y="69">MAJOR 2.0.0</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="550" y="93">breaking change</text>
+<!-- Linhas de conexão -->
+<line stroke="#2dd4bf" stroke-width="1.5" x1="220" x2="260" y1="145" y2="110"></line>
+<line stroke="#38bdf8" stroke-width="1.5" x1="430" x2="460" y1="110" y2="65"></line>
+</svg>
+<p class="text-xs text-neutral-500 text-center mt-2">Each semver number communicates the impact of the change</p>
+</div>
+<p class="text-neutral-300 mb-6">Semantic Versioning (semver) isn't bureaucracy — it's communication. Each number has a precise meaning that lets anyone (and Claude) understand the impact of an update.</p>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">git commands for version control</span>
+</div>
+<pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code># Criar tag de versão
+git tag -a v1.2.3 -m "Release 1.2.3 — Documents Gallery"
+
+# Listar tags
+git tag --list
+
+# Push tags para remote
+git push origin --tags
+
+# Ver diff entre versões
+git diff v1.2.0..v1.3.0
+
+# Voltar para versão específica (checkout)
+git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<div class="text-2xl mb-2">🩹</div>
+<h4 class="font-semibold text-teal-400 mb-2">PATCH x.y.Z</h4>
+<p class="text-sm text-neutral-400">Bugfix. API unchanged. Safe to update without reading the changelog.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
+<div class="text-2xl mb-2">✨</div>
+<h4 class="font-semibold text-teal-400 mb-2">MINOR x.Y.z</h4>
+<p class="text-sm text-neutral-400">New feature. Backward-compatible. Read the changelog for what's new.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-red-500/20 p-5">
+<div class="text-2xl mb-2">💥</div>
+<h4 class="font-semibold text-red-400 mb-2">MAJOR X.y.z</h4>
+<p class="text-sm text-neutral-400">Breaking change. May break existing code. Read the migration guide.</p>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 2 — CHANGELOG -->
+<section class="mb-16" id="topico-2">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 📋 Well-structured CHANGELOG</h2>
+<p class="text-neutral-300 mb-6">The CHANGELOG is the project's diary. It follows the "Keep a Changelog" format—organized by version with Added, Changed, Fixed, and Removed sections.</p>
+<!-- Code box de CHANGELOG -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">CHANGELOG.md — recommended format</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># Changelog
+
+## [Unreleased]
+### Added
+- Suporte a dark mode no painel principal
+
+## [2.3.0] — 2026-05-31
+### Added
+- Documents Gallery: visualização de docs Obsidian no dashboard
+- Filtro por vault na sidebar
+
+### Changed
+- Script aggregate.ts agora processa docs em paralelo (3x mais rápido)
+
+### Fixed
+- Bug em live-data.json quando Pinecone retorna 0 resultados
+
+## [2.2.0] — 2026-04-15
+### Added
+- Skill /personas: panteão de personas YAML locais
+- Painel de personas no dashboard
+
+### Changed
+- Deploy migrado de Vercel para Cloudflare Pages
+
+## [2.1.0] — 2026-03-01
+### Added
+- Skill /dream: auditoria de 24h em 8 buckets de sinal</code></pre>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Effective CHANGELOG</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• One entry per version, with a date</li>
+<li>• Semantic sections (Added/Changed/Fixed)</li>
+<li>• [Unreleased] section for the next version</li>
+<li>• Short phrases focused on impact</li>
+<li>• Updated with every merged PR</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Useless CHANGELOG</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• "Several bugs fixed"</li>
+<li>• No dates or versions</li>
+<li>• Last entry is 6 months old</li>
+<li>• Copying and pasting commit messages</li>
+<li>• Mixing breaking changes and bug fixes</li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Claude as a CHANGELOG assistant</p>
+<p class="text-neutral-300 text-sm">At the end of a productive session: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Baseado nas mudanças que fizemos, adicione entradas na seção [Unreleased] do CHANGELOG.md seguindo o formato Keep a Changelog."</code></p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 3 — Rollback seguro -->
+<section class="mb-16" id="topico-3">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> ⏪ Safe rollback</h2>
+<p class="text-neutral-300 mb-6">With Claude generating code quickly, errors happen. Knowing how to roll back without drama is the most underrated skill in long-term projects.</p>
+<!-- Timeline de estratégias de rollback -->
+<div class="mb-8">
+<h3 class="font-semibold mb-4 text-neutral-200">Rollback strategies by scenario</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Bad recent commit — <code class="font-mono text-teal-300 text-xs">git revert</code></p>
+<p class="text-neutral-400 text-sm">Creates a new commit that undoes the changes. History is preserved. Safe for shared branches.</p>
+<code class="font-mono text-xs text-teal-300 bg-dark-700 px-2 py-1 rounded mt-2 inline-block">git revert HEAD~1</code>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
+<div class="flex-1 w-px bg-dark-600 mt-2"></div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Specific corrupted file — <code class="font-mono text-teal-300 text-xs">git checkout</code></p>
+<p class="text-neutral-400 text-sm">Restores a file to the version from a previous commit without affecting anything else.</p>
+<code class="font-mono text-xs text-teal-300 bg-dark-700 px-2 py-1 rounded mt-2 inline-block">git checkout v2.2.0 -- src/components/Gallery.tsx</code>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
+</div>
+<div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
+<p class="font-semibold text-sm mb-1">Deployment rolled back — previous version in production</p>
+<p class="text-neutral-400 text-sm">In Cloudflare: dashboard → Deployments → select a previous version → "Rollback". Instant, with no code.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Prepared for rollback</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Version tags for each release</li>
+<li>• Small, atomic commits</li>
+<li>• Feature flags for new features</li>
+<li>• Automated deploy (not manual)</li>
+<li>• Tests that catch regressions</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Impossible rollback</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• No tags — you don't know which version to roll back to</li>
+<li>• Huge commits with 50 files</li>
+<li>• Database migrations without a downgrade</li>
+<li>• Manual deploy with no history</li>
+<li>• No tests to detect breakage</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 4 — Refatorar com segurança -->
+<section class="mb-16" id="topico-4">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 🔧 Refactor Safely</h2>
+<p class="text-neutral-300 mb-6">Refactoring with Claude is fast — and that’s why it’s dangerous. Without tests, you don’t know whether the "cleanup" broke something. The ritual: tests first, refactoring next.</p>
+<!-- Code box — comandos de refatoração segura -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">safe refactoring workflow</span>
+</div>
+<pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code># 1. Garantir que testes passam ANTES de refatorar
+bun test
+
+# 2. Criar branch para a refatoração
+git checkout -b refactor/aggregate-pipeline
+
+# 3. Refatorar em passos pequenos, testar após cada passo
+bun test --watch
+
+# 4. Commit atômico por mudança semântica
+git add src/lib/aggregate.ts
+git commit -m "refactor: extract parseObsidianVault to separate function"
+
+# 5. Confirmar que tudo ainda passa
+bun test
+
+# 6. Merge via PR (revisão antes de merge)
+git push origin refactor/aggregate-pipeline</code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Safe refactoring prompt</p>
+<p class="text-neutral-300 text-sm">Tell Claude: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Antes de refatorar, mostre quais testes cobrem este código. Depois refatore em passos pequenos e execute os testes após cada passo."</code></p>
+</div>
+</div>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Safe refactoring</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Tests passing before you start</li>
+<li>• Dedicated branch</li>
+<li>• Small steps with commits</li>
+<li>• Run tests after each step</li>
+<li>• PR for final review</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Risky refactoring</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• Refactor directly on main</li>
+<li>• Change 10 files in the same commit</li>
+<li>• No tests to validate behavior</li>
+<li>• Run tests only at the end</li>
+<li>• "Claude said it's correct"</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 5 — Testes como documentação -->
+<section class="mb-16" id="topico-5">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🧪 Tests as living documentation</h2>
+<p class="text-neutral-300 mb-6">Well-written tests are the most reliable spec: they have to pass to exist. Unlike comments and README files, they don’t silently become outdated.</p>
+<!-- Code box de teste -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">tests/aggregate.test.ts — Vitest example</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>import { describe, it, expect } from 'vitest'
+import { parseObsidianVault } from '../src/lib/aggregate'
+
+describe('parseObsidianVault', () =&gt; {
+  it('retorna array vazio quando vault não existe', async () =&gt; {
+    const result = await parseObsidianVault('/nonexistent/path')
+    expect(result).toEqual([])
+  })
+
+  it('extrai notas com frontmatter válido', async () =&gt; {
+    const result = await parseObsidianVault('./fixtures/vault')
+    expect(result.length).toBeGreaterThan(0)
+    expect(result[0]).toHaveProperty('title')
+    expect(result[0]).toHaveProperty('tags')
+  })
+
+  it('ignora arquivos sem extensão .md', async () =&gt; {
+    const result = await parseObsidianVault('./fixtures/vault')
+    result.forEach(note =&gt; {
+      expect(note.path).toMatch(/\.md$/)
+    })
+  })
+})</code></pre>
+</div>
+<div class="bg-teal-500/10 border border-teal-500/30 rounded-xl p-6 mb-6">
+<h3 class="text-teal-400 font-semibold mb-3">Project-specific testing strategy</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-2">Unit tests</p>
+<p class="text-xs text-neutral-400">Pure functions, parsers, transformations. Fast, no I/O. 80% coverage.</p>
+</div>
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-2">Integration tests</p>
+<p class="text-xs text-neutral-400">Modules working together. Scripts with fixtures. 15% coverage.</p>
+</div>
+<div>
+<p class="text-sm font-medium text-neutral-200 mb-2">E2E tests</p>
+<p class="text-xs text-neutral-400">Complete critical workflows. Slow; run in CI. 5%, but the most important ones.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEÇÃO 6 — Dívida técnica -->
+<section class="mb-12" id="topico-6">
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 💳 Controlled technical debt</h2>
+<p class="text-neutral-300 mb-6">Technical debt isn't always bad — sometimes it's the right decision at the time. The problem is when it accumulates without being tracked. With Claude, debt accumulates much faster than usual.</p>
+<!-- Grid de monitoramento -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+<div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
+<h4 class="text-emerald-400 font-bold mb-3">✓ Tracked debt</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• TODO/FIXME with context and date</li>
+<li>• GitHub issue for each piece of technical debt</li>
+<li>• Monthly cleanup sprint</li>
+<li>• TODO count metric in CI</li>
+<li>• Explicit decision to “pay later”</li>
+</ul>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
+<h4 class="text-red-400 font-bold mb-3">✗ Invisible debt</h4>
+<ul class="space-y-2 text-sm text-neutral-300">
+<li>• TODO without an author or date</li>
+<li>• Duplicated code “for now”</li>
+<li>• any types scattered throughout the TS</li>
+<li>• Outdated dependencies ignored</li>
+<li>• "We'll refactor later"</li>
+</ul>
+</div>
+</div>
+<!-- Code box de TODO com contexto -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">TODOs with context — recommended format</span>
+</div>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>// TODO(nei, 2026-05-15): Este parser é O(n²) para vaults grandes.
+// Aceitável para agora (&lt;500 notas) mas precisa de índice quando
+// o projeto escalar. Ver ADR-003 para contexto da decisão.
+// Issue: github.com/user/project/issues/42
+function parseAllNotes(vault: string) {
+  // ...implementação atual...
+}</code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
+<div class="flex items-start gap-3">
+<span class="text-primary text-lg">💡</span>
+<div>
+<p class="text-primary font-semibold text-sm mb-1">Debt audit with Claude</p>
+<p class="text-neutral-300 text-sm">Monthly: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Liste todos os TODO/FIXME do projeto com contexto e estime o impacto de cada um. Priorize por risco × esforço."</code></p>
+</div>
+</div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<div class="bg-gradient-to-br from-teal-900/30 to-dark-800 rounded-2xl border border-teal-500/30 p-8">
+<h2 class="text-xl font-bold mb-6">📋 Module summary</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">✅ You learned</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• Semver: MAJOR.MINOR.PATCH with semantics</li>
+<li>• CHANGELOG in Keep a Changelog format</li>
+<li>• Rollback strategies for each scenario</li>
+<li>• Refactoring in steps with tests</li>
+<li>• Tests as living documentation</li>
+<li>• Technical debt tracking</li>
+</ul>
+</div>
+<div class="bg-dark-900/50 rounded-xl p-4">
+<div class="text-teal-400 font-bold mb-2">🚀 Next Steps</div>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>• Configure semver in your project</li>
+<li>• Create the initial CHANGELOG.md</li>
+<li>• Add Vitest to the project</li>
+<li>• Audit the existing TODOs</li>
+</ul>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 justify-start">
+<a class="px-5 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-colors font-medium" href="modulo-5-4.html">Next: 5.4 ClaudeOS Case Study →</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="modulo-5-2.html">← 5.2 CLAUDE.md</a>
+<a class="px-5 py-2 bg-dark-700 text-neutral-300 rounded-lg text-sm hover:bg-dark-600 transition-colors" href="index.html">↩ Track 5</a>
+</div>
+</div>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      darkIcon.classList.toggle('hidden', isDark);
+      lightIcon.classList.toggle('hidden', !isDark);
+    });
+  </script>
+</body>
+</html>

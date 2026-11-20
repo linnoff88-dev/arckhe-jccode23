@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo 6.3 — GitHub Pages | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'dark': { 600: '#4b5563', 700: '#374151', 800: '#1f2937', 900: '#111827' },
+            'primary': '#FACC15'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-rose-400 { color: #9f1239; }
+    html:not(.dark) .bg-rose-500\/20 { background-color: rgba(225, 29, 72, 0.12); }
+    html:not(.dark) .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); }
+    html:not(.dark) .border-rose-500\/30 { border-color: rgba(225, 29, 72, 0.25); }
+    html:not(.dark) .hover\:bg-rose-500\/30:hover { background-color: rgba(225, 29, 72, 0.18); }
+    html:not(.dark) .from-rose-900\/30 { --tw-gradient-from: rgba(136, 19, 55, 0.15); }
+    html:not(.dark) .hover\:text-rose-400:hover { color: #9f1239; }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161, 98, 7, 0.2); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    @keyframes wf-pulse { 0%,100%{opacity:.55}50%{opacity:1} }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.5s}.wf-a:nth-child(3){animation-delay:1s}
+      .wf-a:nth-child(4){animation-delay:1.5s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha6/modulo-6-3.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha6/modulo-6-3.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha6/modulo-6-3.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha6/modulo-6-3.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../../en/curso/trilha6/modulo-6-3.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="modulo-6-3.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalación</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automatización</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Proyectos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-rose-400 bg-rose-500/10" href="index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<!-- BREADCRUMB -->
+<nav class="flex items-center space-x-2 text-sm text-neutral-500 mb-8">
+<a class="hover:text-neutral-300" href="../../index.html">Inicio</a>
+<span>/</span>
+<a class="hover:text-neutral-300" href="index.html">Ruta 6</a>
+<span>/</span>
+<span class="text-rose-400">Módulo 6.3</span>
+</nav>
+<!-- HEADER -->
+<div class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-900 rounded-2xl border border-rose-500/30 p-8 mb-10">
+<span class="inline-block bg-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">MÓDULO 6.3</span>
+<h1 class="text-3xl font-bold mb-3">🚀 GitHub Pages: publica gratis</h1>
+<p class="text-neutral-300 text-lg mb-6">Pon tu proyecto en línea en minutos: gratis, con HTTPS automático y CDN global. Activa Pages, configura el dominio, entiende la caché y confirma que está en línea.</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">6</div><div class="text-xs text-neutral-500">Temas</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">~40</div><div class="text-xs text-neutral-500">Minutos</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">⚡</div><div class="text-xs text-neutral-500">Intermedio</div></div>
+<div class="bg-dark-800/80 rounded-xl p-3 text-center border border-dark-600"><div class="text-xl font-bold text-rose-400">🌐</div><div class="text-xs text-neutral-500">Deploy</div></div>
+</div>
+</div>
+<!-- TÓPICO 1: O que é Pages -->
+<section class="mb-12" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">1</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🌐 Qué es GitHub Pages</h2>
+<p class="text-neutral-400 text-sm">Alojamiento gratuito de sitios estáticos directamente desde tu repositorio</p>
+</div>
+</div>
+<div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-6 mb-6">
+<h3 class="text-lg font-semibold text-rose-400 mb-3">🎯 GitHub Pages en 30 segundos</h3>
+<p class="text-neutral-300">Tienes archivos HTML/CSS/JS en GitHub. Pages los sirve como un sitio público con URL propia, HTTPS automático y CDN global — <strong class="text-rose-400">sin pagar nada, sin configurar un servidor</strong>.</p>
+</div>
+<!-- SVG: arquitetura Pages -->
+<div class="mb-6">
+<svg aria-label="Arquitectura de GitHub Pages: repositorio → build de GitHub Actions → CDN → usuario en el navegador" class="w-full h-auto" role="img" viewbox="0 0 560 150" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter height="180%" id="m63-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="2"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="28" id="m63-grid" patternunits="userSpaceOnUse" width="28">
+<circle cx="1.2" cy="1.2" fill="#f43f5e" opacity="0.08" r="1"></circle>
+</pattern>
+<marker id="m63-ah" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#fb7185"></path></marker>
+<marker id="m63-ahc" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="#1a0a10" height="150" rx="10" width="560"></rect>
+<rect fill="url(#m63-grid)" height="150" rx="10" width="560"></rect>
+<!-- repo -->
+<rect class="wf-a" fill="#2a0f16" filter="url(#m63-glow)" height="60" rx="8" stroke="#fb7185" stroke-width="1.5" width="90" x="10" y="45"></rect>
+<text fill="#fb7185" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="55" y="67">REPO</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="55" y="80">index.html</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="55" y="92">style.css</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="55" y="34">git push</text>
+<!-- seta repo → build -->
+<line marker-end="url(#m63-ah)" stroke="#fb7185" stroke-width="1.5" x1="100" x2="155" y1="75" y2="75"></line>
+<!-- build -->
+<rect class="wf-a" fill="#2a0f16" filter="url(#m63-glow)" height="60" rx="8" stroke="#fb7185" stroke-width="1.5" width="100" x="157" y="45"></rect>
+<text fill="#fb7185" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="207" y="67">BUILD</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="207" y="80">GitHub</text>
+<text fill="#fda4b0" font-family="monospace" font-size="8" text-anchor="middle" x="207" y="92">Actions</text>
+<!-- seta build → CDN -->
+<line marker-end="url(#m63-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="257" x2="312" y1="75" y2="75"></line>
+<!-- CDN -->
+<rect class="wf-a" fill="#0e1b26" filter="url(#m63-glow)" height="80" rx="8" stroke="#38bdf8" stroke-width="1.5" width="100" x="314" y="35"></rect>
+<text fill="#38bdf8" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="364" y="60">CDN</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="364" y="73">HTTPS</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="364" y="85">gratis</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="8" text-anchor="middle" x="364" y="97">global</text>
+<!-- seta CDN → usuário -->
+<line marker-end="url(#m63-ahc)" stroke="#38bdf8" stroke-width="1.5" x1="414" x2="459" y1="75" y2="75"></line>
+<!-- browser -->
+<rect class="wf-a" fill="#0e1b26" filter="url(#m63-glow)" height="60" rx="8" stroke="#38bdf8" stroke-width="1.5" width="88" x="461" y="45"></rect>
+<text fill="#38bdf8" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" x="505" y="64">🌍 WEB</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="7" text-anchor="middle" x="505" y="77">usuario</text>
+<text fill="#9ad6ff" font-family="monospace" font-size="7" text-anchor="middle" x="505" y="89">.github.io</text>
+<!-- labels topo -->
+<text fill="#fb7185" font-family="monospace" font-size="8" text-anchor="middle" x="207" y="25">1-10 min</text>
+<text fill="#38bdf8" font-family="monospace" font-size="8" text-anchor="middle" x="364" y="24">Fastly CDN</text>
+</svg>
+<p class="text-xs text-neutral-500 mt-2 text-center">Push → build automático → CDN → sitio en línea. Todo el proceso lo gestiona GitHub.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">✓ Qué incluye Pages (gratis)</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>HTTPS automático (Let's Encrypt)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>CDN global (Fastly)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>URL usuario.github.io/repo</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Deploys automáticos con cada push</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+<h4 class="font-bold text-red-400 mb-3">✗ Qué NO hace Pages</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Backend/servidor (solo estático)</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Base de datos</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Node.js, PHP, Python en ejecución</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Repositorios privados (plan gratuito)</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🆓</div><div class="text-xs font-semibold">Gratis</div><div class="text-xs text-neutral-500 mt-1">Para repos públicos</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔒</div><div class="text-xs font-semibold">HTTPS</div><div class="text-xs text-neutral-500 mt-1">Let's Encrypt automático</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🌍</div><div class="text-xs font-semibold">CDN global</div><div class="text-xs text-neutral-500 mt-1">Fastly ~200 PoPs</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📄</div><div class="text-xs font-semibold">Estático</div><div class="text-xs text-neutral-500 mt-1">HTML/CSS/JS/imágenes</div></div>
+</div>
+</section>
+<!-- TÓPICO 2: Ativar Pages -->
+<section class="mb-12" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">2</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">⚙️ Activar Pages</h2>
+<p class="text-neutral-400 text-sm">Branch/carpeta o GitHub Actions — 3 caminos, 1 resultado</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold">A</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-2">Mediante la interfaz web (más fácil)</h4>
+<ol class="text-sm text-neutral-300 space-y-1 list-decimal list-inside">
+<li>Abre el repositorio en GitHub</li>
+<li>Ve a Settings → Pages</li>
+<li>En "Source", selecciona la branch (main) y la carpeta (/ o /docs)</li>
+<li>Haz clic en Save — espera 1-5 minutos</li>
+</ol>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold">B</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-2">Mediante gh CLI (rápido y automático)</h4>
+<pre class="bg-dark-900 rounded-lg p-4 text-sm font-mono text-neutral-300 overflow-x-auto"><code><span class="text-neutral-500"># Ativar Pages na branch main, pasta raiz</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh api</span> repos/:owner/:repo/pages \
+  -X POST \
+  -f source='{"branch":"main","path":"/"}'
+
+<span class="text-neutral-500"># Verificar status</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh api</span> repos/:owner/:repo/pages | jq '.status, .html_url'</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold">C</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-2">Branch gh-pages dedicada</h4>
+<pre class="bg-dark-900 rounded-lg p-4 text-sm font-mono text-neutral-300 overflow-x-auto"><code><span class="text-neutral-500"># Criar e fazer push para branch gh-pages</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git checkout</span> --orphan gh-pages
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git rm</span> -rf .              <span class="text-neutral-500"># limpa a branch</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">cp</span> -r dist/* .             <span class="text-neutral-500"># copia os arquivos de build</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git add</span> . &amp;&amp; git commit -m "deploy: v1.0"
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git push</span> -u origin gh-pages</code></pre>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">💡</span> ¿Qué método usar?</h3>
+<p class="text-neutral-300 text-sm">Para proyectos simples (HTML/CSS puro): rama main + carpeta /. Para proyectos con build (React, Vue, etc.): GitHub Actions hace el build y publica automáticamente. La carpeta /docs es útil cuando el código y la documentación están en el mismo repo.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🌿</div><div class="text-xs font-semibold">Branch main</div><div class="text-xs text-neutral-500 mt-1">Más simple</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📂</div><div class="text-xs font-semibold">/docs folder</div><div class="text-xs text-neutral-500 mt-1">Documentación + código juntos</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔀</div><div class="text-xs font-semibold">rama gh-pages</div><div class="text-xs text-neutral-500 mt-1">Deploy aislado</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⚙️</div><div class="text-xs font-semibold">Actions</div><div class="text-xs text-neutral-500 mt-1">Build automático</div></div>
+</div>
+</section>
+<!-- TÓPICO 3: URL usuario.github.io -->
+<section class="mb-12" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">3</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🔗 URL usuario.github.io</h2>
+<p class="text-neutral-400 text-sm">Dirección predeterminada — compártela en currículums y portfolios</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-bold text-rose-400 mb-3">📁 Sitio del proyecto (más común)</h4>
+<div class="space-y-2 text-sm text-neutral-300">
+<p>Repo: <code class="text-rose-300">usuario/meu-projeto</code></p>
+<p>URL: <code class="text-rose-300">usuario.github.io/meu-projeto/</code></p>
+<p class="text-neutral-500 text-xs mt-2">Necesita un index.html en la raíz de la rama/carpeta configurada.</p>
+</div>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-bold text-rose-400 mb-3">👤 Sitio personal (portafolio personal)</h4>
+<div class="space-y-2 text-sm text-neutral-300">
+<p>Repo: <code class="text-rose-300">usuario/usuario.github.io</code></p>
+<p>URL: <code class="text-rose-300">usuario.github.io</code></p>
+<p class="text-neutral-500 text-xs mt-2">Solo 1 por cuenta. Se sirve automáticamente desde la branch main.</p>
+</div>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">VERIFICAR E INSPECCIONAR URL</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># Ver a URL do Pages do repo atual</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh api</span> repos/:owner/:repo/pages --jq '.html_url'
+
+<span class="text-neutral-500"># Abrir no browser diretamente</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh browse</span>                     <span class="text-neutral-500"># abre o repositório</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh browse</span> --settings          <span class="text-neutral-500"># vai para Settings</span>
+
+<span class="text-neutral-500"># Testar com curl (headless)</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">curl</span> -I https://usuario.github.io/meu-projeto/
+<span class="text-neutral-500"># Deve retornar: HTTP/2 200</span></code></pre>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🏠</div><div class="text-xs font-semibold">index.html</div><div class="text-xs text-neutral-500 mt-1">Obligatorio en la raíz</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🚫</div><div class="text-xs font-semibold">404.html</div><div class="text-xs text-neutral-500 mt-1">Página de error personalizada</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⚠️</div><div class="text-xs font-semibold">Distingue mayúsculas y minúsculas</div><div class="text-xs text-neutral-500 mt-1">Las mayúsculas importan en las URL</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔚</div><div class="text-xs font-semibold">Barra diagonal final</div><div class="text-xs text-neutral-500 mt-1">/repo/ ≠ /repo</div></div>
+</div>
+</section>
+<!-- TÓPICO 4: Domínio customizado e CNAME -->
+<section class="mb-12" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">4</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">🌍 Dominio personalizado y CNAME</h2>
+<p class="text-neutral-400 text-sm">meusite.com en vez de usuario.github.io — profesionalismo por ~R$50/año</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-2">Crear el archivo CNAME en el repo</h4>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300"><code><span class="text-neutral-500"># Na raiz do branch de Pages:</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">echo</span> "meusite.com" &gt; CNAME
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git add</span> CNAME &amp;&amp; git commit -m "chore: adiciona domínio customizado"
+<span class="text-neutral-500">$ </span><span class="text-rose-300">git push</span></code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-2">Configurar DNS en el registrador</h4>
+<div class="text-sm text-neutral-300 space-y-2">
+<p>Para <strong>www</strong> (subdominio):</p>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono"><code>Tipo: CNAME
+Nome: www
+Valor: usuario.github.io</code></pre>
+<p>Para <strong>dominio raíz</strong> (raíz):</p>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono"><code>Tipo: A  |  Nome: @  |  Valor: 185.199.108.153
+Tipo: A  |  Nome: @  |  Valor: 185.199.109.153
+Tipo: A  |  Nome: @  |  Valor: 185.199.110.153
+Tipo: A  |  Nome: @  |  Valor: 185.199.111.153</code></pre>
+</div>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+<span class="text-rose-400 font-bold text-sm">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
+<h4 class="font-semibold mb-2">Activar HTTPS y verificar</h4>
+<p class="text-sm text-neutral-400 mb-2">En Settings → Pages, configura el dominio y marca "Enforce HTTPS". Espera a que se propaguen los DNS (hasta 48h).</p>
+<pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300"><code><span class="text-neutral-500"># Testar propagação DNS</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">dig</span> www.meusite.com CNAME
+<span class="text-neutral-500">$ </span><span class="text-rose-300">nslookup</span> meusite.com</code></pre>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📄</div><div class="text-xs font-semibold">CNAME file</div><div class="text-xs text-neutral-500 mt-1">Dominio en el repo</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🌐</div><div class="text-xs font-semibold">DNS CNAME</div><div class="text-xs text-neutral-500 mt-1">Apunta a GitHub</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⏱️</div><div class="text-xs font-semibold">Propagación</div><div class="text-xs text-neutral-500 mt-1">Hasta 48h</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔒</div><div class="text-xs font-semibold">Enforce HTTPS</div><div class="text-xs text-neutral-500 mt-1">Redirección automática</div></div>
+</div>
+</section>
+<!-- TÓPICO 5: Cache e atualização -->
+<section class="mb-12" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">5</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">⏱️ Caché y actualización</h2>
+<p class="text-neutral-400 text-sm">¿Por qué no se actualizó el sitio? Entiende y resuélvelo en segundos</p>
+</div>
+</div>
+<div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-2 flex items-center"><span class="mr-2">🤔</span> "¡Hice push, pero el sitio no cambió!"</h3>
+<p class="text-neutral-300 text-sm">Esto ocurre por una caché de dos capas: (1) el deploy de GitHub Pages tarda entre 1-10 minutos; (2) el navegador almacena los archivos en caché. Espera a que termine la compilación y fuerza la actualización de la página.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">✓ Cómo verificar la compilación</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Pestaña Actions en GitHub: estado del workflow "pages build"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code>gh run list --workflow pages</code> en la terminal</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span><code>gh run watch</code> monitorea en tiempo real</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Configuración → Pages muestra "Your site is live at..."</span></li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-bold text-rose-400 mb-3">🛠️ Forzar la actualización en el navegador</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Windows/Linux: <code>Ctrl+Shift+R</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>macOS: <code>Cmd+Shift+R</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>DevTools → Network → Disable cache (mientras esté abierto)</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">→</span><span>Agregar <code>?v=2</code> en la URL para probar</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">MONITOREAR DEPLOY EN TIEMPO REAL</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># Ver último run do Pages</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run list</span> --limit 3
+STATUS  TITLE                           WORKFLOW       ID
+✓       pages build and deployment      pages          123456789
+✓       pages build and deployment      pages          123456788
+
+<span class="text-neutral-500"># Assistir deploy em curso</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run watch</span>
+Refreshing run status every 3 seconds. Press Ctrl+C to quit.
+✓ build (3s)
+✓ deploy (8s)
+✓ Run pages build and deployment completed with 'success'</code></pre>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">⏳</div><div class="text-xs font-semibold">1-10 min</div><div class="text-xs text-neutral-500 mt-1">Tiempo de build</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔄</div><div class="text-xs font-semibold">Actualización forzada</div><div class="text-xs text-neutral-500 mt-1">Ctrl+Shift+R</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">👁️</div><div class="text-xs font-semibold">gh run watch</div><div class="text-xs text-neutral-500 mt-1">Deploy en vivo</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📦</div><div class="text-xs font-semibold">?v=2</div><div class="text-xs text-neutral-500 mt-1">Invalidación de caché</div></div>
+</div>
+</section>
+<!-- TÓPICO 6: Verificar no ar -->
+<section class="mb-12" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+<span class="text-rose-400 font-bold text-lg">6</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold">✅ Verificar que esté en línea</h2>
+<p class="text-neutral-400 text-sm">Confirmar el deploy con comandos reales, sin suposiciones</p>
+</div>
+</div>
+<div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
+<div class="text-neutral-500 mb-3 text-xs">LISTA DE VERIFICACIÓN POST-DEPLOY</div>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># 1. Confirmar que Pages está ativo</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh api</span> repos/:owner/:repo/pages --jq '{status:.status, url:.html_url}'
+{"status":"built","url":"https://usuario.github.io/repo/"}
+
+<span class="text-neutral-500"># 2. Testar HTTP status</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">curl</span> -s -o /dev/null -w "%{http_code}" https://usuario.github.io/repo/
+200
+
+<span class="text-neutral-500"># 3. Verificar HTTPS redirect</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">curl</span> -I http://usuario.github.io/repo/
+HTTP/1.1 301 Moved Permanently
+Location: https://usuario.github.io/repo/
+
+<span class="text-neutral-500"># 4. Verificar conteúdo correto</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">curl</span> -s https://usuario.github.io/repo/ | grep "<title>"
+&lt;title&gt;Meu Projeto&lt;/title&gt;</title></code></pre>
+</div>
+<div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">📊</span> Monitoreo continuo</h3>
+<p class="text-neutral-300 text-sm">Para proyectos en producción, configura UptimeRobot (gratis) para que haga ping al sitio cada 5 minutos y te avise por correo si se cae. También agrega la insignia de estado al README: <code class="text-rose-300">![Uptime](https://img.shields.io/website?url=...)</code></p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-5">
+<h4 class="font-bold text-emerald-400 mb-3">✓ Deploy exitoso</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Actions muestra un círculo verde</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>curl devuelve HTTP 200</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>HTTPS activo (candado en el navegador)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Contenido más reciente visible</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
+<h4 class="font-bold text-red-400 mb-3">✗ Deploy problemático</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Actions muestra una X roja → revisa los logs</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>404 → verifica si index.html existe en la carpeta correcta</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sitio antiguo → actualización forzada + esperar a la CDN</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>HTTPS no disponible → espera a que se aprovisione</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🟢</div><div class="text-xs font-semibold">HTTP 200</div><div class="text-xs text-neutral-500 mt-1">Sitio accesible</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🔒</div><div class="text-xs font-semibold">HTTPS</div><div class="text-xs text-neutral-500 mt-1">Candado en el navegador</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">📡</div><div class="text-xs font-semibold">UptimeRobot</div><div class="text-xs text-neutral-500 mt-1">Monitor gratuito</div></div>
+<div class="bg-dark-800 rounded-lg p-3 border border-dark-600 text-center"><div class="text-rose-400 text-lg mb-1">🏷️</div><div class="text-xs font-semibold">Insignia de uptime</div><div class="text-xs text-neutral-500 mt-1">Estado en el README</div></div>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="bg-gradient-to-br from-rose-900/30 via-dark-800 to-dark-900 rounded-2xl border border-rose-500/30 p-8 mb-10">
+<h2 class="text-2xl font-bold mb-6">🎯 Resumen del módulo</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div>
+<h3 class="text-rose-400 font-semibold mb-3">Qué aprendiste</h3>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>GitHub Pages: alojamiento gratuito de sitios estáticos</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>3 formas de activarlo: branch, /docs o gh-pages</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>URL predeterminada usuario.github.io/repo</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Dominio personalizado con CNAME + DNS</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Caché: espera a que termine el build y fuerza la actualización</span></li>
+<li class="flex items-start space-x-2"><span class="text-rose-400">✓</span><span>Verificación completa con curl y gh CLI</span></li>
+</ul>
+</div>
+<div>
+<h3 class="text-rose-400 font-semibold mb-3">Siguiente módulo</h3>
+<p class="text-neutral-300 text-sm mb-4">Tu proyecto ya está en línea; ahora es momento de evolucionar, versionar releases, construir un portafolio y mantener el proyecto vivo a lo largo del tiempo. Cierre del curso.</p>
+<a class="inline-flex items-center space-x-2 bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 px-5 py-2.5 rounded-lg font-semibold transition-colors text-sm" href="modulo-6-4.html">
+<span>Módulo 6.4 — Evolucionar y difundir</span><span>→</span>
+</a>
+</div>
+</div>
+<div class="flex justify-start space-x-3">
+<a class="px-4 py-2 rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-sm font-semibold transition-colors" href="modulo-6-2.html">← Módulo 6.2</a>
+<a class="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 text-sm font-semibold transition-colors" href="modulo-6-4.html">Siguiente: Evolucionar →</a>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-8">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Del inicio al proyecto · <a class="text-sky-400 hover:text-sky-300" href="https://inema.club" target="_blank">INEMA.CLUB</a></p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

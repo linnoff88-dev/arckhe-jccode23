@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 2.4 — MCP and First Project | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.3s} .wf-a:nth-child(3){animation-delay:.6s}
+      .wf-a:nth-child(4){animation-delay:.9s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha2/modulo-2-4.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha2/modulo-2-4.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha2/modulo-2-4.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-4.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-2-4.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha2/modulo-2-4.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Track 2</a>
+<span>/</span>
+<span class="text-blue-400">Module 2.4</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MODULE 2.4</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🔌 MCP and your first project</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">Model Context Protocol: connect Claude to external tools, configure MCP servers, create your first real project, and run a complete workflow from scratch to commit.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">45</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Hands-on</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: O que é MCP -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🌐 What is the Model Context Protocol (MCP)</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">MCP is a <strong class="text-blue-400">open standard</strong> created by Anthropic to connect language models to external tools. Think of it as a "universal outlet" — any tool that implements the protocol can be plugged into Claude Code.</p>
+<!-- SVG: arquitetura MCP fan-out -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="MCP architecture: Claude Code at the center connects via the JSON-RPC protocol to multiple MCP servers: filesystem, GitHub, PostgreSQL, Slack" class="w-full h-auto" role="img" viewbox="0 0 900 230">
+<defs>
+<lineargradient id="m24-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m24-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="26" id="m24-grid" patternunits="userSpaceOnUse" width="26">
+<circle cx="1.2" cy="1.2" fill="#3b82f6" opacity="0.10" r="1.2"></circle>
+</pattern>
+<marker id="m24-ah" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#60a5fa"></path></marker>
+<marker id="m24-ahc" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#38bdf8"></path></marker>
+</defs>
+<rect fill="url(#m24-grid)" height="230" width="900"></rect>
+<!-- Claude Code centro -->
+<g filter="url(#m24-glow)"><rect fill="#0e1622" height="60" rx="14" stroke="url(#m24-grad)" stroke-width="2.5" width="200" x="350" y="90"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="15" font-weight="600" text-anchor="middle" x="450" y="116">Claude Code</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="450" y="136">MCP client</text>
+<!-- Setas fan-out -->
+<g fill="none" opacity="0.5" stroke="#60a5fa" stroke-width="1.8">
+<path d="M350,110 C250,110 230,55 160,55" marker-end="url(#m24-ah)"></path>
+<path d="M350,115 C240,115 220,130 160,130" marker-end="url(#m24-ah)"></path>
+</g>
+<g fill="none" opacity="0.5" stroke="#38bdf8" stroke-width="1.8">
+<path d="M550,110 C650,110 670,55 740,55" marker-end="url(#m24-ahc)"></path>
+<path d="M550,115 C660,115 680,130 740,130" marker-end="url(#m24-ahc)"></path>
+<path d="M450,150 C450,170 450,175 450,180" marker-end="url(#m24-ahc)"></path>
+</g>
+<!-- Servidores MCP -->
+<g class="wf-a"><rect fill="#0e1b26" height="44" rx="10" stroke="#60a5fa" stroke-width="2" width="140" x="20" y="30"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="90" y="49">Filesystem</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="90" y="65">read/write files</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="44" rx="10" stroke="#60a5fa" stroke-width="2" width="140" x="20" y="106"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="90" y="125">PostgreSQL</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="90" y="141">query the database</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="140" x="740" y="30"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="810" y="49">GitHub</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="810" y="65">PRs, issues, commits</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="44" rx="10" stroke="#38bdf8" stroke-width="2" width="140" x="740" y="106"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="810" y="125">Slack</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="810" y="141">messages, channels</text></g>
+<g class="wf-a"><rect fill="#0e1b26" height="40" rx="10" stroke="#38bdf8" stroke-width="2" width="140" x="380" y="180"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="450" y="198">Puppeteer</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="450" y="213">browser automation</text></g>
+<text fill="#4b5563" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="450" y="20">JSON-RPC over stdio / SSE · open protocol · dozens of servers</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">🔌</span> Why MCP changes everything</h3>
+<p class="text-neutral-300 mb-4">Before MCP, Claude Code could only access what was in the local filesystem. With MCP, it can:</p>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Query a PostgreSQL database to understand the schema before writing code</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Read GitHub issues and PRs to get context for a task</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Browse web pages to research documentation</span></li>
+<li class="flex items-start space-x-2"><span class="text-blue-400">→</span><span>Send Slack messages when an automated task is complete</span></li>
+</ul>
+</div>
+</section>
+<!-- TÓPICO 2: Conectar servidores MCP -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">🔗 Configuring MCP Servers</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">MCP servers are configured in the <code class="font-mono bg-dark-700 px-2 py-0.5 rounded">settings.json</code> in the key <code class="font-mono bg-dark-700 px-2 py-0.5 rounded">mcpServers</code>. Each server needs a <strong class="text-blue-400">command to initialize</strong> and optionally arguments and environment variables.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">MCP server configuration in settings.json</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>{
+  <span class="text-blue-400">"mcpServers"</span>: {
+
+    <span class="text-neutral-500">// Servidor filesystem (oficial Anthropic)</span>
+    <span class="text-blue-400">"filesystem"</span>: {
+      <span class="text-blue-400">"command"</span>: <span class="text-emerald-400">"npx"</span>,
+      <span class="text-blue-400">"args"</span>: [<span class="text-emerald-400">"-y"</span>, <span class="text-emerald-400">"@modelcontextprotocol/server-filesystem"</span>, <span class="text-emerald-400">"/home/user/projetos"</span>]
+    },
+
+    <span class="text-neutral-500">// Servidor GitHub</span>
+    <span class="text-blue-400">"github"</span>: {
+      <span class="text-blue-400">"command"</span>: <span class="text-emerald-400">"npx"</span>,
+      <span class="text-blue-400">"args"</span>: [<span class="text-emerald-400">"-y"</span>, <span class="text-emerald-400">"@modelcontextprotocol/server-github"</span>],
+      <span class="text-blue-400">"env"</span>: {
+        <span class="text-blue-400">"GITHUB_TOKEN"</span>: <span class="text-emerald-400">"ghp_..."</span>
+      }
+    },
+
+    <span class="text-neutral-500">// Servidor PostgreSQL</span>
+    <span class="text-blue-400">"postgres"</span>: {
+      <span class="text-blue-400">"command"</span>: <span class="text-emerald-400">"npx"</span>,
+      <span class="text-blue-400">"args"</span>: [<span class="text-emerald-400">"-y"</span>, <span class="text-emerald-400">"@modelcontextprotocol/server-postgres"</span>],
+      <span class="text-blue-400">"env"</span>: {
+        <span class="text-blue-400">"POSTGRES_URL"</span>: <span class="text-emerald-400">"postgresql://user:pass@localhost/db"</span>
+      }
+    }
+  }
+}</code></pre>
+</div>
+<!-- Timeline de setup MCP -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Choose the MCP server</h4>
+<p class="text-sm text-neutral-400 mb-2">Search in <code class="font-mono text-xs">github.com/modelcontextprotocol/servers</code></p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code><span class="text-neutral-500"># Servidores oficiais disponíveis:</span>
+@modelcontextprotocol/server-filesystem
+@modelcontextprotocol/server-github
+@modelcontextprotocol/server-postgres
+@modelcontextprotocol/server-sqlite
+@modelcontextprotocol/server-slack
+@modelcontextprotocol/server-puppeteer</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Add to settings.json</h4>
+<p class="text-sm text-neutral-400 mb-2">In the key <code class="font-mono text-xs">mcpServers</code> of the configuration file</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code><span class="text-neutral-500"># Editar settings.json</span>
+nano ~/.claude/settings.json
+<span class="text-neutral-500"># ou via /config no REPL</span></code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Restart and verify</h4>
+<p class="text-sm text-neutral-400 mb-2">Claude Code starts the servers in the next session</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>claude
+<span class="text-neutral-500"># No REPL verificar servidores ativos:</span>
+/mcp
+<span class="text-neutral-500"># Output esperado:</span>
+<span class="text-emerald-400">✓ filesystem: connected</span>
+<span class="text-emerald-400">✓ github: connected</span></code></pre>
+</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 3: Ferramentas externas populares -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🛠️ MCP Ecosystem — Popular Tools</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The official repository already has dozens of servers. The community is growing quickly — new servers appear every week.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">📁 Filesystem</h4>
+<p class="text-sm text-neutral-300 mb-2">Access to the file system beyond the current directory</p>
+<p class="text-xs text-neutral-500">Useful for: monorepos, cross-project access</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">🐙 GitHub</h4>
+<p class="text-sm text-neutral-300 mb-2">Read/create issues, PRs, comments, commits</p>
+<p class="text-xs text-neutral-500">Useful for: automated code review, issue triage</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">🐘 PostgreSQL / SQLite</h4>
+<p class="text-sm text-neutral-300 mb-2">SQL queries, explore the schema, analyze data</p>
+<p class="text-xs text-neutral-500">Useful for: generating migrations, debugging queries</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">🤖 Puppeteer</h4>
+<p class="text-sm text-neutral-300 mb-2">Browse the web, take screenshots, interact with pages</p>
+<p class="text-xs text-neutral-500">Useful for: scraping, E2E tests, docs research</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">💬 Slack</h4>
+<p class="text-sm text-neutral-300 mb-2">Read channel history, send messages</p>
+<p class="text-xs text-neutral-500">Useful for: automated reports, notifications</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-blue-400 mb-3">🗺️ Google Maps / APIs</h4>
+<p class="text-sm text-neutral-300 mb-2">Community servers for external APIs</p>
+<p class="text-xs text-neutral-500">Useful for: projects with third-party integrations</p>
+</div>
+</div>
+<!-- Grid ✓/✗ segurança -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Trusted MCPs</h4>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Official servers for <code class="font-mono text-xs">@modelcontextprotocol</code></span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Servers with audited open-source code</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Community MCPs with lots of stars and active issues</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Evaluate carefully</h4>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Third-party MCPs without public source code</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Servers that request full system access</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>MCPs that require production credentials</span></li>
+</ul>
+</div>
+</div>
+</section>
+<!-- TÓPICO 4: Criar e abrir projeto -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">📁 Create and open a project</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code works in the context of <strong class="text-blue-400">current directory</strong>. Opening the correct project is step zero before any task.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Open an existing project</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Navegar para o projeto e iniciar Claude Code</span>
+cd ~/projetos/meu-app
+claude
+
+<span class="text-blue-400"># Claude imediatamente entende o contexto do diretório</span>
+<span class="text-neutral-500"># Lê package.json, CLAUDE.md, .claude/settings.json</span>
+
+<span class="text-blue-400"># Gerar CLAUDE.md se não existir</span>
+<span class="text-neutral-500"># Dentro do REPL:</span>
+/init
+<span class="text-neutral-500"># Claude analisa o projeto e gera rascunho do CLAUDE.md</span></code></pre>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Create a project from scratch</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Criar estrutura de projeto</span>
+mkdir ~/projetos/novo-projeto
+cd ~/projetos/novo-projeto
+git init
+
+<span class="text-blue-400"># Criar settings de projeto</span>
+mkdir .claude
+cat &gt; .claude/settings.json &lt;&lt;EOF
+{
+  "permissions": {
+    "allow": ["Read(**)", "Write(**)", "Edit(**)", "Bash(npm *)"]
+  }
+}
+EOF
+
+<span class="text-blue-400"># Iniciar Claude Code e gerar CLAUDE.md</span>
+claude
+<span class="text-neutral-500">&gt; /init</span>
+<span class="text-neutral-500">&gt; Crie um projeto Node.js + TypeScript com estrutura básica</span></code></pre>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Recommended structure for new projects</h3>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-700/50 rounded p-3"><code>meu-projeto/
+├── .claude/
+│   └── settings.json    ← permissões do projeto (versionar)
+├── CLAUDE.md             ← instruções para o Claude (versionar)
+├── src/                  ← código-fonte
+├── tests/                ← testes
+├── .gitignore
+└── package.json</code></pre>
+</div>
+</section>
+<!-- TÓPICO 5: Fluxo ponta a ponta -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🔄 First real workflow: from zero to commit</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">See the complete development cycle with Claude Code. This example creates a <strong class="text-blue-400">Simple REST API</strong> from scratch, with tests, and makes the first commit.</p>
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Define the scope</h4>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 mt-2"><code>&gt; Crie uma API REST em Express + TypeScript com um endpoint GET /health
+  que retorna { status: "ok", timestamp: ISO8601 }. Inclua um teste
+  básico com Vitest.</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Claude creates the files (with confirmation)</h4>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 mt-2"><code><span class="text-neutral-500"># Claude mostra o plano e pede aprovação:</span>
+Vou criar: src/app.ts, src/routes/health.ts,
+           tests/health.test.ts, package.json
+Continuar? [y/n] y</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Run tests</h4>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 mt-2"><code>&gt; Instale as dependências e rode os testes
+
+<span class="text-neutral-500"># Claude executa:</span>
+npm install
+npm test
+<span class="text-emerald-400">✓ health endpoint returns 200  (3ms)</span></code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Review and commit</h4>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 mt-2"><code>&gt; Revise os arquivos criados e faça um commit inicial
+
+<span class="text-neutral-500"># Claude mostra diff → você revisa → aprova</span>
+git add .
+git commit -m "feat: adicionar endpoint GET /health"</code></pre>
+</div>
+</div>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> Development loop with Claude Code</h3>
+<div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+<div class="bg-dark-800/50 rounded-lg p-3 text-center">
+<div class="text-2xl mb-1">💬</div>
+<div class="text-xs font-semibold text-blue-400">1. Describe</div>
+<div class="text-xs text-neutral-400">what you want</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 text-center">
+<div class="text-2xl mb-1">🤖</div>
+<div class="text-xs font-semibold text-blue-400">2. Claude plans</div>
+<div class="text-xs text-neutral-400">and writes the code</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 text-center">
+<div class="text-2xl mb-1">👀</div>
+<div class="text-xs font-semibold text-blue-400">3. You review</div>
+<div class="text-xs text-neutral-400">the generated diff</div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-3 text-center">
+<div class="text-2xl mb-1">✅</div>
+<div class="text-xs font-semibold text-blue-400">4. Approve</div>
+<div class="text-xs text-neutral-400">and commit</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TÓPICO 6: Próximos passos -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🚀 Next Steps: The Journey Continues</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">With installation, authentication, settings, and MCP configured, you have the <strong class="text-blue-400">complete base</strong>. The following learning paths explore each capability in greater depth.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-purple-500/30 p-5 transition-all" href="../trilha3/index.html">
+<div class="text-2xl mb-3">🧩</div>
+<h4 class="font-bold text-purple-400 mb-2 group-hover:text-purple-300 transition-colors">Track 3: Skills</h4>
+<p class="text-sm text-neutral-400">Create reusable skills. Skills are "macro commands" that encapsulate complex workflows and are available in any project.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-amber-500/30 p-5 transition-all" href="../trilha4/index.html">
+<div class="text-2xl mb-3">🔁</div>
+<h4 class="font-bold text-amber-400 mb-2 group-hover:text-amber-300 transition-colors">Track 4: Automation</h4>
+<p class="text-sm text-neutral-400">Hooks, triggers, pipelines, and workflows. Automate repetitive dev tasks with Claude as the orchestrator.</p>
+</a>
+<a class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-teal-500/30 p-5 transition-all" href="../trilha5/index.html">
+<div class="text-2xl mb-3">🏗️</div>
+<h4 class="font-bold text-teal-400 mb-2 group-hover:text-teal-300 transition-colors">Track 5: Projects</h4>
+<p class="text-sm text-neutral-400">Real end-to-end projects. From planning to delivery with Claude Code as your development partner.</p>
+</a>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> You completed Track 2!</h3>
+<p class="text-neutral-300 mb-3">Your environment is ready. You installed and authenticated, configured permissions, and connected MCP tools. Now it’s about using them consistently—the more you use them, the more productive you become.</p>
+<p class="text-neutral-300"><strong class="text-primary">Recommended next step:</strong> go to Track 3 (Skills) to create your first reusable skills.</p>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 2.4 Summary — and Track 2</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">MCP</strong><span class="text-neutral-400"> is the standard protocol for connecting Claude to external tools</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">mcpServers in settings.json</strong><span class="text-neutral-400"> configures any MCP server in minutes</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Dozens of servers</strong><span class="text-neutral-400"> official and community-maintained options available now</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Complete loop</strong><span class="text-neutral-400">: describe → Claude creates → you review → approve → commit</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">CLAUDE.md + settings.json + MCP</strong><span class="text-neutral-400"> = complete professional environment</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Next Track:</h3>
+<p class="text-neutral-300">Track 3 — Skills: create reusable capabilities that turn complex workflows into a single command. Claude Code’s superpower.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-2-3.html">← Module 2.3</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="../trilha3/index.html">Next Track: Skills →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

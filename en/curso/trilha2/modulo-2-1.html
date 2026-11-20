@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Module 2.1 — Installing Claude Code | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37, 99, 235, 0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37, 99, 235, 0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37, 99, 235, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+    }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha2/modulo-2-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha2/modulo-2-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha2/modulo-2-1.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../../curso/trilha2/modulo-2-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="modulo-2-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../../es/curso/trilha2/modulo-2-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10" href="index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Installation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automation</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Projects</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-blue-400" href="../../index.html">Start</a>
+<span>/</span>
+<a class="hover:text-blue-400" href="index.html">Track 2</a>
+<span>/</span>
+<span class="text-blue-400">Module 2.1</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MODULE 2.1</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">⚙️ Installing Claude Code</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">System requirements, installation via npm or Bun, verification, updates, and troubleshooting the most common errors on macOS, Linux, and Windows.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Topics</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">45</div><div class="text-xs text-neutral-400">Minutes</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Basic</div><div class="text-xs text-neutral-400">Level</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Practice</div><div class="text-xs text-neutral-400">Type</div></div>
+</div>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: Requisitos -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🖥️ System Requirements</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Before you start, make sure your environment has what it needs. <strong class="text-blue-400">Node.js v18+</strong> is the only mandatory requirement — everything else is optional but recommended.</p>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Ideal environment</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Node.js v18 or later (LTS recommended)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>npm v9+ (comes with Node.js) or Bun v1+</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Terminal with color support (iTerm2, Warp, Windows Terminal)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Internet access for OAuth authentication</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>macOS 12+, Ubuntu 20.04+, or WSL2 on Windows</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Common problems</h4>
+<ul class="space-y-3 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Node.js v16 or earlier — installation fails</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Native Windows (cmd/PowerShell without WSL2) — limited compatibility</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>npm installed with sudo on Linux — broken permissions</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Corporate network with an unconfigured proxy</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Disk full — package installation fails silently</span></li>
+</ul>
+</div>
+</div>
+<!-- Code box -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Verify versions before installing</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Verificar Node.js</span>
+node -v
+<span class="text-neutral-500"># Output esperado: v18.x.x ou superior</span>
+
+<span class="text-blue-400"># Verificar npm</span>
+npm -v
+<span class="text-neutral-500"># Output esperado: 9.x.x ou superior</span>
+
+<span class="text-blue-400"># Alternativa: verificar Bun</span>
+bun -v
+<span class="text-neutral-500"># Output esperado: 1.x.x</span>
+
+<span class="text-blue-400"># Se Node.js não estiver instalado (macOS com Homebrew):</span>
+brew install node
+
+<span class="text-blue-400"># Se Node.js não estiver instalado (Ubuntu/Debian):</span>
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs</code></pre>
+</div>
+<!-- Tip box -->
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: use nvm to manage versions</h3>
+<p class="text-neutral-300">O <strong>nvm</strong> (Node Version Manager) lets you install and switch between Node.js versions without conflicts. Ideal if you work on multiple projects. Install with <code class="font-mono bg-dark-700 px-1.5 py-0.5 rounded text-sm">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash</code> and use <code class="font-mono bg-dark-700 px-1.5 py-0.5 rounded text-sm">nvm install --lts</code> to the latest LTS version.</p>
+</div>
+</section>
+<!-- TÓPICO 2: Instalação -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">📦 Installation with npm (and Bun)</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Installation takes a single command. The flag <strong class="text-blue-400">-g</strong> installs globally — the binary <code class="font-mono bg-dark-700 px-1.5 rounded text-sm">claude</code> will be available in any directory on the system.</p>
+<!-- Timeline de passos -->
+<div class="space-y-4 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Install via npm</h4>
+<p class="text-sm text-neutral-400 mb-3">The standard and most reliable method</p>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code>npm install -g @anthropic-ai/claude-code</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Alternative: install via Bun</h4>
+<p class="text-sm text-neutral-400 mb-3">Faster, ideal if you already use Bun in the project</p>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code>bun install -g @anthropic-ai/claude-code</code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Wait for completion</h4>
+<p class="text-sm text-neutral-400 mb-3">Installation takes 30–90 seconds, depending on the network.</p>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code><span class="text-neutral-500"># Output esperado durante instalação:</span>
+added 247 packages in 45s
+<span class="text-emerald-400">+ @anthropic-ai/claude-code@1.x.x</span></code></pre>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="text-blue-400 font-bold">4</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold text-white mb-1">Verify installation</h4>
+<p class="text-sm text-neutral-400 mb-3">Confirm that the binary is on the PATH</p>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code>claude --version
+<span class="text-neutral-500"># Output: Claude Code 1.x.x</span>
+
+which claude
+<span class="text-neutral-500"># Output: /usr/local/bin/claude (ou similar)</span></code></pre>
+</div>
+</div>
+</div>
+<!-- SVG: diagrama de instalação -->
+<div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+<svg aria-label="Installation flow: terminal → npm install → global binary → PATH → claude available" class="w-full h-auto" role="img" viewbox="0 0 800 160">
+<defs>
+<lineargradient id="m21-grad" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#3b82f6"></stop>
+</lineargradient>
+<filter height="180%" id="m21-glow" width="180%" x="-40%" y="-40%">
+<fegaussianblur result="b" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+<pattern height="24" id="m21-grid" patternunits="userSpaceOnUse" width="24">
+<circle cx="1.2" cy="1.2" fill="#3b82f6" opacity="0.1" r="1.2"></circle>
+</pattern>
+<marker id="m21-ah" markerheight="8" markerwidth="8" orient="auto" refx="6" refy="4"><path d="M0,0 L7,4 L0,8 L2,4 Z" fill="#60a5fa"></path></marker>
+</defs>
+<rect fill="url(#m21-grid)" height="160" width="800"></rect>
+<!-- Caixas -->
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="48" rx="10" stroke="url(#m21-grad)" stroke-width="2" width="130" x="20" y="56"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="85" y="78">Terminal</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="85" y="95">your shell</text>
+<path d="M150,80 L190,80" fill="none" marker-end="url(#m21-ah)" opacity="0.6" stroke="#60a5fa" stroke-width="1.8"></path>
+<rect fill="#0e1622" height="48" rx="10" stroke="#60a5fa" stroke-width="2" width="155" x="190" y="56"></rect>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="268" y="78">npm install -g</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="268" y="95">downloads a package</text>
+<path d="M345,80 L385,80" fill="none" marker-end="url(#m21-ah)" opacity="0.6" stroke="#60a5fa" stroke-width="1.8"></path>
+<rect fill="#0e1b26" height="48" rx="10" stroke="#38bdf8" stroke-width="2" width="150" x="385" y="56"></rect>
+<text fill="#38bdf8" font-family="Inter,sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="460" y="78">/usr/local/bin</text>
+<text fill="#bfe6ff" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="460" y="95">global binary</text>
+<path d="M535,80 L575,80" fill="none" marker-end="url(#m21-ah)" opacity="0.6" stroke="#38bdf8" stroke-width="1.8"></path>
+<g filter="url(#m21-glow)"><rect fill="#0e1622" height="48" rx="10" stroke="url(#m21-grad)" stroke-width="2.5" width="130" x="575" y="56"></rect></g>
+<text fill="#60a5fa" font-family="Inter,sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="640" y="78">$ claude</text>
+<text fill="#93c5fd" font-family="Inter,sans-serif" font-size="11" text-anchor="middle" x="640" y="95">ready ✓</text>
+</svg>
+</div>
+</section>
+<!-- TÓPICO 3: Verificação -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">✅ Checking and testing</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">After installing, three commands confirm that everything is set up correctly. Run them in order—they test the installation, PATH, and basic functionality.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Post-installation verification checklist</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># 1. Versão instalada</span>
+claude --version
+<span class="text-neutral-500"># ✓ Claude Code 1.x.x</span>
+
+<span class="text-blue-400"># 2. Caminho do binário</span>
+which claude
+<span class="text-neutral-500"># ✓ /usr/local/bin/claude</span>
+<span class="text-neutral-500"># ou: /home/user/.local/bin/claude (Linux com nvm)</span>
+
+<span class="text-blue-400"># 3. Help básico (confirma binário funcional)</span>
+claude --help
+<span class="text-neutral-500"># ✓ Lista de flags e subcomandos</span>
+
+<span class="text-blue-400"># 4. Se 'claude' não for encontrado:</span>
+<span class="text-neutral-500"># Verificar se ~/.npm/bin está no PATH</span>
+echo $PATH | grep npm
+
+<span class="text-blue-400"># Adicionar ao .bashrc ou .zshrc se necessário:</span>
+export PATH="$HOME/.npm/bin:$PATH"</code></pre>
+</div>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📊</span> What to expect</h3>
+<ul class="space-y-2 text-neutral-300">
+<li><strong class="text-blue-400">claude --version</strong> → prints semantic version (e.g., 1.2.3)</li>
+<li><strong class="text-blue-400">which claude</strong> → shows the binary's absolute path</li>
+<li><strong class="text-blue-400">claude --help</strong> → lists flags: --print, --resume, --version, --model</li>
+<li><strong class="text-blue-400">claude</strong> (without flags) → opens an interactive REPL or starts authentication</li>
+</ul>
+</div>
+</section>
+<!-- TÓPICO 4: Atualização -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔄 Updating Claude Code</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Claude Code receives frequent updates. New versions bring <strong class="text-blue-400">support for newer models</strong>, bug fixes and features. Updating takes less than 1 minute.</p>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> When to update</h3>
+<p class="text-neutral-300 mb-3">Update whenever: a message about an outdated version appears in the terminal, Anthropic releases a new model (Claude 4, etc.), or a feature you want isn't available in your version.</p>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+<h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Update commands</h4>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Atualizar via npm</span>
+npm update -g @anthropic-ai/claude-code
+
+<span class="text-blue-400"># Ou reinstalar para garantir última versão</span>
+npm install -g @anthropic-ai/claude-code@latest
+
+<span class="text-blue-400"># Atualizar via Bun</span>
+bun update -g @anthropic-ai/claude-code
+
+<span class="text-blue-400"># Verificar versão atual vs mais recente</span>
+npm outdated -g @anthropic-ai/claude-code
+
+<span class="text-blue-400"># Verificar versão após atualização</span>
+claude --version</code></pre>
+</div>
+<!-- Grid ✓/✗ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Update best practices</h4>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Update weekly in active projects</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Read the changelog before updating in production</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Test in dev before updating the CI environment</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Avoid</h4>
+<ul class="space-y-2 text-neutral-300">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Update during an important active session</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Pinning an old version without justification</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ignore breaking changes in the changelog</span></li>
+</ul>
+</div>
+</div>
+</section>
+<!-- TÓPICO 5: Sistemas Operacionais -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">🖱️ Guide by Operating System</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Each OS has its own installation details. macOS and Linux are <strong class="text-blue-400">natively supported</strong>. Windows works best with WSL2.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+<h4 class="font-bold text-blue-400 mb-3">🍎 macOS</h4>
+<div class="font-mono text-xs text-neutral-300 space-y-1.5">
+<p><span class="text-blue-400"># via Homebrew:</span></p>
+<p>brew install node</p>
+<p><span class="text-blue-400"># install Claude Code:</span></p>
+<p>npm i -g @anthropic-ai/claude-code</p>
+</div>
+<p class="text-xs text-neutral-500 mt-3">No PATH issues with Homebrew. Best overall experience.</p>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+<h4 class="font-bold text-blue-400 mb-3">🐧 Linux</h4>
+<div class="font-mono text-xs text-neutral-300 space-y-1.5">
+<p><span class="text-blue-400"># via nvm (recommended):</span></p>
+<p>nvm install --lts</p>
+<p>nvm use --lts</p>
+<p><span class="text-blue-400"># install:</span></p>
+<p>npm i -g @anthropic-ai/claude-code</p>
+</div>
+<p class="text-xs text-neutral-500 mt-3">Avoid apt install nodejs — the version is usually outdated.</p>
+</div>
+<div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-5">
+<h4 class="font-bold text-blue-400 mb-3">🪟 Windows (WSL2)</h4>
+<div class="font-mono text-xs text-neutral-300 space-y-1.5">
+<p><span class="text-blue-400"># install WSL2:</span></p>
+<p>wsl --install</p>
+<p><span class="text-blue-400"># inside WSL2 (Ubuntu):</span></p>
+<p>nvm install --lts</p>
+<p>npm i -g @anthropic-ai/claude-code</p>
+</div>
+<p class="text-xs text-neutral-500 mt-3">Windows Terminal + WSL2 = an experience almost identical to Linux.</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Tip: Windows Terminal is required</h3>
+<p class="text-neutral-300">If you use Windows, install the <strong>Windows Terminal</strong> (free in the Microsoft Store). cmd.exe and the legacy PowerShell don't render Claude Code's colors and UI correctly. With Windows Terminal + WSL2, the experience is complete.</p>
+</div>
+</section>
+<!-- TÓPICO 6: Erros comuns -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">🔧 Troubleshooting: Common Errors</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">The 5 most common installation errors have straightforward solutions. Read the error in the terminal, identify the type, and apply the fix.</p>
+<div class="space-y-4 mb-6">
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-red-400 mb-2">EACCES: permission denied</h4>
+<p class="text-sm text-neutral-400 mb-3">npm doesn’t have permission to write to the global folder</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 overflow-x-auto"><code><span class="text-neutral-500"># Solução 1: configurar npm para usar diretório do usuário</span>
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+<span class="text-neutral-500"># Solução 2: usar nvm (recomendado — evita sudo)</span>
+nvm install --lts &amp;&amp; npm i -g @anthropic-ai/claude-code</code></pre>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-red-400 mb-2">command not found: claude</h4>
+<p class="text-sm text-neutral-400 mb-3">Installation succeeded, but PATH doesn't include the global npm directory</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 overflow-x-auto"><code><span class="text-neutral-500"># Encontrar onde o npm instala globalmente</span>
+npm config get prefix
+<span class="text-neutral-500"># Ex: /home/user/.npm-global</span>
+
+<span class="text-neutral-500"># Adicionar ao PATH (substituir pelo caminho real)</span>
+export PATH="/home/user/.npm-global/bin:$PATH"
+
+<span class="text-neutral-500"># Persistir no .bashrc ou .zshrc</span>
+echo 'export PATH="$(npm config get prefix)/bin:$PATH"' &gt;&gt; ~/.bashrc</code></pre>
+</div>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
+<h4 class="font-semibold text-red-400 mb-2">engine "node" unsupported / ENOTSUP</h4>
+<p class="text-sm text-neutral-400 mb-3">Incompatible Node.js version (v16 or earlier)</p>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 overflow-x-auto"><code><span class="text-neutral-500"># Atualizar Node.js com nvm</span>
+nvm install 20  # LTS atual
+nvm use 20
+nvm alias default 20
+
+<span class="text-neutral-500"># Verificar e reinstalar</span>
+node -v  # deve mostrar v20.x.x
+npm install -g @anthropic-ai/claude-code</code></pre>
+</div>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Never use sudo with npm install -g</h3>
+<p class="text-neutral-300">Run <code class="font-mono bg-dark-700 px-1.5 rounded text-sm">sudo npm install -g</code> fixes the immediate EACCES error but creates bigger problems: files owned by root, conflicts during future updates, and security risks. Use nvm or configure the npm global directory as described above.</p>
+</div>
+</section>
+<!-- RESUMO FINAL -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">✅</span> Module 2.1 Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Node.js v18+</strong><span class="text-neutral-400"> is the only mandatory requirement</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">npm install -g @anthropic-ai/claude-code</strong><span class="text-neutral-400"> — the installation command</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">claude --version</strong><span class="text-neutral-400"> confirms successful installation</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">EACCES?</strong><span class="text-neutral-400"> Use nvm, never sudo</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-white">Windows?</strong><span class="text-neutral-400"> WSL2 + Windows Terminal is the right combination</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-blue-400 mb-2">Next Module:</h3>
+<p class="text-neutral-300">2.2 — Authentication and first use: run <code class="font-mono text-sm">claude</code>, login, API key vs subscription, and your first real commands.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="index.html">← Back to Track 2</a>
+<a class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors" href="modulo-2-2.html">Next Module →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — From Zero to Project · 2026</p>
+</div>
+</footer>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+    } else { themeToggleLightIcon.classList.remove('hidden'); }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden'); themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>

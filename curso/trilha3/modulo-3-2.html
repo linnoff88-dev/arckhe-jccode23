@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3.2 Description e triggers | Claude Code</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124, 58, 237, 0.18); }
+
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161, 98, 7, 0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161, 98, 7, 0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255, 255, 255, 0.95); }
+
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+  </style>
+<link href="https://inematds.github.io/jccode23/curso/trilha3/modulo-3-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/jccode23/en/curso/trilha3/modulo-3-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/jccode23/es/curso/trilha3/modulo-3-2.html" hreflang="es" rel="alternate"/></head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen"><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="modulo-3-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../../en/curso/trilha3/modulo-3-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../../es/curso/trilha3/modulo-3-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<!-- NAVIGATION -->
+<nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-14">
+<div class="flex items-center space-x-4">
+<a class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300" href="../../index.html">
+<span class="text-2xl">🤖</span>
+<span class="font-bold text-lg hidden sm:inline">Claude Code</span>
+</a>
+<span class="text-neutral-600">|</span>
+<a class="text-sky-400 hover:text-sky-300 text-sm font-medium" href="https://inema.club" target="_blank">INEMA.CLUB</a>
+</div>
+<div class="flex items-center space-x-1 sm:space-x-2">
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors" href="../trilha1/index.html"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10" href="index.html"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" href="../trilha4/index.html"><span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html"><span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span></a>
+<a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" href="../trilha6/index.html"><span class="sm:hidden">T6</span><span class="hidden sm:inline">Deploy</span></a>
+<button class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2" id="theme-toggle">
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-dark-icon" viewbox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+<svg class="hidden w-5 h-5 text-neutral-300" fill="currentColor" id="theme-toggle-light-icon" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center space-x-2 text-sm text-neutral-400">
+<a class="hover:text-purple-400" href="../../index.html">Início</a>
+<span>/</span>
+<a class="hover:text-purple-400" href="index.html">Skills (T3)</a>
+<span>/</span>
+<span class="text-purple-400">Módulo 3.2</span>
+</div>
+</nav>
+<!-- HEADER -->
+<header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.2</span>
+<h1 class="text-3xl sm:text-4xl font-bold mb-4">🎯 Description e triggers</h1>
+<p class="text-lg text-neutral-400 max-w-3xl">O campo description é o que faz a skill disparar. Aprenda a escrever triggers fortes, incluir cláusulas SKIP para evitar disparo errado e nomear skills corretamente em kebab-case.</p>
+<div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+<div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Prática</div><div class="text-xs text-neutral-400">Tipo</div></div>
+</div>
+</div>
+</header>
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- TÓPICO 1: Description como gatilho -->
+<section class="mb-16" id="topico-1">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+<h2 class="text-2xl font-bold">🎯 A description como único gatilho</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O campo <strong class="text-purple-400">description</strong> no frontmatter do SKILL.md é o <em>único</em> sinal que o agente usa para decidir se deve ativar uma skill. É o seu "anúncio" para o agente — escreva como se precisasse convencer alguém em 5 segundos.</p>
+<!-- SVG: description como decisor -->
+<div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-4 mb-6">
+<svg aria-label="Description como decisor: mensagem do usuário → comparação com descriptions → skill de maior relevância ativada" class="w-full h-auto" font-family="Inter,sans-serif" role="img" viewbox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="m32-glow"><fegaussianblur result="b3" stddeviation="1.8"></fegaussianblur><femerge><femergenode in="b3"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+</defs>
+<pattern height="18" id="m32-dots" patternunits="userSpaceOnUse" width="18" x="0" y="0"><circle cx="1" cy="1" fill="#374151" r="0.8"></circle></pattern>
+<rect fill="url(#m32-dots)" height="200" opacity="0.35" width="560"></rect>
+<!-- Mensagem do usuário -->
+<rect fill="#0e1b26" height="40" rx="8" stroke="#38bdf8" stroke-width="1.5" width="120" x="10" y="80"></rect>
+<text fill="#38bdf8" font-size="9.5" font-weight="600" text-anchor="middle" x="70" y="96">Mensagem</text>
+<text fill="#bfe6ff" font-size="8.5" text-anchor="middle" x="70" y="110">"criar curso HTML"</text>
+<!-- Seta -->
+<line stroke="#6b7280" stroke-width="1.5" x1="130" x2="155" y1="100" y2="100"></line>
+<polygon fill="#6b7280" points="152,96 160,100 152,104"></polygon>
+<!-- Box de match -->
+<rect fill="#111827" height="120" rx="10" stroke="#4b5563" stroke-width="1.5" width="180" x="160" y="40"></rect>
+<text fill="#6b7280" font-size="9" text-anchor="middle" x="250" y="62">Match semântico</text>
+<!-- Descrição ruim -->
+<rect fill="#1f1515" height="25" rx="5" stroke="#4b5563" stroke-width="1" width="160" x="170" y="70"></rect>
+<text fill="#6b7280" font-size="8" x="180" y="85">desc: "ajuda com código"</text>
+<text fill="#6b7280" font-size="8" x="305" y="85">→ 20%</text>
+<!-- Descrição boa -->
+<rect fill="#1a1230" filter="url(#m32-glow)" height="25" rx="5" stroke="#a855f7" stroke-width="1.5" width="160" x="170" y="100"></rect>
+<text fill="#c084fc" font-size="8" x="180" y="115">desc: "criar HTML curso"</text>
+<text fill="#a855f7" font-size="8" x="305" y="115">→ 95%</text>
+<!-- Descrição outra -->
+<rect fill="#111827" height="20" rx="5" stroke="#4b5563" stroke-width="1" width="160" x="170" y="130"></rect>
+<text fill="#6b7280" font-size="8" x="180" y="143">desc: "análise de dados"</text>
+<text fill="#6b7280" font-size="8" x="305" y="143">→ 2%</text>
+<!-- Seta para ativação -->
+<line stroke="#a855f7" stroke-width="1.5" x1="340" x2="370" y1="112" y2="112"></line>
+<polygon fill="#a855f7" points="367,108 375,112 367,116"></polygon>
+<!-- Skill ativada -->
+<rect fill="#1a1230" filter="url(#m32-glow)" height="60" rx="8" stroke="#a855f7" stroke-width="2" width="120" x="375" y="82"></rect>
+<text fill="#c084fc" font-size="10" font-weight="600" text-anchor="middle" x="435" y="105">🧩 formato-curso</text>
+<text fill="#9ca3af" font-size="8.5" text-anchor="middle" x="435" y="120">skill ativada</text>
+<text fill="#6b7280" font-size="8" text-anchor="middle" x="435" y="133">relevância: 95%</text>
+<text fill="#4b5563" font-size="8.5" text-anchor="middle" x="280" y="185">Apenas a description é avaliada — o corpo da skill ainda não foi lido</text>
+</svg>
+</div>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">O que torna uma description eficaz</h3>
+<div class="space-y-3 text-sm text-neutral-300">
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-0.5">1</span>
+<span><strong>Frase-resumo</strong> — o que a skill faz em uma linha, com verbos de ação concretos</span>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-0.5">2</span>
+<span><strong>TRIGGER when</strong> — lista de cenários explícitos de ativação</span>
+</div>
+<div class="flex items-start space-x-3">
+<span class="text-purple-400 mt-0.5">3</span>
+<span><strong>SKIP</strong> — casos onde NÃO deve disparar, mesmo com sobreposição temática</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Match semântico</div><div class="text-xs text-neutral-500 mt-1">não literal</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Único sinal</div><div class="text-xs text-neutral-500 mt-1">antes de ativar</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">3 partes</div><div class="text-xs text-neutral-500 mt-1">resumo+trigger+skip</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Lazy loading</div><div class="text-xs text-neutral-500 mt-1">corpo lido depois</div></div>
+</div>
+</section>
+<!-- TÓPICO 2: Frases-gatilho -->
+<section class="mb-16" id="topico-2">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+<h2 class="text-2xl font-bold">⚡ Escrevendo frases-gatilho fortes</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Frases-gatilho são as cláusulas <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">TRIGGER when</code> na description. Elas listam explicitamente os contextos de ativação, cobrindo múltiplas formas como o usuário pode expressar o mesmo pedido.</p>
+<!-- Code box: exemplos de triggers -->
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="flex items-center justify-between mb-4">
+<span class="text-purple-400 font-semibold text-xs font-sans">Exemplo real: skill claude-api (TRIGGER + SKIP)</span>
+<span class="text-neutral-500 text-xs font-sans">YAML description</span>
+</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed"><code><span class="text-neutral-500">description: |-</span>
+  <span class="text-neutral-300">Build, debug, and optimize Claude API / Anthropic SDK apps.</span>
+  <span class="text-neutral-300">Apps built with this skill should include prompt caching.</span>
+  <span class="text-neutral-300">Also handles migrating existing Claude API code between</span>
+  <span class="text-neutral-300">Claude model versions.</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-yellow-300">TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`;</span>
+  <span class="text-yellow-300">user asks for the Claude API, Anthropic SDK, or Managed</span>
+  <span class="text-yellow-300">Agents; user adds/modifies/tunes a Claude feature (caching,</span>
+  <span class="text-yellow-300">thinking, tool use, batch) or model (Opus/Sonnet/Haiku).</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-red-400">SKIP: file imports `openai`/other-provider SDK, filename</span>
+  <span class="text-red-400">like `*-openai.py`, provider-neutral code, general</span>
+  <span class="text-red-400">programming/ML.</span></code></pre>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ Triggers fortes</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prefixo explícito "TRIGGER when:" ou "Use quando:"</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Cobre múltiplas formulações do mesmo pedido</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Inclui sinônimos e variações do domínio</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Menciona artefatos concretos (imports, arquivos)</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Testável: "se disser X, deve disparar?"</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Triggers fracos</h4>
+<ul class="space-y-3 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem prefixo — não há separação clara do resumo</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Cobre apenas 1 formulação ("crie um curso")</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Palavras-chave genéricas ("código", "web")</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Técnico demais para o usuário ("processa tokens")</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Sem SKIP — dispara em contextos errados</span></li>
+</ul>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Técnica: 5 perguntas de teste</h3>
+<p class="text-neutral-300 text-sm mb-3">Antes de publicar a skill, teste a description com 5 perguntas reais que o usuário faria. Para cada uma, verifique:</p>
+<ul class="space-y-1 text-sm text-neutral-300">
+<li>1. A skill deveria disparar? (sim/não)</li>
+<li>2. Apenas lendo a description, fica claro que sim/não?</li>
+<li>3. Alguma outra skill concorreria por este trigger?</li>
+<li>4. O SKIP elimina os falsos positivos?</li>
+<li>5. Alguém sem contexto entenderia a description?</li>
+</ul>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">TRIGGER when:</div><div class="text-xs text-neutral-500 mt-1">prefixo padrão</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Múltiplas formas</div><div class="text-xs text-neutral-500 mt-1">cobre variações</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Testável</div><div class="text-xs text-neutral-500 mt-1">5 perguntas</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Artefatos</div><div class="text-xs text-neutral-500 mt-1">imports, arquivos</div></div>
+</div>
+</section>
+<!-- TÓPICO 3: SKIP -->
+<section class="mb-16" id="topico-3">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+<h2 class="text-2xl font-bold">🚫 Cláusulas SKIP: evitar disparo errado</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">SKIP define os <strong class="text-red-400">anti-casos</strong>: situações onde a skill NÃO deve disparar, mesmo que haja sobreposição temática com o trigger. É a fronteira que separa a skill de suas vizinhas.</p>
+<div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Por que SKIP importa</h3>
+<p class="text-neutral-300 text-sm mb-3">Imagine que você tem <code class="bg-dark-700 px-1 rounded">claude-api</code> e uma skill genérica de "código Python". Sem SKIP, qualquer script Python que mencione uma API poderia acionar a skill errada. O SKIP cria fronteiras nítidas:</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-sm">
+<span class="text-emerald-400 font-semibold">claude-api → ativa quando:</span>
+<ul class="mt-2 space-y-1 text-neutral-300">
+<li>• import anthropic</li>
+<li>• Claude API / SDK</li>
+<li>• Opus, Sonnet, Haiku</li>
+</ul>
+</div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-sm">
+<span class="text-red-400 font-semibold">claude-api → SKIP quando:</span>
+<ul class="mt-2 space-y-1 text-neutral-300">
+<li>• import openai</li>
+<li>• código provider-neutral</li>
+<li>• ML genérico sem SDK</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Timeline: processo de refinamento SKIP -->
+<h3 class="text-lg font-semibold mb-4 text-purple-400">Como refinar o SKIP na prática</h3>
+<div class="space-y-6 mb-6">
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">1</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Identify false positives</h4>
+<p class="text-sm text-neutral-400">Use a skill por 1 semana. Anote toda vez que ela disparar quando não deveria — são os seus falsos positivos.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">2</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Encontre o padrão</h4>
+<p class="text-sm text-neutral-400">O que os falsos positivos têm em comum? É uma biblioteca? Um tipo de arquivo? Um contexto específico?</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="text-purple-400 font-bold">3</span>
+</div>
+<div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+<h4 class="font-semibold mb-1">Adicione ao SKIP</h4>
+<p class="text-sm text-neutral-400">Adicione o padrão à cláusula SKIP da description. Re-teste com os falsos positivos originais.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+<h4 class="font-bold text-emerald-400 mb-4">✓ SKIP bem escrito</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Prefixo "SKIP:" explícito e em maiúsculas</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Lista os casos de não-uso com exemplos concretos</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Complementa o TRIGGER sem contradizê-lo</span></li>
+<li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Refinado com falsos positivos reais</span></li>
+</ul>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-4">✗ Armadilhas do SKIP</h4>
+<ul class="space-y-2 text-neutral-300 text-sm">
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>SKIP tão amplo que bloqueia casos válidos</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Contradiz o TRIGGER ("Use quando X... SKIP: X")</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ausência de SKIP em skill de escopo amplo</span></li>
+<li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>SKIP genérico demais ("SKIP: código geral")</span></li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">SKIP:</div><div class="text-xs text-neutral-500 mt-1">prefixo obrigatório</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Anti-casos</div><div class="text-xs text-neutral-500 mt-1">fronteira da skill</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Refinamento</div><div class="text-xs text-neutral-500 mt-1">com uso real</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Complementar</div><div class="text-xs text-neutral-500 mt-1">não contraditório</div></div>
+</div>
+</section>
+<!-- TÓPICO 4: Kebab-case -->
+<section class="mb-16" id="topico-4">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+<h2 class="text-2xl font-bold">🔤 Nome em kebab-case</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">O nome da pasta e do campo <code class="bg-dark-700 px-2 py-0.5 rounded text-purple-300 font-mono text-sm">name</code> no frontmatter seguem uma convenção única: <strong class="text-purple-400">kebab-case</strong>.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Exemplos de nomes válidos vs inválidos</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<div class="text-emerald-400 text-xs font-sans mb-2">✓ VÁLIDO</div>
+<div class="space-y-1 text-neutral-300">
+<div><span class="text-emerald-400">formato-curso</span></div>
+<div><span class="text-emerald-400">ads-skill</span></div>
+<div><span class="text-emerald-400">n8n-code-python</span></div>
+<div><span class="text-emerald-400">claude-api</span></div>
+<div><span class="text-emerald-400">deep-research</span></div>
+</div>
+</div>
+<div>
+<div class="text-red-400 text-xs font-sans mb-2">✗ INVÁLIDO</div>
+<div class="space-y-1 text-neutral-300">
+<div><span class="text-red-400">formatoCurso</span> <span class="text-neutral-500 text-xs">(camelCase)</span></div>
+<div><span class="text-red-400">formato_curso</span> <span class="text-neutral-500 text-xs">(underscore)</span></div>
+<div><span class="text-red-400">Formato Curso</span> <span class="text-neutral-500 text-xs">(espaços)</span></div>
+<div><span class="text-red-400">FORMATO-CURSO</span> <span class="text-neutral-500 text-xs">(maiúsculas)</span></div>
+<div><span class="text-red-400">fc</span> <span class="text-neutral-500 text-xs">(abreviação ambígua)</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 Por que kebab-case funciona</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+<div><strong class="text-white">URL-safe</strong><br/><span class="text-neutral-400">funciona como slug sem encoding</span></div>
+<div><strong class="text-white">Terminal-safe</strong><br/><span class="text-neutral-400">sem necessidade de aspas no shell</span></div>
+<div><strong class="text-white">Legível</strong><br/><span class="text-neutral-400">instantaneamente escaneável</span></div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">minúsculas</div><div class="text-xs text-neutral-500 mt-1">sem maiúsculas</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">hífen</div><div class="text-xs text-neutral-500 mt-1">separador único</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">2-4 palavras</div><div class="text-xs text-neutral-500 mt-1">nome descritivo</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">pasta = name</div><div class="text-xs text-neutral-500 mt-1">coerência total</div></div>
+</div>
+</section>
+<!-- TÓPICO 5: Exemplos bons -->
+<section class="mb-16" id="topico-5">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+<h2 class="text-2xl font-bold">✅ Exemplos reais de description eficaz</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Análise de descriptions de skills reais em produção. O que as torna eficazes e por quê.</p>
+<div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm">
+<div class="text-purple-400 font-semibold text-xs font-sans mb-4">Skill: formato-curso — description real</div>
+<pre class="text-neutral-300 overflow-x-auto leading-relaxed text-xs"><code><span class="text-neutral-500">description: |-</span>
+  <span class="text-neutral-300">Template e padrões de design para criar páginas HTML de cursos</span>
+  <span class="text-neutral-300">no formato INEMA.CLUB.</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-yellow-300">Use esta skill SEMPRE que o usuário pedir para criar, editar ou</span>
+  <span class="text-yellow-300">revisar páginas HTML de curso — incluindo index de trilhas,</span>
+  <span class="text-yellow-300">páginas de módulos, componentes como navegação, cards, tópicos</span>
+  <span class="text-yellow-300">expansíveis, modais e slides.</span>
+  <span class="text-yellow-300">Acione também quando o usuário mencionar trilhas, módulos,</span>
+  <span class="text-yellow-300">tópicos, INEMA.CLUB, ou quando pedir para seguir o</span>
+  <span class="text-yellow-300">"formato de curso" ou "template de curso".</span>
+  <span class="text-neutral-300"></span>
+  <span class="text-red-400">Nao deixe de usar esta skill se o usuário mencionar qualquer</span>
+  <span class="text-red-400">coisa relacionada a páginas HTML de cursos ou ao projeto skillx.</span></code></pre>
+</div>
+<div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+<h3 class="text-lg font-semibold text-purple-400 mb-4">Por que essa description funciona</h3>
+<div class="space-y-3 text-sm text-neutral-300">
+<div class="flex items-start space-x-3"><span class="text-purple-400">①</span><span><strong>Frase-resumo clara:</strong> "Template e padrões de design para criar páginas HTML de cursos no formato INEMA.CLUB" — específico, com formato de saída e contexto</span></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400">②</span><span><strong>TRIGGER abrangente:</strong> cobre criar, editar, revisar; lista componentes específicos (modais, slides, cards); menciona sinônimos do domínio (INEMA.CLUB, skillx)</span></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400">③</span><span><strong>Tom imperativo:</strong> "SEMPRE que o usuário pedir", "Acione também" — sem ambiguidade sobre quando usar</span></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400">④</span><span><strong>Reforço negativo:</strong> "Não deixe de usar" — instrução explícita para não ignorar, antecipando casos limítrofes</span></div>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Específico</div><div class="text-xs text-neutral-500 mt-1">contexto + formato</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Abrangente</div><div class="text-xs text-neutral-500 mt-1">múltiplas formulações</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Imperativo</div><div class="text-xs text-neutral-500 mt-1">sem ambiguidade</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-purple-400">Sinônimos</div><div class="text-xs text-neutral-500 mt-1">vocabulário do domínio</div></div>
+</div>
+</section>
+<!-- TÓPICO 6: Exemplos ruins -->
+<section class="mb-16" id="topico-6">
+<div class="flex items-center space-x-4 mb-6">
+<span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+<h2 class="text-2xl font-bold">❌ Anti-patterns de description</h2>
+</div>
+<p class="text-neutral-300 mb-6 leading-relaxed">Descriptions ruins são invisíveis (skill nunca dispara), promíscuas (dispara para tudo) ou confusas (dispara quando não deveria). Os 4 anti-patterns mais comuns:</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-3">✗ Anti-pattern 1: Vago demais</h4>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs mb-3 text-neutral-400">description: "Ajuda com código"</div>
+<p class="text-sm text-neutral-300">Problema: "código" é tudo. Toda skill de dev vai competir. Nenhuma vai ganhar de forma previsível.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-3">✗ Anti-pattern 2: Circular</h4>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs mb-3 text-neutral-400">description: "Use quando precisar de IA"</div>
+<p class="text-sm text-neutral-300">Problema: todas as skills "usam IA". A description precisa diferenciar, não generalizar.</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-3">✗ Anti-pattern 3: Técnico demais</h4>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs mb-3 text-neutral-400">description: "Processa tokens via API REST e gerencia context window"</div>
+<p class="text-sm text-neutral-300">Problema: o usuário não pensa em "tokens" e "context window" — pensa em "preciso de uma resposta".</p>
+</div>
+<div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+<h4 class="font-bold text-red-400 mb-3">✗ Anti-pattern 4: Sem âncoras</h4>
+<div class="bg-dark-800 rounded-lg p-3 font-mono text-xs mb-3 text-neutral-400">description: "Skill para trabalhar com APIs externas"</div>
+<p class="text-sm text-neutral-300">Problema: qual API? REST? GraphQL? Anthropic? OpenAI? Sem âncora específica, o match vai errar.</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+<h3 class="text-lg font-semibold text-primary mb-3">💡 O teste de 1 frase</h3>
+<p class="text-neutral-300 text-sm">Mostre a description para alguém que nunca viu a skill. Faça uma pergunta: "Em que situação você usaria isso?" Se a resposta for vaga ou errada, a description falhou. O teste leva 30 segundos e economiza horas de debug.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">Vago</div><div class="text-xs text-neutral-500 mt-1">não diferencia</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">Circular</div><div class="text-xs text-neutral-500 mt-1">generaliza</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">Técnico</div><div class="text-xs text-neutral-500 mt-1">vocabulário errado</div></div>
+<div class="bg-dark-800 rounded-lg p-4 border border-dark-600 text-center"><div class="text-xs font-semibold text-red-400">Sem âncora</div><div class="text-xs text-neutral-500 mt-1">contexto ausente</div></div>
+</div>
+</section>
+<!-- RESUMO -->
+<section class="mb-12">
+<div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+<h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do Módulo</h2>
+<div class="space-y-4 mb-8">
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Description = gatilho único</strong><span class="text-neutral-400"> — o único sinal que o agente avalia antes de ativar; lazily carrega o corpo</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Estrutura ideal</strong><span class="text-neutral-400"> — frase-resumo + TRIGGER when: + SKIP: em 3-6 linhas</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>TRIGGER forte</strong><span class="text-neutral-400"> — prefixo explícito, múltiplas formulações, artefatos concretos (imports, arquivos), testável</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>SKIP delimitador</strong><span class="text-neutral-400"> — define fronteiras, eliminada com falsos positivos reais, complementar ao TRIGGER</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Kebab-case</strong><span class="text-neutral-400"> — minúsculas + hífen; pasta e frontmatter name idênticos; URL-safe e terminal-safe</span></div></div>
+<div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong>Anti-patterns</strong><span class="text-neutral-400"> — vago, circular, técnico demais, sem âncora; use o teste de 1 frase para validar</span></div></div>
+</div>
+<div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+<h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+<p class="text-neutral-300">3.3 — Scripts e referências auxiliares: como estruturar scripts/, references/, .env.example e aplicar progressive disclosure</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors" href="modulo-3-1.html">← Módulo 3.1</a>
+<a class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors" href="modulo-3-3.html">Próximo: Scripts e referências →</a>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="border-t border-dark-600 py-8 mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+<p>Claude Code — Do Zero ao Projeto · 2026</p>
+</div>
+</footer>
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const html = document.documentElement;
+if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+  themeToggleDarkIcon.classList.remove('hidden'); html.classList.remove('dark');
+} else { themeToggleLightIcon.classList.remove('hidden'); }
+themeToggle.addEventListener('click', () => {
+  themeToggleDarkIcon.classList.toggle('hidden');
+  themeToggleLightIcon.classList.toggle('hidden');
+  html.classList.toggle('dark');
+  localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+});
+</script>
+</body>
+</html>
