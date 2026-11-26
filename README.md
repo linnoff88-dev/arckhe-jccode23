@@ -6,9 +6,9 @@
 </div>
 
 
-Curso completo de **Claude Code** no formato INEMA.CLUB ê¢â¬â dos fundamentos êÂ  instalaêÂ§êÂ£o, criando skills e automaêÂ§êÂµes, atêÂ© desenvolver e publicar projetos reais de longo prazo.
+Curso completo de **Claude Code** no formato ARCKHÉ AI ê¢â¬â dos fundamentos êÂ  instalaêÂ§êÂ£o, criando skills e automaêÂ§êÂµes, atêÂ© desenvolver e publicar projetos reais de longo prazo.
 
-**No ar:** https://inematds.github.io/jccode23/
+**No ar:** https://linnoff88-dev.github.io/arckhe-/
 
 ## Trilhas
 
@@ -34,7 +34,7 @@ curso/trilhaN/modulo-N-X.html  # MêÂ³dulos
 HTML estêÂ¡tico puro (Tailwind via CDN). Dark/light mode. Sem build.
 
 ---
-Feito para [INEMA.CLUB](https://inema.club).
+Feito para [ARCKHÉ AI](https://ARCKHÉ AI).
 
 ---
 
