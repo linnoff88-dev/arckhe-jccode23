@@ -2156,7 +2156,7 @@
 "90cf62498be3e9fb": "The terminal is a text interface that gives you direct access to the operating system—files, processes, network. It’s where the agent runs real commands.",
 "aee3895be9f27291": "The terminal is a program that interprets text commands. On Mac: Terminal or iTerm2. On Windows: PowerShell or WSL. On Linux: any emulator.",
 "748987586db933b5": "The UGC video transcript is extracted word for word. The skill can’t rewrite, summarize, or “improve” the text.",
-"309378eff632ba79": "The user doesn’t need to know there are 4 models. They describe what they want (“I need a UGC video with the actor João talking about the product”), and the skill chooses the right model. That’s the real value of a well-designed skill:",
+"309378eff632ba79": "The user doesn’t need to know there are 4 models. They describe what they want (“I need a UGC video with the actor Joêo talking about the product”), and the skill chooses the right model. That’s the real value of a well-designed skill:",
 "ac2db308a62d9b0d": "OAuth server",
 "d9eef7638cfbfdbc": "OAuth via browser",
 "efffd9239e51a413": "OAuth2 browser flow, folder",

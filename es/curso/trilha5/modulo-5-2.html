@@ -98,7 +98,7 @@
 <h1 class="text-2xl font-bold mb-3">🧠 CLAUDE.md y memoria persistente</h1>
 <p class="text-neutral-300">El CLAUDE.md como instrucciones permanentes del proyecto. Memoria entre sesiones, qué guardar y qué evitar, contexto conciso y convenciones del equipo que Claude realmente respeta.</p>
 </div>
-<!-- SEÇÃO 1 — O que é o CLAUDE.md -->
+<!-- SEÇêO 1 — O que é o CLAUDE.md -->
 <section class="mb-16" id="topico-1">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 📄 Qué es el CLAUDE.md</h2>
 <!-- SVG inline — fluxo de leitura do CLAUDE.md -->
@@ -153,14 +153,14 @@
 </div>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># my-project — Instruções do agente
 
-## Visão geral
+## Visêo geral
 Dashboard pessoal de produtividade. Stack: Bun + React +
 Vite + Tailwind. Deploy: Cloudflare Pages via wrangler.
 
 ## Estrutura do projeto
 ```
 src/          → componentes React e lógica de UI
-scripts/      → data pipeline e automação
+scripts/      → data pipeline e automaçêo
 docs/adr/     → decisões de arquitetura
 ```
 
@@ -205,7 +205,7 @@ docs/adr/     → decisões de arquitetura
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — Memória entre sessões -->
+<!-- SEÇêO 2 — Memória entre sessões -->
 <section class="mb-16" id="topico-2">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 💾 Memoria entre sesiones</h2>
 <p class="text-neutral-300 mb-6">Claude no tiene memoria nativa entre sesiones. Toda "memoria" debe construirse explícitamente como archivos que Claude pueda leer en la siguiente sesión.</p>
@@ -249,12 +249,12 @@ docs/adr/     → decisões de arquitetura
 <span class="text-primary text-lg">💡</span>
 <div>
 <p class="text-primary font-semibold text-sm mb-1">Consejo: session handoff</p>
-<p class="text-neutral-300 text-sm">Al terminar una sesión larga, pide: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Escreva um handoff de sessão em docs/handoff.md: o que foi feito, o que está pendente e quaisquer decisões tomadas."</code> En la próxima sesión, pídele a Claude que lea el handoff antes de empezar.</p>
+<p class="text-neutral-300 text-sm">Al terminar una sesión larga, pide: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Escreva um handoff de sessêo em docs/handoff.md: o que foi feito, o que está pendente e quaisquer decisões tomadas."</code> En la próxima sesión, pídele a Claude que lea el handoff antes de empezar.</p>
 </div>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Contexto enxuto -->
+<!-- SEÇêO 3 — Contexto enxuto -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> ✂️ Contexto conciso</h2>
 <p class="text-neutral-300 mb-6">Un CLAUDE.md de 2.000 líneas es tan inútil como uno de 10. La información crítica debe estar al principio, y cada línea debe justificar su presencia.</p>
@@ -315,7 +315,7 @@ docs/adr/     → decisões de arquitetura
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — Convenções do time -->
+<!-- SEÇêO 4 — Convenções do time -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📋 Convenciones del equipo</h2>
 <p class="text-neutral-300 mb-6">Claude sigue las convenciones cuando están escritas explícitamente. Sin eso, adopta sus propias convenciones, que pueden ser buenas, pero no serán las tuyas.</p>
@@ -338,9 +338,9 @@ docs/adr/     → decisões de arquitetura
 
 ### Commits (Conventional Commits)
 - feat: nova feature
-- fix: correção de bug
-- refactor: refatoração sem mudança de comportamento
-- docs: documentação
+- fix: correçêo de bug
+- refactor: refatoraçêo sem mudança de comportamento
+- docs: documentaçêo
 - test: testes
 
 ### Git
@@ -362,7 +362,7 @@ docs/adr/     → decisões de arquitetura
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — O que guardar vs não guardar -->
+<!-- SEÇêO 5 — O que guardar vs nêo guardar -->
 <section class="mb-16" id="topico-5">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🔐 Qué guardar y qué no guardar</h2>
 <p class="text-neutral-300 mb-6">El CLAUDE.md es un archivo versionado — cualquier dato sensible que contenga puede filtrarse a través del historial de git, un push accidental a un repositorio público o los logs de API.</p>
@@ -419,11 +419,11 @@ CLOUDFLARE_ACCOUNT_ID=   # ver Cloudflare Dashboard</code></pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Evolução do CLAUDE.md -->
+<!-- SEÇêO 6 — Evoluçêo do CLAUDE.md -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔄 Evolución del CLAUDE.md</h2>
 <p class="text-neutral-300 mb-6">El CLAUDE.md es un documento vivo. Los proyectos cambian, las stacks evolucionan, las convenciones mejoran. El archivo debe acompañar esa evolución.</p>
-<!-- Timeline de revisão -->
+<!-- Timeline de revisêo -->
 <div class="mb-8">
 <h3 class="font-semibold mb-4 text-neutral-200">Frecuencia de revisión</h3>
 <div class="space-y-4">

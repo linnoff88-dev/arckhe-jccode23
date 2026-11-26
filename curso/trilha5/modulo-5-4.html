@@ -66,9 +66,9 @@
 </div>
 <div class="flex items-center space-x-1">
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentos</a>
-<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalaçêo</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
-<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automaçêo</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projetos</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
 <button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
@@ -99,9 +99,9 @@
 <h1 class="text-2xl font-bold mb-3">🖥️ Case study: ClaudeOS (Hermes)</h1>
 <p class="text-neutral-300">Dissecar um projeto real de longo prazo: dashboard pessoal de IA com Bun + TanStack/React + Vite + Tailwind, deploy em Cloudflare. V2.3 — mai/2026.</p>
 </div>
-<!-- SEÇÃO 1 — Visão geral -->
+<!-- SEÇêO 1 — Visêo geral -->
 <section class="mb-16" id="topico-1">
-<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🗺️ Visão geral do projeto</h2>
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🗺️ Visêo geral do projeto</h2>
 <p class="text-neutral-300 mb-6">ClaudeOS (codinome Hermes) é um dashboard pessoal <strong>read-only</strong> para quem roda um stack de IA local. Ele consolida dados de múltiplas fontes em uma interface única — sem modificar nenhuma delas.</p>
 <!-- Cards de stack -->
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
@@ -188,11 +188,11 @@
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 <div>
 <p class="text-sm font-medium text-neutral-200 mb-1">Aplica 5.1</p>
-<p class="text-xs text-neutral-400">Arquitetura em camadas com separação scripts/src. Cada pasta com responsabilidade única.</p>
+<p class="text-xs text-neutral-400">Arquitetura em camadas com separaçêo scripts/src. Cada pasta com responsabilidade única.</p>
 </div>
 <div>
 <p class="text-sm font-medium text-neutral-200 mb-1">Aplica 5.2</p>
-<p class="text-xs text-neutral-400">CLAUDE.md com restrições explícitas de segurança e privacidade. Onboarding saudação.</p>
+<p class="text-xs text-neutral-400">CLAUDE.md com restrições explícitas de segurança e privacidade. Onboarding saudaçêo.</p>
 </div>
 <div>
 <p class="text-sm font-medium text-neutral-200 mb-1">Aplica 5.3</p>
@@ -201,10 +201,10 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — aggregate.ts -->
+<!-- SEÇêO 2 — aggregate.ts -->
 <section class="mb-16" id="topico-2">
-<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> ⚙️ scripts/aggregate.ts — o coração do sistema</h2>
-<p class="text-neutral-300 mb-6">O arquivo mais importante do ClaudeOS não é um componente React — é um script TypeScript que roda fora do browser. Ele lê fontes heterogêneas e produz um único JSON que o dashboard consome.</p>
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> ⚙️ scripts/aggregate.ts — o coraçêo do sistema</h2>
+<p class="text-neutral-300 mb-6">O arquivo mais importante do ClaudeOS nêo é um componente React — é um script TypeScript que roda fora do browser. Ele lê fontes heterogêneas e produz um único JSON que o dashboard consome.</p>
 <!-- Code box -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -222,7 +222,7 @@ import { join } from 'path'
 
 async function aggregateClaudeHistory() {
   const historyDir = join(process.env.HOME!, '.claude', 'history')
-  // Lê arquivos de sessão dos últimos 30 dias
+  // Lê arquivos de sessêo dos últimos 30 dias
   // Extrai: tokens usados, projetos, modelos
   return { sessions: [...], tokenTotal: 0 }
 }
@@ -254,12 +254,12 @@ main()</code></pre>
 <!-- Grid ✓/✗ -->
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
-<h4 class="text-emerald-400 font-bold mb-3">✓ Padrão elegante</h4>
+<h4 class="text-emerald-400 font-bold mb-3">✓ Padrêo elegante</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
 <li>• Script separado de src/ (responsabilidade única)</li>
 <li>• Promise.all para I/O paralelo</li>
 <li>• Saída em JSON estruturado e versionável</li>
-<li>• Timestamp de geração incluso</li>
+<li>• Timestamp de geraçêo incluso</li>
 <li>• Nunca modifica as fontes (read-only)</li>
 </ul>
 </div>
@@ -268,9 +268,9 @@ main()</code></pre>
 <ul class="space-y-2 text-sm text-neutral-300">
 <li>• Qualquer dashboard de métricas</li>
 <li>• Relatórios automatizados</li>
-<li>• Consolidação de logs distribuídos</li>
+<li>• Consolidaçêo de logs distribuídos</li>
 <li>• Pipelines de dados locais</li>
-<li>• Geração de feeds estáticos</li>
+<li>• Geraçêo de feeds estáticos</li>
 </ul>
 </div>
 </div>
@@ -278,16 +278,16 @@ main()</code></pre>
 <div class="flex items-start gap-3">
 <span class="text-primary text-lg">💡</span>
 <div>
-<p class="text-primary font-semibold text-sm mb-1">O padrão "script → JSON → UI"</p>
-<p class="text-neutral-300 text-sm">Separar coleta de dados da apresentação é uma das arquiteturas mais resilientes para projetos pessoais. O dashboard pode ser reconstruído do zero sem perder dados. O pipeline pode rodar no cron sem a UI existir.</p>
+<p class="text-primary font-semibold text-sm mb-1">O padrêo "script → JSON → UI"</p>
+<p class="text-neutral-300 text-sm">Separar coleta de dados da apresentaçêo é uma das arquiteturas mais resilientes para projetos pessoais. O dashboard pode ser reconstruído do zero sem perder dados. O pipeline pode rodar no cron sem a UI existir.</p>
 </div>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Skill /dream -->
+<!-- SEÇêO 3 — Skill /dream -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 💤 Skill /dream — auditoria de 24h</h2>
-<p class="text-neutral-300 mb-6">A skill /dream é um exemplo de skill com <strong>output estruturado</strong>. Ela não responde em prosa — ela escreve um arquivo JSON que o dashboard renderiza como cards de ação.</p>
+<p class="text-neutral-300 mb-6">A skill /dream é um exemplo de skill com <strong>output estruturado</strong>. Ela nêo responde em prosa — ela escreve um arquivo JSON que o dashboard renderiza como cards de açêo.</p>
 <!-- Code box — skill /dream -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -304,7 +304,7 @@ Gerar as 4 prescrições de maior impacto em JSON.
 
 ## Buckets de sinal
 1. Tokens consumidos vs budget diário
-2. Projetos mais ativos (por sessão)
+2. Projetos mais ativos (por sessêo)
 3. Skills mais invocadas
 4. Notas Obsidian criadas/modificadas
 5. Queries Pinecone (tópicos consultados)
@@ -374,10 +374,10 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — CLAUDE.md do projeto -->
+<!-- SEÇêO 4 — CLAUDE.md do projeto -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📜 CLAUDE.md do ClaudeOS — exemplo real</h2>
-<p class="text-neutral-300 mb-6">O CLAUDE.md do ClaudeOS é um exemplo de instruções de nível produção. Cada regra tem uma razão clara de existir.</p>
+<p class="text-neutral-300 mb-6">O CLAUDE.md do ClaudeOS é um exemplo de instruções de nível produçêo. Cada regra tem uma razêo clara de existir.</p>
 <!-- Code box — CLAUDE.md real -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -388,13 +388,13 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># ClaudeOS (Hermes) — Instruções do agente
 
-## Saudação de onboarding
+## Saudaçêo de onboarding
 Bem-vindo ao ClaudeOS! Você está trabalhando no dashboard
 pessoal de IA. Antes de qualquer task, leia este arquivo.
 
 ## O que é este projeto
 Dashboard read-only que consolida dados de Claude Code,
-Obsidian, OpenRouter e Pinecone para visualização pessoal.
+Obsidian, OpenRouter e Pinecone para visualizaçêo pessoal.
 Stack: Bun + React 19 + TanStack Query + Vite + Tailwind 4
 Deploy: Cloudflare Pages (wrangler)
 
@@ -404,13 +404,13 @@ Deploy: Cloudflare Pages (wrangler)
 - NUNCA ler ou escrever diretamente em ~/.claude/
   → Dados chegam via scripts/aggregate.ts e src/data/live-data.json
 - NUNCA enviar dados do usuário para serviços externos
-- Anonimização LIGADA — remove PII de outputs
+- Anonimizaçêo LIGADA — remove PII de outputs
 - Sem telemetria — sem analytics, sem tracking
 
 ### Arquitetura
 - Dashboard é READ-ONLY — NUNCA modificar fontes de dados
-- Código novo vai em src/ — scripts de dados vão em scripts/
-- Não criar arquivos na raiz do projeto
+- Código novo vai em src/ — scripts de dados vêo em scripts/
+- Nêo criar arquivos na raiz do projeto
 
 ### Segurança
 - API keys SEMPRE via variáveis de ambiente (.env)
@@ -419,7 +419,7 @@ Deploy: Cloudflare Pages (wrangler)
 ## Estrutura do projeto
 src/
   components/   → UI React
-  data/         → live-data.json (gerado, não editado)
+  data/         → live-data.json (gerado, nêo editado)
 scripts/
   aggregate.ts  → coleta dados das fontes
   setup.ts      → setup inicial (roda uma vez)</code></pre>
@@ -435,20 +435,20 @@ scripts/
 </div>
 </div>
 <div class="bg-dark-800 rounded-xl border border-teal-500/20 p-5">
-<h4 class="font-semibold text-teal-400 mb-3">🧩 Padrão reutilizável</h4>
+<h4 class="font-semibold text-teal-400 mb-3">🧩 Padrêo reutilizável</h4>
 <div class="space-y-2 text-sm text-neutral-400">
-<p>• Saudação de onboarding = contexto imediato</p>
+<p>• Saudaçêo de onboarding = contexto imediato</p>
 <p>• Regras por categoria (privacidade, arquitetura, segurança)</p>
-<p>• Justificativa inline para cada restrição crítica</p>
+<p>• Justificativa inline para cada restriçêo crítica</p>
 <p>• Mapa de pastas com propósito explícito</p>
 </div>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — CHANGELOG V2.3 -->
+<!-- SEÇêO 5 — CHANGELOG V2.3 -->
 <section class="mb-16" id="topico-5">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 📦 CHANGELOG V2.3 — historial como espelho</h2>
-<p class="text-neutral-300 mb-6">O CHANGELOG do ClaudeOS conta a história de um projeto que evoluiu de um script simples para um dashboard completo. Cada versão é um marco.</p>
+<p class="text-neutral-300 mb-6">O CHANGELOG do ClaudeOS conta a história de um projeto que evoluiu de um script simples para um dashboard completo. Cada versêo é um marco.</p>
 <!-- Timeline de versões -->
 <div class="mb-8">
 <div class="space-y-4">
@@ -462,7 +462,7 @@ scripts/
 <p class="font-semibold text-sm text-teal-400">Documents Gallery</p>
 <span class="text-xs text-neutral-500">31 mai 2026</span>
 </div>
-<p class="text-neutral-400 text-sm">Added: visualização de docs Obsidian no dashboard. Filtro por vault. aggregate.ts 3x mais rápido (processamento paralelo).</p>
+<p class="text-neutral-400 text-sm">Added: visualizaçêo de docs Obsidian no dashboard. Filtro por vault. aggregate.ts 3x mais rápido (processamento paralelo).</p>
 </div>
 </div>
 <div class="flex gap-4">
@@ -475,7 +475,7 @@ scripts/
 <p class="font-semibold text-sm">Skill /personas</p>
 <span class="text-xs text-neutral-500">15 abr 2026</span>
 </div>
-<p class="text-neutral-400 text-sm">Added: panteão de personas YAML locais. Painel de personas no dashboard. Changed: migração Vercel → Cloudflare Pages.</p>
+<p class="text-neutral-400 text-sm">Added: panteêo de personas YAML locais. Painel de personas no dashboard. Changed: migraçêo Vercel → Cloudflare Pages.</p>
 </div>
 </div>
 <div class="flex gap-4">
@@ -510,12 +510,12 @@ scripts/
 <span class="text-primary text-lg">💡</span>
 <div>
 <p class="text-primary font-semibold text-sm mb-1">O que o CHANGELOG revela</p>
-<p class="text-neutral-300 text-sm">Lendo o CHANGELOG você vê: o projeto começou pequeno (V1.0 só Claude Code), cresceu incrementalmente, migrou de plataforma quando fez sentido, e cada versão adicionou uma coisa por vez. Isso é crescimento saudável.</p>
+<p class="text-neutral-300 text-sm">Lendo o CHANGELOG você vê: o projeto começou pequeno (V1.0 só Claude Code), cresceu incrementalmente, migrou de plataforma quando fez sentido, e cada versêo adicionou uma coisa por vez. Isso é crescimento saudável.</p>
 </div>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Mock do dashboard + lições -->
+<!-- SEÇêO 6 — Mock do dashboard + lições -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔗 Mock do dashboard e lições para o seu projeto</h2>
 <!-- Mock dashboard HTML -->
@@ -525,7 +525,7 @@ scripts/
 <span class="w-3 h-3 rounded-full bg-red-500"></span>
 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
 <span class="w-3 h-3 rounded-full bg-green-500"></span>
-<span class="text-xs text-neutral-400 ml-2 font-mono">ClaudeOS — Dashboard (MOCK ILUSTRATIVO — não é screenshot real)</span>
+<span class="text-xs text-neutral-400 ml-2 font-mono">ClaudeOS — Dashboard (MOCK ILUSTRATIVO — nêo é screenshot real)</span>
 </div>
 <span class="text-xs text-teal-400 font-medium">V2.3</span>
 </div>
@@ -577,7 +577,7 @@ scripts/
 <p class="text-xs text-gray-600 text-center">Gerado em 2026-06-01T08:00:00Z · READ-ONLY</p>
 </div>
 </div>
-<p class="text-xs text-neutral-500 text-center -mt-6 mb-8">⚠️ Mock HTML ilustrativo — não representa dados reais nem screenshot do sistema</p>
+<p class="text-xs text-neutral-500 text-center -mt-6 mb-8">⚠️ Mock HTML ilustrativo — nêo representa dados reais nem screenshot do sistema</p>
 <!-- Grid de lições -->
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
@@ -585,7 +585,7 @@ scripts/
 <ul class="space-y-2 text-sm text-neutral-300">
 <li>• Script gerador + JSON artefato + UI</li>
 <li>• CLAUDE.md com restrições por categoria</li>
-<li>• Skills com output JSON (não prosa)</li>
+<li>• Skills com output JSON (nêo prosa)</li>
 <li>• CHANGELOG desde a V1</li>
 <li>• Walking skeleton crescendo incrementalmente</li>
 </ul>
@@ -629,7 +629,7 @@ scripts/
 </div>
 <div class="bg-dark-900/50 rounded-xl p-4">
 <div class="text-teal-400 font-bold mb-2">🚀 Próxima trilha</div>
-<p class="text-sm text-neutral-400 mb-3">Trilha 6 cobre Deploy — como colocar seu projeto em produção com Cloudflare, GitHub Actions, domínios customizados e monitoramento.</p>
+<p class="text-sm text-neutral-400 mb-3">Trilha 6 cobre Deploy — como colocar seu projeto em produçêo com Cloudflare, GitHub Actions, domínios customizados e monitoramento.</p>
 <a class="inline-flex items-center gap-2 text-sm text-rose-400 hover:text-rose-300 transition-colors font-medium" href="../trilha6/index.html">🚀 Ir para Trilha 6: Deploy →</a>
 </div>
 </div>

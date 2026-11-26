@@ -271,13 +271,13 @@
 <div class="text-neutral-500 mb-3 text-xs">CONFIGURAR SSH — PASO A PASO</div>
 <pre class="text-neutral-300"><code><span class="text-neutral-500"># 1. Gerar chave</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">ssh-keygen</span> -t ed25519 -C "seu@email.com"
-<span class="text-neutral-500"># pressione Enter para aceitar o caminho padrão (~/.ssh/id_ed25519)</span>
+<span class="text-neutral-500"># pressione Enter para aceitar o caminho padrêo (~/.ssh/id_ed25519)</span>
 
 <span class="text-neutral-500"># 2. Copiar a chave pública</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">cat</span> ~/.ssh/id_ed25519.pub
 <span class="text-neutral-500"># copie todo o output e cole em GitHub → Settings → SSH keys → New SSH key</span>
 
-<span class="text-neutral-500"># 3. Testar conexão</span>
+<span class="text-neutral-500"># 3. Testar conexêo</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">ssh -T</span> git@github.com
 Hi usuario! You've successfully authenticated, but GitHub does not provide shell access.
 
@@ -308,9 +308,9 @@ Hi usuario! You've successfully authenticated, but GitHub does not provide shell
 </div>
 <div class="bg-dark-900 rounded-xl p-6 border border-dark-600 mb-6 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">gh CLI — COMANDOS ESENCIALES</div>
-<pre class="text-neutral-300"><code><span class="text-neutral-500"># Autenticação</span>
+<pre class="text-neutral-300"><code><span class="text-neutral-500"># Autenticaçêo</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh auth login</span>                          <span class="text-neutral-500"># autentica com GitHub</span>
-<span class="text-neutral-500">$ </span><span class="text-rose-300">gh auth status</span>                         <span class="text-neutral-500"># verifica autenticação</span>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh auth status</span>                         <span class="text-neutral-500"># verifica autenticaçêo</span>
 
 <span class="text-neutral-500"># Repositórios</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo create</span> nome --public --clone    <span class="text-neutral-500"># cria e clona</span>
@@ -318,7 +318,7 @@ Hi usuario! You've successfully authenticated, but GitHub does not provide shell
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh repo clone</span> user/repo                <span class="text-neutral-500"># clona repo</span>
 
 <span class="text-neutral-500"># Pull Requests</span>
-<span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr create</span> --title "feat: X" --body "Descrição"
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr create</span> --title "feat: X" --body "Descriçêo"
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr list</span>                             <span class="text-neutral-500"># lista PRs abertos</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh pr merge</span> --squash --delete-branch   <span class="text-neutral-500"># merge com squash</span>
 
@@ -332,7 +332,7 @@ Hi usuario! You've successfully authenticated, but GitHub does not provide shell
 
 <span class="text-neutral-500"># GitHub Actions / CI</span>
 <span class="text-neutral-500">$ </span><span class="text-rose-300">gh run list</span>                            <span class="text-neutral-500"># lista execuções recentes</span>
-<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run watch</span>                           <span class="text-neutral-500"># monitora execução em tempo real</span></code></pre>
+<span class="text-neutral-500">$ </span><span class="text-rose-300">gh run watch</span>                           <span class="text-neutral-500"># monitora execuçêo em tempo real</span></code></pre>
 </div>
 <div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
 <h3 class="text-lg font-semibold text-primary mb-2 flex items-center"><span class="mr-2">⚡</span> Instalar gh CLI</h3>
@@ -368,7 +368,7 @@ Hi usuario! You've successfully authenticated, but GitHub does not provide shell
 <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
 <h4 class="font-semibold mb-1">Crear branch + commit + push</h4>
 <pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300 mt-2"><code><span class="text-rose-300">git checkout</span> -b feature/nova-funcao
-<span class="text-rose-300">git add</span> . &amp;&amp; <span class="text-rose-300">git commit</span> -m "feat: adiciona nova funcão"
+<span class="text-rose-300">git add</span> . &amp;&amp; <span class="text-rose-300">git commit</span> -m "feat: adiciona nova funcêo"
 <span class="text-rose-300">git push</span> -u origin feature/nova-funcao</code></pre>
 </div>
 </div>
@@ -379,7 +379,7 @@ Hi usuario! You've successfully authenticated, but GitHub does not provide shell
 <div class="flex-1 bg-dark-800 rounded-xl p-4 border border-dark-600">
 <h4 class="font-semibold mb-1">Abrir el PR mediante la CLI gh</h4>
 <pre class="bg-dark-900 rounded-lg p-3 text-xs font-mono text-neutral-300 mt-2"><code><span class="text-rose-300">gh pr create</span> \
-  --title <span class="text-emerald-300">"feat: adiciona nova funcão"</span> \
+  --title <span class="text-emerald-300">"feat: adiciona nova funcêo"</span> \
   --body <span class="text-emerald-300">"## O que faz\n- Item 1\n\n## Como testar\n- Passo 1"</span> \
   --base main</code></pre>
 </div>

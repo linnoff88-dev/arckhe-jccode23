@@ -115,7 +115,7 @@
 <h1 class="text-3xl font-bold mb-3">⌨️ Slash commands and workflows</h1>
 <p class="text-neutral-400 text-lg">Create reusable shortcuts and deterministic pipelines that orchestrate multiple agents with a single command.</p>
 </div>
-<!-- SVG: Fluxo de decisão Pipeline vs Parallel -->
+<!-- SVG: Fluxo de decisêo Pipeline vs Parallel -->
 <section class="mb-10">
 <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-4">
 <svg aria-label="Diagram comparing a sequential pipeline (A depends on B, which depends on C) with parallel fan-out (A triggers B, C, and D simultaneously, converging at E)" class="w-full h-auto" role="img" viewbox="0 0 800 260">
@@ -182,7 +182,7 @@
 </svg>
 </div>
 </section>
-<!-- SEÇÃO 1: O que são slash commands -->
+<!-- SEÇêO 1: O que sêo slash commands -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⌨️ What slash commands are</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -193,20 +193,20 @@
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">// Most useful native Claude Code commands</div>
 <pre class="text-neutral-300"><span class="text-amber-400">/help</span>          → lista todos os comandos disponíveis
-<span class="text-amber-400">/clear</span>         → limpa o histórico da sessão atual
+<span class="text-amber-400">/clear</span>         → limpa o histórico da sessêo atual
 <span class="text-amber-400">/compact</span>       → comprime o contexto (reduz tokens usados)
 <span class="text-amber-400">/config</span>        → abre configurações interativas
 <span class="text-amber-400">/doctor</span>        → diagnóstico do ambiente
 <span class="text-amber-400">/status</span>        → estado atual do agente
 
 <span class="text-neutral-500">// Skills instaladas adicionam comandos:</span>
-<span class="text-cyan-400">/code-review</span>   → revisão de código do diff atual
+<span class="text-cyan-400">/code-review</span>   → revisêo de código do diff atual
 <span class="text-cyan-400">/security-review</span> → análise de segurança
 <span class="text-cyan-400">/schedule</span>      → agendamento de tarefas recorrentes
 <span class="text-cyan-400">/loop</span>          → repete comando em intervalo</pre>
 </div>
 </section>
-<!-- SEÇÃO 2: Criar commands próprios -->
+<!-- SEÇêO 2: Criar commands próprios -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🛠️ Create Your Own Slash Commands</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -258,7 +258,7 @@ Use a paleta de cores do design system em src/tokens.</pre>
 </ul>
 </div>
 </section>
-<!-- SEÇÃO 3: Workflows determinísticos -->
+<!-- SEÇêO 3: Workflows determinísticos -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🔄 Deterministic workflows</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -310,7 +310,7 @@ Use a paleta de cores do design system em src/tokens.</pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4: Pipeline vs Parallel -->
+<!-- SEÇêO 4: Pipeline vs Parallel -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🔀 Pipeline vs. Parallel</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -338,7 +338,7 @@ Use a paleta de cores do design system em src/tokens.</pre>
 <!-- Code box: workflow com ambos os padrões -->
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">// .claude/commands/release.md — combines pipeline and parallel execution</div>
-<pre class="text-neutral-300"><span class="text-neutral-500">## Workflow de release — versão $ARGUMENTS</span>
+<pre class="text-neutral-300"><span class="text-neutral-500">## Workflow de release — versêo $ARGUMENTS</span>
 
 <span class="text-amber-400">FASE 1 (paralelo):</span> Execute simultaneamente:
   - Verificar testes: npm test
@@ -354,10 +354,10 @@ Aguarde todos completarem. Se qualquer um falhar, PARE e reporte.
   4. Crie tag: git tag v$ARGUMENTS
   5. Abra PR com título "Release $ARGUMENTS"
 
-Reporte ao final: versão, commits incluídos, link do PR.</pre>
+Reporte ao final: versêo, commits incluídos, link do PR.</pre>
 </div>
 </section>
-<!-- SEÇÃO 5: Quando usar workflows -->
+<!-- SEÇêO 5: Quando usar workflows -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🎯 When to use workflows</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
@@ -410,7 +410,7 @@ Reporte ao final: versão, commits incluídos, link do PR.</pre>
 <p class="text-sm text-neutral-300">If you’re going to do the same task <strong class="text-white">more than 5 times</strong>, it's worth creating a slash command. If you're going to do <strong class="text-white">more than 20 times</strong>, it’s worth creating a complete workflow with a pipeline and subagents.</p>
 </div>
 </section>
-<!-- SEÇÃO 6: Orquestrar múltiplos agentes -->
+<!-- SEÇêO 6: Orquestrar múltiplos agentes -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🎭 Orchestrate multiple agents</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">

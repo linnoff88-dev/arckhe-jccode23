@@ -99,7 +99,7 @@
 <h1 class="text-2xl font-bold mb-3">🖥️ Case Study: ClaudeOS (Hermes)</h1>
 <p class="text-neutral-300">Dissect a real long-term project: a personal AI dashboard with Bun + TanStack/React + Vite + Tailwind, deployed on Cloudflare. V2.3 — May/2026.</p>
 </div>
-<!-- SEÇÃO 1 — Visão geral -->
+<!-- SEÇêO 1 — Visêo geral -->
 <section class="mb-16" id="topico-1">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🗺️ Project Overview</h2>
 <p class="text-neutral-300 mb-6">ClaudeOS (codename Hermes) is a personal dashboard <strong>read-only</strong> for anyone running a local AI stack. It consolidates data from multiple sources into a single interface—without modifying any of them.</p>
@@ -201,7 +201,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — aggregate.ts -->
+<!-- SEÇêO 2 — aggregate.ts -->
 <section class="mb-16" id="topico-2">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> ⚙️ scripts/aggregate.ts — the heart of the system</h2>
 <p class="text-neutral-300 mb-6">The most important file in ClaudeOS isn't a React component — it's a TypeScript script that runs outside the browser. It reads heterogeneous sources and produces a single JSON file consumed by the dashboard.</p>
@@ -222,7 +222,7 @@ import { join } from 'path'
 
 async function aggregateClaudeHistory() {
   const historyDir = join(process.env.HOME!, '.claude', 'history')
-  // Lê arquivos de sessão dos últimos 30 dias
+  // Lê arquivos de sessêo dos últimos 30 dias
   // Extrai: tokens usados, projetos, modelos
   return { sessions: [...], tokenTotal: 0 }
 }
@@ -284,7 +284,7 @@ main()</code></pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Skill /dream -->
+<!-- SEÇêO 3 — Skill /dream -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 💤 The /dream skill — 24-hour audit</h2>
 <p class="text-neutral-300 mb-6">The /dream skill is an example of a skill with <strong>structured output</strong>. It doesn’t respond in prose—it writes a JSON file that the dashboard renders as action cards.</p>
@@ -304,7 +304,7 @@ Gerar as 4 prescrições de maior impacto em JSON.
 
 ## Buckets de sinal
 1. Tokens consumidos vs budget diário
-2. Projetos mais ativos (por sessão)
+2. Projetos mais ativos (por sessêo)
 3. Skills mais invocadas
 4. Notas Obsidian criadas/modificadas
 5. Queries Pinecone (tópicos consultados)
@@ -374,7 +374,7 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — CLAUDE.md do projeto -->
+<!-- SEÇêO 4 — CLAUDE.md do projeto -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📜 ClaudeOS CLAUDE.md — real example</h2>
 <p class="text-neutral-300 mb-6">ClaudeOS's CLAUDE.md is an example of production-level instructions. Each rule has a clear reason for existing.</p>
@@ -388,13 +388,13 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># ClaudeOS (Hermes) — Instruções do agente
 
-## Saudação de onboarding
+## Saudaçêo de onboarding
 Bem-vindo ao ClaudeOS! Você está trabalhando no dashboard
 pessoal de IA. Antes de qualquer task, leia este arquivo.
 
 ## O que é este projeto
 Dashboard read-only que consolida dados de Claude Code,
-Obsidian, OpenRouter e Pinecone para visualização pessoal.
+Obsidian, OpenRouter e Pinecone para visualizaçêo pessoal.
 Stack: Bun + React 19 + TanStack Query + Vite + Tailwind 4
 Deploy: Cloudflare Pages (wrangler)
 
@@ -404,13 +404,13 @@ Deploy: Cloudflare Pages (wrangler)
 - NUNCA ler ou escrever diretamente em ~/.claude/
   → Dados chegam via scripts/aggregate.ts e src/data/live-data.json
 - NUNCA enviar dados do usuário para serviços externos
-- Anonimização LIGADA — remove PII de outputs
+- Anonimizaçêo LIGADA — remove PII de outputs
 - Sem telemetria — sem analytics, sem tracking
 
 ### Arquitetura
 - Dashboard é READ-ONLY — NUNCA modificar fontes de dados
-- Código novo vai em src/ — scripts de dados vão em scripts/
-- Não criar arquivos na raiz do projeto
+- Código novo vai em src/ — scripts de dados vêo em scripts/
+- Nêo criar arquivos na raiz do projeto
 
 ### Segurança
 - API keys SEMPRE via variáveis de ambiente (.env)
@@ -419,7 +419,7 @@ Deploy: Cloudflare Pages (wrangler)
 ## Estrutura do projeto
 src/
   components/   → UI React
-  data/         → live-data.json (gerado, não editado)
+  data/         → live-data.json (gerado, nêo editado)
 scripts/
   aggregate.ts  → coleta dados das fontes
   setup.ts      → setup inicial (roda uma vez)</code></pre>
@@ -445,7 +445,7 @@ scripts/
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — CHANGELOG V2.3 -->
+<!-- SEÇêO 5 — CHANGELOG V2.3 -->
 <section class="mb-16" id="topico-5">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 📦 CHANGELOG V2.3 — history as a mirror</h2>
 <p class="text-neutral-300 mb-6">The ClaudeOS CHANGELOG tells the story of a project that evolved from a simple script into a complete dashboard. Each version is a milestone.</p>
@@ -515,7 +515,7 @@ scripts/
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Mock do dashboard + lições -->
+<!-- SEÇêO 6 — Mock do dashboard + lições -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔗 Dashboard Mockup and Lessons for Your Project</h2>
 <!-- Mock dashboard HTML -->

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Cron e tarefas recorrentes | Automação | Claude Code</title>
+<title>Cron e tarefas recorrentes | Automaçêo | Claude Code</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -83,13 +83,13 @@
 <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
-<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span>
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalaçêo</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
 <span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
-<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span>
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automaçêo</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
 <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
@@ -110,7 +110,7 @@
 <nav class="text-sm text-neutral-500 mb-6">
 <a class="hover:text-neutral-300" href="../../index.html">Início</a>
 <span class="mx-2">›</span>
-<a class="hover:text-neutral-300" href="index.html">Automação</a>
+<a class="hover:text-neutral-300" href="index.html">Automaçêo</a>
 <span class="mx-2">›</span>
 <span class="text-amber-400">4.4 Cron</span>
 </nav>
@@ -121,12 +121,12 @@
 <span class="text-neutral-500 text-sm">~40 min · Intermediário</span>
 </div>
 <h1 class="text-3xl font-bold mb-3">⏰ Cron e tarefas recorrentes</h1>
-<p class="text-neutral-400 text-lg">Agende agentes para rodar em intervalos definidos — revisões diárias, relatórios automáticos e monitoramento contínuo sem intervenção humana.</p>
+<p class="text-neutral-400 text-lg">Agende agentes para rodar em intervalos definidos — revisões diárias, relatórios automáticos e monitoramento contínuo sem intervençêo humana.</p>
 </div>
-<!-- SVG: Escada de automação (manual → semi → full) -->
+<!-- SVG: Escada de automaçêo (manual → semi → full) -->
 <section class="mb-10">
 <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-4">
-<svg aria-label="Escada de automação em 4 degraus: Manual (você faz), Assistido (Claude Code ajuda), Agendado (cron dispara) e Autônomo (agente remoto opera 24/7)" class="w-full h-auto" role="img" viewbox="0 0 800 220">
+<svg aria-label="Escada de automaçêo em 4 degraus: Manual (você faz), Assistido (Claude Code ajuda), Agendado (cron dispara) e Autônomo (agente remoto opera 24/7)" class="w-full h-auto" role="img" viewbox="0 0 800 220">
 <defs>
 <lineargradient id="m44-grad" x1="0" x2="1" y1="0" y2="1">
 <stop offset="0" stop-color="#fbbf24"></stop><stop offset="1" stop-color="#f59e0b"></stop>
@@ -174,15 +174,15 @@
 <text fill="#d97706" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="290" y="205">2h/semana</text>
 <text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="475" y="205">8h/semana</text>
 <text fill="#fbbf24" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" x="675" y="205">20h/semana</text>
-<text fill="#6b7280" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="400" y="215">Escada de automação — cada degrau multiplica o tempo liberado</text>
+<text fill="#6b7280" font-family="Inter,sans-serif" font-size="9" text-anchor="middle" x="400" y="215">Escada de automaçêo — cada degrau multiplica o tempo liberado</text>
 </svg>
 </div>
 </section>
-<!-- SEÇÃO 1: Cron e schedule -->
+<!-- SEÇêO 1: Cron e schedule -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⏰ Cron e schedule</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">Cron é a sintaxe padrão Unix para definir horários de execução. O Claude Code integra com cron via a skill <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/schedule</code> — você define a tarefa em linguagem natural e o sistema cria a rotina agendada.</p>
+<p class="text-neutral-300 mb-4">Cron é a sintaxe padrêo Unix para definir horários de execuçêo. O Claude Code integra com cron via a skill <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/schedule</code> — você define a tarefa em linguagem natural e o sistema cria a rotina agendada.</p>
 <p class="text-neutral-300">A skill <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/schedule</code> permite criar agentes remotos que rodam em intervalos definidos sem precisar de um terminal local aberto.</p>
 </div>
 <!-- Code box: sintaxe cron -->
@@ -206,14 +206,14 @@
 <ul class="text-sm text-neutral-300 space-y-1">
 <li>→ Horário fixo e previsível</li>
 <li>→ Terminal pode estar fechado</li>
-<li>→ Tarefa precisa rodar em produção</li>
+<li>→ Tarefa precisa rodar em produçêo</li>
 <li>→ Múltiplos dias/semanas no futuro</li>
 </ul>
 </div>
 <div class="bg-dark-800 rounded-xl border border-cyan-500/30 p-5">
 <h4 class="font-semibold text-cyan-400 mb-2">🔁 Use /loop quando</h4>
 <ul class="text-sm text-neutral-300 space-y-1">
-<li>→ Polling durante uma sessão ativa</li>
+<li>→ Polling durante uma sessêo ativa</li>
 <li>→ Intervalo curto (a cada 5-30 min)</li>
 <li>→ Monitoramento temporário</li>
 <li>→ Você quer cancelar manualmente</li>
@@ -221,11 +221,11 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2: /loop e intervalo -->
+<!-- SEÇêO 2: /loop e intervalo -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🔁 Loop e intervalo: o comando /loop</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">O <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/loop</code> repete um slash command em intervalos definidos enquanto a sessão está ativa. Cada iteração é uma execução independente — sem acúmulo de contexto entre rodadas.</p>
+<p class="text-neutral-300 mb-4">O <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">/loop</code> repete um slash command em intervalos definidos enquanto a sessêo está ativa. Cada iteraçêo é uma execuçêo independente — sem acúmulo de contexto entre rodadas.</p>
 </div>
 <!-- Code box: /loop exemplos -->
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-4 font-mono text-sm overflow-x-auto">
@@ -240,7 +240,7 @@
 <span class="text-neutral-500">→ Code review a cada hora (útil em sessões longas de desenvolvimento)</span>
 
 <span class="text-neutral-500">// Cancelar: Ctrl+C (encerra o loop)</span>
-<span class="text-neutral-500">// Ver status: /status (mostra próxima execução)</span></pre>
+<span class="text-neutral-500">// Ver status: /status (mostra próxima execuçêo)</span></pre>
 </div>
 <!-- Alerta: context pressure -->
 <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
@@ -248,11 +248,11 @@
 <p class="text-sm text-neutral-300">O <code class="text-red-400">/loop</code> <strong>acumula contexto</strong> ao longo das iterações. Após muitas rodadas, o contexto fica pesado e lento. Use <code class="text-amber-400">/compact</code> periodicamente ou configure o loop para limpar o contexto entre iterações.</p>
 </div>
 </section>
-<!-- SEÇÃO 3: Agentes remotos -->
+<!-- SEÇêO 3: Agentes remotos -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🌐 Agentes remotos</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">Agentes remotos rodam na infraestrutura do Claude sem precisar de um terminal local aberto. São disparados por eventos (webhook, cron) e executam de forma completamente autônoma — você só recebe o resultado quando termina.</p>
+<p class="text-neutral-300 mb-4">Agentes remotos rodam na infraestrutura do Claude sem precisar de um terminal local aberto. Sêo disparados por eventos (webhook, cron) e executam de forma completamente autônoma — você só recebe o resultado quando termina.</p>
 <p class="text-neutral-300">O <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">RemoteTrigger</code> é a ferramenta que lança um agente remoto. O <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">PushNotification</code> envia o resultado via webhook quando o agente conclui.</p>
 </div>
 <!-- Grid local vs remoto -->
@@ -273,13 +273,13 @@
 <li>→ Roda sem terminal aberto</li>
 <li>→ Continua mesmo com laptop desligado</li>
 <li>→ Acesso via API e repositório remoto</li>
-<li>→ Ideal para automação de produção</li>
+<li>→ Ideal para automaçêo de produçêo</li>
 <li>→ Custo: tokens + compute remoto</li>
 </ul>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4: Review diário — exemplo completo -->
+<!-- SEÇêO 4: Review diário — exemplo completo -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📋 Exemplo: review diário automatizado</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -319,7 +319,7 @@
 <span class="text-amber-400 font-bold text-sm">4</span>
 </div>
 <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
-<h4 class="font-semibold text-white mb-1">Relatório salvo + notificação</h4>
+<h4 class="font-semibold text-white mb-1">Relatório salvo + notificaçêo</h4>
 <p class="text-sm text-neutral-400">Salva em <code class="text-amber-400">.reviews/YYYY-MM-DD.md</code> + envia via webhook para Slack/Discord</p>
 </div>
 </div>
@@ -339,11 +339,11 @@
 // (CLAUDE.md + CHECKLIST.md) — 90% mais barato por rodada</span></pre>
 </div>
 </section>
-<!-- SEÇÃO 5: Capturar resultado -->
+<!-- SEÇêO 5: Capturar resultado -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📥 Capturar o resultado de agentes assíncronos</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">Agentes assíncronos (cron, remoto) não retornam resultado imediato. Você precisa definir <strong class="text-white">onde o output será entregue</strong> antes de lançar o agente.</p>
+<p class="text-neutral-300 mb-4">Agentes assíncronos (cron, remoto) nêo retornam resultado imediato. Você precisa definir <strong class="text-white">onde o output será entregue</strong> antes de lançar o agente.</p>
 </div>
 <!-- Grid de mecanismos de output -->
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
@@ -359,19 +359,19 @@
 </div>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
 <h4 class="font-semibold text-amber-400 mb-2">👁️ Monitor</h4>
-<p class="text-sm text-neutral-400">Stream de eventos em tempo real. Use quando quiser acompanhar a execução.</p>
+<p class="text-sm text-neutral-400">Stream de eventos em tempo real. Use quando quiser acompanhar a execuçêo.</p>
 <div class="mt-2 text-xs font-mono text-neutral-500">/monitor task-id</div>
 </div>
 </div>
 <!-- Tip: observabilidade -->
 <div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
-<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">💡</span> Automação sem observabilidade = automação cega</h4>
-<p class="text-sm text-neutral-300">Sempre configure pelo menos um mecanismo de output <strong class="text-white">antes</strong> de ativar um agente recorrente. Um agente que falha silenciosamente por semanas é pior do que não ter automação — cria falsa sensação de segurança.</p>
+<h4 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">💡</span> Automaçêo sem observabilidade = automaçêo cega</h4>
+<p class="text-sm text-neutral-300">Sempre configure pelo menos um mecanismo de output <strong class="text-white">antes</strong> de ativar um agente recorrente. Um agente que falha silenciosamente por semanas é pior do que nêo ter automaçêo — cria falsa sensaçêo de segurança.</p>
 </div>
 </section>
-<!-- SEÇÃO 6: Custo e idempotência -->
+<!-- SEÇêO 6: Custo e idempotência -->
 <section class="mb-10">
-<h2 class="text-xl font-bold mb-4 text-amber-400">⚠️ Custo e idempotência em produção</h2>
+<h2 class="text-xl font-bold mb-4 text-amber-400">⚠️ Custo e idempotência em produçêo</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
 <p class="text-neutral-300 mb-4">Agentes recorrentes acumulam custo ao longo do tempo. Um review diário que custa $0.10/dia = $30/mês = $365/ano. Parece barato, mas se o agente rodar duas vezes por bug, o custo dobra. Idempotência resolve isso.</p>
 <p class="text-neutral-300"><strong class="text-white">Idempotência:</strong> rodar o agente N vezes produz o mesmo resultado que rodar 1 vez. Crucial quando falhas levam a re-execuções automáticas.</p>
@@ -379,7 +379,7 @@
 <!-- Grid fazer vs evitar -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
-<h4 class="font-bold text-amber-400 mb-4">✓ Práticas de produção</h4>
+<h4 class="font-bold text-amber-400 mb-4">✓ Práticas de produçêo</h4>
 <ul class="space-y-3 text-neutral-300 text-sm">
 <li class="flex items-start space-x-2">
 <span class="text-amber-400 mt-0.5">✓</span>
@@ -400,7 +400,7 @@
 </ul>
 </div>
 <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-<h4 class="font-bold text-red-400 mb-4">✗ Armadilhas de produção</h4>
+<h4 class="font-bold text-red-400 mb-4">✗ Armadilhas de produçêo</h4>
 <ul class="space-y-3 text-neutral-300 text-sm">
 <li class="flex items-start space-x-2">
 <span class="text-red-400 mt-0.5">✗</span>
@@ -412,18 +412,18 @@
 </li>
 <li class="flex items-start space-x-2">
 <span class="text-red-400 mt-0.5">✗</span>
-<span>Agente com acesso de escrita em banco de produção</span>
+<span>Agente com acesso de escrita em banco de produçêo</span>
 </li>
 <li class="flex items-start space-x-2">
 <span class="text-red-400 mt-0.5">✗</span>
-<span>Sem output configurado — não sabe se funcionou</span>
+<span>Sem output configurado — nêo sabe se funcionou</span>
 </li>
 </ul>
 </div>
 </div>
-<!-- Code box: padrão idempotente -->
+<!-- Code box: padrêo idempotente -->
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 font-mono text-sm overflow-x-auto">
-<div class="text-neutral-500 mb-3 text-xs">// Padrão idempotente: check-antes-agir</div>
+<div class="text-neutral-500 mb-3 text-xs">// Padrêo idempotente: check-antes-agir</div>
 <pre class="text-neutral-300"><span class="text-neutral-500">#!/bin/bash # .claude/hooks/idempotency-check.sh</span>
 DATE=$(date +%Y-%m-%d)
 LOCK_FILE=".reviews/.lock-$DATE"
@@ -437,7 +437,7 @@ fi
 <span class="text-neutral-500"># Cria o lock antes de começar</span>
 touch "$LOCK_FILE"
 
-<span class="text-neutral-500"># ... resto da execução ...</span>
+<span class="text-neutral-500"># ... resto da execuçêo ...</span>
 
 <span class="text-neutral-500"># Se falhar, remove o lock para permitir retry</span>
 trap "rm -f '$LOCK_FILE'" ERR</pre>
@@ -456,7 +456,7 @@ trap "rm -f '$LOCK_FILE'" ERR</pre>
 </div>
 <div class="flex items-start space-x-3">
 <span class="text-amber-400 mt-1">✓</span>
-<div><strong class="text-white">/loop</strong><span class="text-neutral-400"> — polling em intervalos durante sessão ativa, cancelável com Ctrl+C</span></div>
+<div><strong class="text-white">/loop</strong><span class="text-neutral-400"> — polling em intervalos durante sessêo ativa, cancelável com Ctrl+C</span></div>
 </div>
 <div class="flex items-start space-x-3">
 <span class="text-amber-400 mt-1">✓</span>
@@ -471,10 +471,10 @@ trap "rm -f '$LOCK_FILE'" ERR</pre>
 <div><strong class="text-white">Idempotência</strong><span class="text-neutral-400"> — lock file + check-antes-agir evita execuções duplicadas</span></div>
 </div>
 </div>
-<!-- Conclusão da trilha 4 -->
+<!-- Conclusêo da trilha 4 -->
 <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-5 mb-8">
 <h3 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🏆</span> Trilha 4 completa!</h3>
-<p class="text-sm text-neutral-300 mb-3">Você dominou os 4 pilares da automação no Claude Code: subagents para paralelizar, hooks para políticas automáticas, slash commands para padronizar, e cron para nunca dormir.</p>
+<p class="text-sm text-neutral-300 mb-3">Você dominou os 4 pilares da automaçêo no Claude Code: subagents para paralelizar, hooks para políticas automáticas, slash commands para padronizar, e cron para nunca dormir.</p>
 <p class="text-sm text-neutral-400">Próximo passo: aplicar tudo isso em projetos reais na Trilha 5 — Projetos.</p>
 </div>
 <!-- CTAs para próxima trilha -->

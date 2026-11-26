@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Hooks: automatizar o harness | Automação | Claude Code</title>
+<title>Hooks: automatizar o harness | Automaçêo | Claude Code</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -75,13 +75,13 @@
 <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors" href="../trilha2/index.html">
-<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalação</span>
+<span class="sm:hidden">T2</span><span class="hidden sm:inline">Instalaçêo</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors" href="../trilha3/index.html">
 <span class="sm:hidden">T3</span><span class="hidden sm:inline">Skills</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-amber-400 bg-amber-500/10" href="index.html">
-<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automação</span>
+<span class="sm:hidden">T4</span><span class="hidden sm:inline">Automaçêo</span>
 </a>
 <a class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-teal-400 hover:bg-teal-500/10 transition-colors" href="../trilha5/index.html">
 <span class="sm:hidden">T5</span><span class="hidden sm:inline">Projetos</span>
@@ -102,7 +102,7 @@
 <nav class="text-sm text-neutral-500 mb-6">
 <a class="hover:text-neutral-300" href="../../index.html">Início</a>
 <span class="mx-2">›</span>
-<a class="hover:text-neutral-300" href="index.html">Automação</a>
+<a class="hover:text-neutral-300" href="index.html">Automaçêo</a>
 <span class="mx-2">›</span>
 <span class="text-amber-400">4.2 Hooks</span>
 </nav>
@@ -178,22 +178,22 @@
 </svg>
 </div>
 </section>
-<!-- SEÇÃO 1: O que são hooks -->
+<!-- SEÇêO 1: O que sêo hooks -->
 <section class="mb-10">
-<h2 class="text-xl font-bold mb-4 text-amber-400">🪝 O que são hooks</h2>
+<h2 class="text-xl font-bold mb-4 text-amber-400">🪝 O que sêo hooks</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">Hooks são <strong class="text-white">scripts externos</strong> executados pelo harness em momentos específicos do ciclo de vida do agente. Eles recebem metadados do evento via stdin e podem influenciar o comportamento do harness através do exit code e output.</p>
+<p class="text-neutral-300 mb-4">Hooks sêo <strong class="text-white">scripts externos</strong> executados pelo harness em momentos específicos do ciclo de vida do agente. Eles recebem metadados do evento via stdin e podem influenciar o comportamento do harness através do exit code e output.</p>
 <p class="text-neutral-300">A grande vantagem: você adiciona comportamento <strong class="text-white">sem modificar o prompt ou o agente</strong>. As políticas ficam em scripts versionados no repositório, aplicadas automaticamente para toda a equipe.</p>
 </div>
 <!-- Os 4 eventos -->
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
 <div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
 <h4 class="font-semibold text-amber-400 mb-2">🔔 SessionStart</h4>
-<p class="text-sm text-neutral-400">Dispara ao iniciar uma nova sessão. Stdout é injetado como mensagem inicial no contexto. Ideal para carregar estado do projeto, branch atual, tarefas pendentes.</p>
+<p class="text-sm text-neutral-400">Dispara ao iniciar uma nova sessêo. Stdout é injetado como mensagem inicial no contexto. Ideal para carregar estado do projeto, branch atual, tarefas pendentes.</p>
 </div>
 <div class="bg-dark-800 rounded-xl border border-cyan-500/30 p-5">
 <h4 class="font-semibold text-cyan-400 mb-2">🔍 PreToolUse</h4>
-<p class="text-sm text-neutral-400">Dispara antes de cada ferramenta. Exit 0 = permite. Exit não-zero = bloqueia a ferramenta. Stderr com mensagem de erro retorna ao agente.</p>
+<p class="text-sm text-neutral-400">Dispara antes de cada ferramenta. Exit 0 = permite. Exit nêo-zero = bloqueia a ferramenta. Stderr com mensagem de erro retorna ao agente.</p>
 </div>
 <div class="bg-dark-800 rounded-xl border border-cyan-500/30 p-5">
 <h4 class="font-semibold text-cyan-400 mb-2">📋 PostToolUse</h4>
@@ -201,15 +201,15 @@
 </div>
 <div class="bg-dark-800 rounded-xl border border-amber-500/30 p-5">
 <h4 class="font-semibold text-amber-400 mb-2">🛑 Stop</h4>
-<p class="text-sm text-neutral-400">Dispara quando o agente encerra. Ideal para limpeza, notificações de conclusão, relatório de sessão, persistência de memória.</p>
+<p class="text-sm text-neutral-400">Dispara quando o agente encerra. Ideal para limpeza, notificações de conclusêo, relatório de sessêo, persistência de memória.</p>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2: Configurar em settings.json -->
+<!-- SEÇêO 2: Configurar em settings.json -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⚙️ Configurar em settings.json</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4">Hooks são configurados na chave <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">hooks</code> do <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">settings.json</code>. Cada entrada define: o evento, um matcher de ferramenta (opcional), e o comando shell a executar.</p>
+<p class="text-neutral-300 mb-4">Hooks sêo configurados na chave <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">hooks</code> do <code class="text-amber-400 bg-dark-900/50 px-1 rounded text-sm">settings.json</code>. Cada entrada define: o evento, um matcher de ferramenta (opcional), e o comando shell a executar.</p>
 </div>
 <!-- Code box: settings.json completo -->
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 mb-6 font-mono text-sm overflow-x-auto">
@@ -276,7 +276,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3: Casos de uso práticos -->
+<!-- SEÇêO 3: Casos de uso práticos -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🛠️ Casos de uso práticos</h2>
 <!-- Timeline de casos de uso -->
@@ -321,7 +321,7 @@ fi</pre>
 </div>
 <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
 <h4 class="font-semibold text-white mb-1">Injetar contexto no SessionStart</h4>
-<p class="text-sm text-neutral-400 mb-3">Ao iniciar cada sessão, injeta automaticamente o estado atual: branch, commits recentes, issues abertas. O agente começa já contextualizado.</p>
+<p class="text-sm text-neutral-400 mb-3">Ao iniciar cada sessêo, injeta automaticamente o estado atual: branch, commits recentes, issues abertas. O agente começa já contextualizado.</p>
 <div class="bg-dark-900 rounded-lg p-3 font-mono text-xs text-neutral-300 overflow-x-auto">
 <pre><span class="text-neutral-500">#!/bin/bash # .claude/hooks/session-start.sh</span>
 echo "=== CONTEXTO DO PROJETO ==="
@@ -334,7 +334,7 @@ git status --short | head -10</pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4: Grid Fazer vs Evitar -->
+<!-- SEÇêO 4: Grid Fazer vs Evitar -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⚖️ O que fazer e o que evitar</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
@@ -343,7 +343,7 @@ git status --short | head -10</pre>
 <ul class="space-y-3 text-neutral-300 text-sm">
 <li class="flex items-start space-x-2">
 <span class="text-amber-400 mt-0.5">✓</span>
-<span>Scripts rápidos — hooks com timeout curto não travam o agente</span>
+<span>Scripts rápidos — hooks com timeout curto nêo travam o agente</span>
 </li>
 <li class="flex items-start space-x-2">
 <span class="text-amber-400 mt-0.5">✓</span>
@@ -364,7 +364,7 @@ git status --short | head -10</pre>
 <ul class="space-y-3 text-neutral-300 text-sm">
 <li class="flex items-start space-x-2">
 <span class="text-red-400 mt-0.5">✗</span>
-<span>Hooks que demoram &gt; 5s — travam a execução do agente</span>
+<span>Hooks que demoram &gt; 5s — travam a execuçêo do agente</span>
 </li>
 <li class="flex items-start space-x-2">
 <span class="text-red-400 mt-0.5">✗</span>
@@ -382,12 +382,12 @@ git status --short | head -10</pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5: Fail-open e segurança -->
+<!-- SEÇêO 5: Fail-open e segurança -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🛡️ Segurança e fail-open</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
-<p class="text-neutral-300 mb-4"><strong class="text-white">Fail-open</strong> é o comportamento padrão: se um hook falha (timeout, erro de script, crash), o harness <em>continua a execução normalmente</em>. A ferramenta que o hook deveria interceptar não é bloqueada.</p>
-<p class="text-neutral-300">Isso é intencional para hooks de enriquecimento (lint, contexto) — você não quer que um lint quebrado interrompa todo o trabalho. Mas para hooks de segurança, fail-open é perigoso.</p>
+<p class="text-neutral-300 mb-4"><strong class="text-white">Fail-open</strong> é o comportamento padrêo: se um hook falha (timeout, erro de script, crash), o harness <em>continua a execuçêo normalmente</em>. A ferramenta que o hook deveria interceptar nêo é bloqueada.</p>
+<p class="text-neutral-300">Isso é intencional para hooks de enriquecimento (lint, contexto) — você nêo quer que um lint quebrado interrompa todo o trabalho. Mas para hooks de segurança, fail-open é perigoso.</p>
 </div>
 <!-- Tip box de segurança -->
 <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-5 mb-4">
@@ -405,7 +405,7 @@ git status --short | head -10</pre>
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">// Boas práticas de robustez em hooks</div>
 <pre class="text-neutral-300"><span class="text-neutral-500">#!/bin/bash</span>
-<span class="text-neutral-500"># Sempre: timeout explícito para não travar o agente</span>
+<span class="text-neutral-500"># Sempre: timeout explícito para nêo travar o agente</span>
 <span class="text-neutral-500"># Leitura do stdin com timeout</span>
 INPUT=$(timeout 2 cat /dev/stdin 2&gt;/dev/null || echo '{}')
 
@@ -415,7 +415,7 @@ CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2&gt;/dev/null)
 <span class="text-neutral-500"># Se nada para verificar, sair com sucesso (fail-open explícito)</span>
 [ -z "$CMD" ] &amp;&amp; exit 0
 
-<span class="text-neutral-500"># Verificação principal</span>
+<span class="text-neutral-500"># Verificaçêo principal</span>
 if echo "$CMD" | grep -qE "rm -rf /|DROP DATABASE"; then
   echo "Comando bloqueado: risco de perda de dados irreversível" &gt;&amp;2
   exit 1
@@ -424,7 +424,7 @@ fi
 exit 0</pre>
 </div>
 </section>
-<!-- SEÇÃO 6: Dados por ferramenta -->
+<!-- SEÇêO 6: Dados por ferramenta -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📊 Dados disponíveis em cada hook</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-4">
@@ -439,7 +439,7 @@ exit 0</pre>
 <tbody class="divide-y divide-dark-600">
 <tr>
 <td class="px-4 py-3 text-amber-400 font-medium">SessionStart</td>
-<td class="px-4 py-3 text-neutral-400">Metadados da sessão</td>
+<td class="px-4 py-3 text-neutral-400">Metadados da sessêo</td>
 <td class="px-4 py-3 text-neutral-400">Stdout injetado como mensagem inicial</td>
 </tr>
 <tr>
@@ -454,8 +454,8 @@ exit 0</pre>
 </tr>
 <tr>
 <td class="px-4 py-3 text-amber-400 font-medium">Stop</td>
-<td class="px-4 py-3 text-neutral-400">Razão do encerramento</td>
-<td class="px-4 py-3 text-neutral-400">Apenas side-effects (log, notificação)</td>
+<td class="px-4 py-3 text-neutral-400">Razêo do encerramento</td>
+<td class="px-4 py-3 text-neutral-400">Apenas side-effects (log, notificaçêo)</td>
 </tr>
 </tbody>
 </table>
@@ -467,8 +467,8 @@ exit 0</pre>
 <ol class="text-sm text-neutral-300 space-y-1">
 <li>1. PostToolUse Write → lint automático</li>
 <li>2. PreToolUse Bash → bloqueio de comandos</li>
-<li>3. SessionStart → injeção de contexto</li>
-<li>4. Stop → notificação de conclusão</li>
+<li>3. SessionStart → injeçêo de contexto</li>
+<li>4. Stop → notificaçêo de conclusêo</li>
 </ol>
 </div>
 <div class="bg-dark-700/50 rounded-xl border border-amber-500/20 p-5">
@@ -490,7 +490,7 @@ exit 0</pre>
 </div>
 <div class="flex items-start space-x-3">
 <span class="text-amber-400 mt-1">✓</span>
-<div><strong class="text-white">settings.json</strong><span class="text-neutral-400"> — configuração declarativa, versionável, herdada pela equipe</span></div>
+<div><strong class="text-white">settings.json</strong><span class="text-neutral-400"> — configuraçêo declarativa, versionável, herdada pela equipe</span></div>
 </div>
 <div class="flex items-start space-x-3">
 <span class="text-amber-400 mt-1">✓</span>
@@ -502,7 +502,7 @@ exit 0</pre>
 </div>
 <div class="flex items-start space-x-3">
 <span class="text-amber-400 mt-1">✓</span>
-<div><strong class="text-white">Fail-open</strong><span class="text-neutral-400"> — hook que falha não bloqueia execução por padrão</span></div>
+<div><strong class="text-white">Fail-open</strong><span class="text-neutral-400"> — hook que falha nêo bloqueia execuçêo por padrêo</span></div>
 </div>
 </div>
 <div class="bg-dark-800/50 rounded-lg p-4 mb-8">

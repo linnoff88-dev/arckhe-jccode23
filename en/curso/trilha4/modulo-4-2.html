@@ -178,7 +178,7 @@
 </svg>
 </div>
 </section>
-<!-- SEÇÃO 1: O que são hooks -->
+<!-- SEÇêO 1: O que sêo hooks -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🪝 What hooks are</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -205,7 +205,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2: Configurar em settings.json -->
+<!-- SEÇêO 2: Configurar em settings.json -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⚙️ Configure in settings.json</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -276,7 +276,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3: Casos de uso práticos -->
+<!-- SEÇêO 3: Casos de uso práticos -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🛠️ Practical Use Cases</h2>
 <!-- Timeline de casos de uso -->
@@ -334,7 +334,7 @@ git status --short | head -10</pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4: Grid Fazer vs Evitar -->
+<!-- SEÇêO 4: Grid Fazer vs Evitar -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⚖️ What to do and what to avoid</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
@@ -382,7 +382,7 @@ git status --short | head -10</pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5: Fail-open e segurança -->
+<!-- SEÇêO 5: Fail-open e segurança -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🛡️ Security and Fail-Open</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -405,7 +405,7 @@ git status --short | head -10</pre>
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">// Best practices for robust hooks</div>
 <pre class="text-neutral-300"><span class="text-neutral-500">#!/bin/bash</span>
-<span class="text-neutral-500"># Sempre: timeout explícito para não travar o agente</span>
+<span class="text-neutral-500"># Sempre: timeout explícito para nêo travar o agente</span>
 <span class="text-neutral-500"># Leitura do stdin com timeout</span>
 INPUT=$(timeout 2 cat /dev/stdin 2&gt;/dev/null || echo '{}')
 
@@ -415,7 +415,7 @@ CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2&gt;/dev/null)
 <span class="text-neutral-500"># Se nada para verificar, sair com sucesso (fail-open explícito)</span>
 [ -z "$CMD" ] &amp;&amp; exit 0
 
-<span class="text-neutral-500"># Verificação principal</span>
+<span class="text-neutral-500"># Verificaçêo principal</span>
 if echo "$CMD" | grep -qE "rm -rf /|DROP DATABASE"; then
   echo "Comando bloqueado: risco de perda de dados irreversível" &gt;&amp;2
   exit 1
@@ -424,7 +424,7 @@ fi
 exit 0</pre>
 </div>
 </section>
-<!-- SEÇÃO 6: Dados por ferramenta -->
+<!-- SEÇêO 6: Dados por ferramenta -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📊 Data available in each hook</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-4">

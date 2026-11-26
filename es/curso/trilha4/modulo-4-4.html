@@ -123,7 +123,7 @@
 <h1 class="text-3xl font-bold mb-3">⏰ Cron y tareas recurrentes</h1>
 <p class="text-neutral-400 text-lg">Programa agentes para que se ejecuten en intervalos definidos: revisiones diarias, informes automáticos y monitoreo continuo sin intervención humana.</p>
 </div>
-<!-- SVG: Escada de automação (manual → semi → full) -->
+<!-- SVG: Escada de automaçêo (manual → semi → full) -->
 <section class="mb-10">
 <div class="rounded-2xl border border-amber-500/30 bg-dark-900/40 p-4">
 <svg aria-label="Escalera de automatización de 4 peldaños: Manual (tú lo haces), Asistido (Claude Code ayuda), Programado (cron se activa) y Autónomo (un agente remoto opera 24/7)" class="w-full h-auto" role="img" viewbox="0 0 800 220">
@@ -178,7 +178,7 @@
 </svg>
 </div>
 </section>
-<!-- SEÇÃO 1: Cron e schedule -->
+<!-- SEÇêO 1: Cron e schedule -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⏰ Cron y programación</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -221,7 +221,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2: /loop e intervalo -->
+<!-- SEÇêO 2: /loop e intervalo -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🔁 Bucle e intervalo: el comando /loop</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -240,7 +240,7 @@
 <span class="text-neutral-500">→ Code review a cada hora (útil em sessões longas de desenvolvimento)</span>
 
 <span class="text-neutral-500">// Cancelar: Ctrl+C (encerra o loop)</span>
-<span class="text-neutral-500">// Ver status: /status (mostra próxima execução)</span></pre>
+<span class="text-neutral-500">// Ver status: /status (mostra próxima execuçêo)</span></pre>
 </div>
 <!-- Alerta: context pressure -->
 <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-5">
@@ -248,7 +248,7 @@
 <p class="text-sm text-neutral-300">O <code class="text-red-400">/loop</code> <strong>acumula contexto</strong> a lo largo de las iteraciones. Después de muchas rondas, el contexto se vuelve pesado y lento. Usa <code class="text-amber-400">/compact</code> periódicamente o configura el loop para limpiar el contexto entre iteraciones.</p>
 </div>
 </section>
-<!-- SEÇÃO 3: Agentes remotos -->
+<!-- SEÇêO 3: Agentes remotos -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">🌐 Agentes remotos</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -279,7 +279,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4: Review diário — exemplo completo -->
+<!-- SEÇêO 4: Review diário — exemplo completo -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📋 Ejemplo: revisión diaria automatizada</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -339,7 +339,7 @@
 // (CLAUDE.md + CHECKLIST.md) — 90% mais barato por rodada</span></pre>
 </div>
 </section>
-<!-- SEÇÃO 5: Capturar resultado -->
+<!-- SEÇêO 5: Capturar resultado -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">📥 Capturar el resultado de agentes asíncronos</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -369,7 +369,7 @@
 <p class="text-sm text-neutral-300">Configura siempre al menos un mecanismo de output <strong class="text-white">antes</strong> antes de activar un agente recurrente. Un agente que falla silenciosamente durante semanas es peor que no tener automatización: crea una falsa sensación de seguridad.</p>
 </div>
 </section>
-<!-- SEÇÃO 6: Custo e idempotência -->
+<!-- SEÇêO 6: Custo e idempotência -->
 <section class="mb-10">
 <h2 class="text-xl font-bold mb-4 text-amber-400">⚠️ Costo e idempotencia en producción</h2>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-4">
@@ -421,7 +421,7 @@
 </ul>
 </div>
 </div>
-<!-- Code box: padrão idempotente -->
+<!-- Code box: padrêo idempotente -->
 <div class="bg-dark-900 rounded-xl border border-dark-600 p-6 font-mono text-sm overflow-x-auto">
 <div class="text-neutral-500 mb-3 text-xs">// Patrón idempotente: comprobar antes de actuar</div>
 <pre class="text-neutral-300"><span class="text-neutral-500">#!/bin/bash # .claude/hooks/idempotency-check.sh</span>
@@ -437,7 +437,7 @@ fi
 <span class="text-neutral-500"># Cria o lock antes de começar</span>
 touch "$LOCK_FILE"
 
-<span class="text-neutral-500"># ... resto da execução ...</span>
+<span class="text-neutral-500"># ... resto da execuçêo ...</span>
 
 <span class="text-neutral-500"># Se falhar, remove o lock para permitir retry</span>
 trap "rm -f '$LOCK_FILE'" ERR</pre>
@@ -471,7 +471,7 @@ trap "rm -f '$LOCK_FILE'" ERR</pre>
 <div><strong class="text-white">Idempotencia</strong><span class="text-neutral-400"> — el archivo de bloqueo + la verificación antes de actuar evitan ejecuciones duplicadas</span></div>
 </div>
 </div>
-<!-- Conclusão da trilha 4 -->
+<!-- Conclusêo da trilha 4 -->
 <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-5 mb-8">
 <h3 class="font-semibold text-amber-400 mb-2 flex items-center"><span class="mr-2">🏆</span> ¡Ruta 4 completa!</h3>
 <p class="text-sm text-neutral-300 mb-3">Dominaste los 4 pilares de la automatización en Claude Code: subagents para paralelizar, hooks para políticas automáticas, slash commands para estandarizar y cron para que nunca duerma.</p>

@@ -175,14 +175,14 @@ Working directory: /home/user/meu-projeto
 </div>
 </div>
 </section>
-<!-- TÓPICO 2: Login e autenticação -->
+<!-- TÓPICO 2: Login e autenticaçêo -->
 <section class="mb-16" id="topico-2">
 <div class="flex items-center space-x-4 mb-6">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
 <h2 class="text-2xl font-bold">🔐 Flujo de inicio de sesión detallado</h2>
 </div>
 <p class="text-neutral-300 mb-6 leading-relaxed">Claude Code usa <strong class="text-blue-400">OAuth2 vía browser</strong> como método principal. Las credenciales están en <code class="font-mono bg-dark-700 px-2 py-0.5 rounded text-sm">~/.claude/</code> y son válidas hasta que expiran (por lo general, semanas).</p>
-<!-- SVG: fluxo de autenticação -->
+<!-- SVG: fluxo de autenticaçêo -->
 <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
 <svg aria-label="Flujo de autenticación OAuth: terminal claude → Anthropic OAuth → inicio de sesión en el navegador → token → ~/.claude/ → REPL listo" class="w-full h-auto" role="img" viewbox="0 0 860 170">
 <defs>
@@ -233,14 +233,14 @@ Working directory: /home/user/meu-projeto
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Autenticar pela primeira vez (abre browser)</span>
 claude
 
-<span class="text-blue-400"># Verificar status de autenticação</span>
+<span class="text-blue-400"># Verificar status de autenticaçêo</span>
 claude --status
 
-<span class="text-blue-400"># Forçar reautenticação</span>
+<span class="text-blue-400"># Forçar reautenticaçêo</span>
 claude --logout
 claude
 
-<span class="text-blue-400"># Ver onde as credenciais estão salvas</span>
+<span class="text-blue-400"># Ver onde as credenciais estêo salvas</span>
 ls ~/.claude/
 
 <span class="text-blue-400"># Autenticar em ambiente sem browser (API key)</span>
@@ -284,17 +284,17 @@ claude</code></pre>
 </div>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Usar una clave de API en Claude Code</h4>
-<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Opção 1: variável de ambiente (sessão atual)</span>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Opçêo 1: variável de ambiente (sessêo atual)</span>
 export ANTHROPIC_API_KEY="sk-ant-api03-..."
 claude
 
-<span class="text-blue-400"># Opção 2: persistir no .bashrc ou .zshrc</span>
+<span class="text-blue-400"># Opçêo 2: persistir no .bashrc ou .zshrc</span>
 echo 'export ANTHROPIC_API_KEY="sk-ant-api03-..."' &gt;&gt; ~/.bashrc
 source ~/.bashrc
 
-<span class="text-blue-400"># Opção 3: informar na autenticação interativa</span>
+<span class="text-blue-400"># Opçêo 3: informar na autenticaçêo interativa</span>
 claude
-<span class="text-neutral-500"># Escolher opção 2 (Enter API key manually)</span>
+<span class="text-neutral-500"># Escolher opçêo 2 (Enter API key manually)</span>
 <span class="text-neutral-500"># Colar a chave quando solicitado</span>
 
 <span class="text-blue-400"># Verificar qual método está sendo usado</span>
@@ -338,11 +338,11 @@ claude --status</code></pre>
 <h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Comandos slash más útiles</h4>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>/help          <span class="text-neutral-500"># Lista todos os comandos disponíveis</span>
 /clear         <span class="text-neutral-500"># Limpa o contexto da conversa atual</span>
-/status        <span class="text-neutral-500"># Mostra modelo, uso de contexto, autenticação</span>
+/status        <span class="text-neutral-500"># Mostra modelo, uso de contexto, autenticaçêo</span>
 /exit          <span class="text-neutral-500"># Sair do REPL (ou Ctrl+C)</span>
 /mcp           <span class="text-neutral-500"># Lista servidores MCP conectados</span>
 /init          <span class="text-neutral-500"># Gera CLAUDE.md para o projeto atual</span>
-/cost          <span class="text-neutral-500"># Mostra tokens usados na sessão</span></code></pre>
+/cost          <span class="text-neutral-500"># Mostra tokens usados na sessêo</span></code></pre>
 </div>
 <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
 <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Usa @ para hacer referencia a archivos</h3>
@@ -402,13 +402,13 @@ claude --status</code></pre>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Sair do REPL</span>
 /exit          <span class="text-neutral-500"># ou Ctrl+C duas vezes</span>
 
-<span class="text-blue-400"># Retomar sessão anterior do mesmo diretório</span>
+<span class="text-blue-400"># Retomar sessêo anterior do mesmo diretório</span>
 claude --resume
 
 <span class="text-blue-400"># Ver sessões disponíveis</span>
 claude --list-sessions
 
-<span class="text-blue-400"># Iniciar sessão sem histórico (limpa)</span>
+<span class="text-blue-400"># Iniciar sessêo sem histórico (limpa)</span>
 claude --no-resume
 
 <span class="text-blue-400"># Usar claude sem REPL (modo print, para scripts)</span>

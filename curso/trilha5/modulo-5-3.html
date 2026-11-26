@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>5.3 Manutenção, versionamento e CHANGELOG | Claude Code</title>
+<title>5.3 Manutençêo, versionamento e CHANGELOG | Claude Code</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -64,9 +64,9 @@
 </div>
 <div class="flex items-center space-x-1">
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors hidden md:block" href="../trilha1/index.html">🧭 Fundamentos</a>
-<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors hidden md:block" href="../trilha2/index.html">⚙️ Instalaçêo</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors hidden md:block" href="../trilha3/index.html">🧩 Skills</a>
-<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automação</a>
+<a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors hidden md:block" href="../trilha4/index.html">🔁 Automaçêo</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-teal-400 bg-teal-500/10 font-medium" href="index.html">🏗️ Projetos</a>
 <a class="px-3 py-1.5 rounded-lg text-sm text-neutral-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors hidden md:block" href="../trilha6/index.html">🚀 Deploy</a>
 <button class="ml-2 p-2 rounded-lg text-neutral-400 hover:text-neutral-100 hover:bg-dark-700 transition-colors" id="theme-toggle">
@@ -93,12 +93,12 @@
 <span class="text-xs font-bold uppercase tracking-widest text-teal-400 bg-teal-500/20 border border-teal-500/30 px-3 py-1 rounded-full">Trilha 5</span>
 <span class="text-xs text-neutral-500">~45 min</span>
 </div>
-<h1 class="text-2xl font-bold mb-3">📦 Manutenção, versionamento e CHANGELOG</h1>
-<p class="text-neutral-300">Semver, CHANGELOG estruturado, rollback seguro, refatoração com confiança e como controlar dívida técnica em projetos que vivem por meses.</p>
+<h1 class="text-2xl font-bold mb-3">📦 Manutençêo, versionamento e CHANGELOG</h1>
+<p class="text-neutral-300">Semver, CHANGELOG estruturado, rollback seguro, refatoraçêo com confiança e como controlar dívida técnica em projetos que vivem por meses.</p>
 </div>
-<!-- SEÇÃO 1 — Semver -->
+<!-- SEÇêO 1 — Semver -->
 <section class="mb-16" id="topico-1">
-<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🏷️ Semver — versões que comunicam intenção</h2>
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🏷️ Semver — versões que comunicam intençêo</h2>
 <!-- SVG — escada de versões -->
 <div class="rounded-2xl border border-teal-500/30 bg-dark-900/40 p-4 mb-8">
 <svg aria-label="Escada de versões semver: PATCH sobe um degrau, MINOR sobe mais, MAJOR é uma quebra de compatibilidade — representada por uma escada crescente" class="w-full h-auto" role="img" viewbox="0 0 700 180">
@@ -121,13 +121,13 @@
 </g>
 <text fill="#9ad6ff" font-family="Inter,sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="550" y="69">MAJOR 2.0.0</text>
 <text fill="#6b7280" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" x="550" y="93">breaking change</text>
-<!-- Linhas de conexão -->
+<!-- Linhas de conexêo -->
 <line stroke="#2dd4bf" stroke-width="1.5" x1="220" x2="260" y1="145" y2="110"></line>
 <line stroke="#38bdf8" stroke-width="1.5" x1="430" x2="460" y1="110" y2="65"></line>
 </svg>
 <p class="text-xs text-neutral-500 text-center mt-2">Cada número do semver comunica o impacto da mudança</p>
 </div>
-<p class="text-neutral-300 mb-6">Semantic Versioning (semver) não é burocracia — é comunicação. Cada número tem significado preciso que permite a qualquer pessoa (e ao Claude) entender o impacto de uma atualização.</p>
+<p class="text-neutral-300 mb-6">Semantic Versioning (semver) nêo é burocracia — é comunicaçêo. Cada número tem significado preciso que permite a qualquer pessoa (e ao Claude) entender o impacto de uma atualizaçêo.</p>
 <!-- Code box -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -136,7 +136,7 @@
 <span class="w-3 h-3 rounded-full bg-green-500"></span>
 <span class="text-xs text-neutral-500 ml-2 font-mono">comandos git para versionamento</span>
 </div>
-<pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code># Criar tag de versão
+<pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code># Criar tag de versêo
 git tag -a v1.2.3 -m "Release 1.2.3 — Documents Gallery"
 
 # Listar tags
@@ -148,7 +148,7 @@ git push origin --tags
 # Ver diff entre versões
 git diff v1.2.0..v1.3.0
 
-# Voltar para versão específica (checkout)
+# Voltar para versêo específica (checkout)
 git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -165,14 +165,14 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 <div class="bg-dark-800 rounded-xl border border-red-500/20 p-5">
 <div class="text-2xl mb-2">💥</div>
 <h4 class="font-semibold text-red-400 mb-2">MAJOR X.y.z</h4>
-<p class="text-sm text-neutral-400">Breaking change. Pode quebrar código existente. Leia o guia de migração.</p>
+<p class="text-sm text-neutral-400">Breaking change. Pode quebrar código existente. Leia o guia de migraçêo.</p>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — CHANGELOG -->
+<!-- SEÇêO 2 — CHANGELOG -->
 <section class="mb-16" id="topico-2">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 📋 CHANGELOG bem estruturado</h2>
-<p class="text-neutral-300 mb-6">O CHANGELOG é o diário do projeto. Segue o formato "Keep a Changelog" — estruturado por versão com seções Added, Changed, Fixed e Removed.</p>
+<p class="text-neutral-300 mb-6">O CHANGELOG é o diário do projeto. Segue o formato "Keep a Changelog" — estruturado por versêo com seções Added, Changed, Fixed e Removed.</p>
 <!-- Code box de CHANGELOG -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -189,7 +189,7 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 
 ## [2.3.0] — 2026-05-31
 ### Added
-- Documents Gallery: visualização de docs Obsidian no dashboard
+- Documents Gallery: visualizaçêo de docs Obsidian no dashboard
 - Filtro por vault na sidebar
 
 ### Changed
@@ -200,7 +200,7 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 
 ## [2.2.0] — 2026-04-15
 ### Added
-- Skill /personas: panteão de personas YAML locais
+- Skill /personas: panteêo de personas YAML locais
 - Painel de personas no dashboard
 
 ### Changed
@@ -215,9 +215,9 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
 <h4 class="text-emerald-400 font-bold mb-3">✓ CHANGELOG eficaz</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
-<li>• Uma entrada por versão com data</li>
+<li>• Uma entrada por versêo com data</li>
 <li>• Seções semânticas (Added/Changed/Fixed)</li>
-<li>• Seção [Unreleased] para próxima versão</li>
+<li>• Seçêo [Unreleased] para próxima versêo</li>
 <li>• Frases curtas focadas no impacto</li>
 <li>• Atualizado a cada PR mergeado</li>
 </ul>
@@ -238,12 +238,12 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 <span class="text-primary text-lg">💡</span>
 <div>
 <p class="text-primary font-semibold text-sm mb-1">Claude como assistente de CHANGELOG</p>
-<p class="text-neutral-300 text-sm">Ao final de uma sessão produtiva: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Baseado nas mudanças que fizemos, adicione entradas na seção [Unreleased] do CHANGELOG.md seguindo o formato Keep a Changelog."</code></p>
+<p class="text-neutral-300 text-sm">Ao final de uma sessêo produtiva: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Baseado nas mudanças que fizemos, adicione entradas na seçêo [Unreleased] do CHANGELOG.md seguindo o formato Keep a Changelog."</code></p>
 </div>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Rollback seguro -->
+<!-- SEÇêO 3 — Rollback seguro -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> ⏪ Rollback seguro</h2>
 <p class="text-neutral-300 mb-6">Com o Claude gerando código rapidamente, erros acontecem. Saber fazer rollback sem drama é a habilidade mais subestimada em projetos de longo prazo.</p>
@@ -269,7 +269,7 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 </div>
 <div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
 <p class="font-semibold text-sm mb-1">Arquivo específico corrompido — <code class="font-mono text-teal-300 text-xs">git checkout</code></p>
-<p class="text-neutral-400 text-sm">Restaura um arquivo para a versão de um commit anterior sem afetar o resto.</p>
+<p class="text-neutral-400 text-sm">Restaura um arquivo para a versêo de um commit anterior sem afetar o resto.</p>
 <code class="font-mono text-xs text-teal-300 bg-dark-700 px-2 py-1 rounded mt-2 inline-block">git checkout v2.2.0 -- src/components/Gallery.tsx</code>
 </div>
 </div>
@@ -278,8 +278,8 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 <div class="w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
 </div>
 <div class="bg-dark-800 rounded-xl p-4 flex-1 border border-dark-600 mb-2">
-<p class="font-semibold text-sm mb-1">Deploy revertido — versão anterior em produção</p>
-<p class="text-neutral-400 text-sm">No Cloudflare: dashboard → Deployments → selecionar versão anterior → "Rollback". Instantâneo, sem código.</p>
+<p class="font-semibold text-sm mb-1">Deploy revertido — versêo anterior em produçêo</p>
+<p class="text-neutral-400 text-sm">No Cloudflare: dashboard → Deployments → selecionar versêo anterior → "Rollback". Instantâneo, sem código.</p>
 </div>
 </div>
 </div>
@@ -289,17 +289,17 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
 <h4 class="text-emerald-400 font-bold mb-3">✓ Preparado para rollback</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
-<li>• Tags de versão em cada release</li>
+<li>• Tags de versêo em cada release</li>
 <li>• Commits atômicos e pequenos</li>
 <li>• Feature flags para features novas</li>
-<li>• Deploy automatizado (não manual)</li>
+<li>• Deploy automatizado (nêo manual)</li>
 <li>• Testes que detectam regressões</li>
 </ul>
 </div>
 <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
 <h4 class="text-red-400 font-bold mb-3">✗ Rollback impossível</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
-<li>• Sem tags — não sabe qual versão reverter</li>
+<li>• Sem tags — nêo sabe qual versêo reverter</li>
 <li>• Commits gigantes com 50 arquivos</li>
 <li>• Migrações de banco sem downgrade</li>
 <li>• Deploy manual sem histórico</li>
@@ -308,22 +308,22 @@ git checkout v1.2.0 -- src/components/Gallery.tsx</code></pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — Refatorar com segurança -->
+<!-- SEÇêO 4 — Refatorar com segurança -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 🔧 Refatorar com segurança</h2>
-<p class="text-neutral-300 mb-6">Refatoração com o Claude é rápida — e por isso perigosa. Sem testes, você não sabe se a "limpeza" quebrou algo. Ritual: testes primeiro, refatoração depois.</p>
-<!-- Code box — comandos de refatoração segura -->
+<p class="text-neutral-300 mb-6">Refatoraçêo com o Claude é rápida — e por isso perigosa. Sem testes, você nêo sabe se a "limpeza" quebrou algo. Ritual: testes primeiro, refatoraçêo depois.</p>
+<!-- Code box — comandos de refatoraçêo segura -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
 <span class="w-3 h-3 rounded-full bg-red-500"></span>
 <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
 <span class="w-3 h-3 rounded-full bg-green-500"></span>
-<span class="text-xs text-neutral-500 ml-2 font-mono">fluxo de refatoração segura</span>
+<span class="text-xs text-neutral-500 ml-2 font-mono">fluxo de refatoraçêo segura</span>
 </div>
 <pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code># 1. Garantir que testes passam ANTES de refatorar
 bun test
 
-# 2. Criar branch para a refatoração
+# 2. Criar branch para a refatoraçêo
 git checkout -b refactor/aggregate-pipeline
 
 # 3. Refatorar em passos pequenos, testar após cada passo
@@ -336,14 +336,14 @@ git commit -m "refactor: extract parseObsidianVault to separate function"
 # 5. Confirmar que tudo ainda passa
 bun test
 
-# 6. Merge via PR (revisão antes de merge)
+# 6. Merge via PR (revisêo antes de merge)
 git push origin refactor/aggregate-pipeline</code></pre>
 </div>
 <div class="bg-primary/10 border border-primary/30 rounded-xl p-5 mb-6">
 <div class="flex items-start gap-3">
 <span class="text-primary text-lg">💡</span>
 <div>
-<p class="text-primary font-semibold text-sm mb-1">Prompt de refatoração segura</p>
+<p class="text-primary font-semibold text-sm mb-1">Prompt de refatoraçêo segura</p>
 <p class="text-neutral-300 text-sm">Diga ao Claude: <code class="font-mono bg-dark-700 px-1 rounded text-teal-300 text-xs">"Antes de refatorar, mostre quais testes cobrem este código. Depois refatore em passos pequenos e execute os testes após cada passo."</code></p>
 </div>
 </div>
@@ -351,17 +351,17 @@ git push origin refactor/aggregate-pipeline</code></pre>
 <!-- Grid ✓/✗ -->
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
-<h4 class="text-emerald-400 font-bold mb-3">✓ Refatoração segura</h4>
+<h4 class="text-emerald-400 font-bold mb-3">✓ Refatoraçêo segura</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
 <li>• Testes passando antes de começar</li>
 <li>• Branch dedicada</li>
 <li>• Passos pequenos com commits</li>
 <li>• Rodar testes após cada passo</li>
-<li>• PR para revisão final</li>
+<li>• PR para revisêo final</li>
 </ul>
 </div>
 <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
-<h4 class="text-red-400 font-bold mb-3">✗ Refatoração arriscada</h4>
+<h4 class="text-red-400 font-bold mb-3">✗ Refatoraçêo arriscada</h4>
 <ul class="space-y-2 text-sm text-neutral-300">
 <li>• Refatorar diretamente na main</li>
 <li>• Mudar 10 arquivos no mesmo commit</li>
@@ -372,10 +372,10 @@ git push origin refactor/aggregate-pipeline</code></pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — Testes como documentação -->
+<!-- SEÇêO 5 — Testes como documentaçêo -->
 <section class="mb-16" id="topico-5">
-<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🧪 Testes como documentação viva</h2>
-<p class="text-neutral-300 mb-6">Testes bem escritos são a spec mais confiável: precisam passar para existir. Ao contrário de comentários e README que ficam obsoletos silenciosamente.</p>
+<h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🧪 Testes como documentaçêo viva</h2>
+<p class="text-neutral-300 mb-6">Testes bem escritos sêo a spec mais confiável: precisam passar para existir. Ao contrário de comentários e README que ficam obsoletos silenciosamente.</p>
 <!-- Code box de teste -->
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <div class="flex items-center gap-2 mb-3">
@@ -388,7 +388,7 @@ git push origin refactor/aggregate-pipeline</code></pre>
 import { parseObsidianVault } from '../src/lib/aggregate'
 
 describe('parseObsidianVault', () =&gt; {
-  it('retorna array vazio quando vault não existe', async () =&gt; {
+  it('retorna array vazio quando vault nêo existe', async () =&gt; {
     const result = await parseObsidianVault('/nonexistent/path')
     expect(result).toEqual([])
   })
@@ -400,7 +400,7 @@ describe('parseObsidianVault', () =&gt; {
     expect(result[0]).toHaveProperty('tags')
   })
 
-  it('ignora arquivos sem extensão .md', async () =&gt; {
+  it('ignora arquivos sem extensêo .md', async () =&gt; {
     const result = await parseObsidianVault('./fixtures/vault')
     result.forEach(note =&gt; {
       expect(note.path).toMatch(/\.md$/)
@@ -426,10 +426,10 @@ describe('parseObsidianVault', () =&gt; {
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Dívida técnica -->
+<!-- SEÇêO 6 — Dívida técnica -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 💳 Dívida técnica controlada</h2>
-<p class="text-neutral-300 mb-6">Dívida técnica não é sempre ruim — às vezes é a decisão correta no momento. O problema é quando ela acumula sem ser rastreada. Com Claude, a dívida acumula muito mais rápido que o normal.</p>
+<p class="text-neutral-300 mb-6">Dívida técnica nêo é sempre ruim — às vezes é a decisêo correta no momento. O problema é quando ela acumula sem ser rastreada. Com Claude, a dívida acumula muito mais rápido que o normal.</p>
 <!-- Grid de monitoramento -->
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
 <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5">
@@ -439,7 +439,7 @@ describe('parseObsidianVault', () =&gt; {
 <li>• Issue no GitHub para cada dívida</li>
 <li>• Sprint de cleanup mensal</li>
 <li>• Métrica de TODO count no CI</li>
-<li>• Decisão explícita de "pagar depois"</li>
+<li>• Decisêo explícita de "pagar depois"</li>
 </ul>
 </div>
 <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-5">
@@ -463,10 +463,10 @@ describe('parseObsidianVault', () =&gt; {
 </div>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code>// TODO(nei, 2026-05-15): Este parser é O(n²) para vaults grandes.
 // Aceitável para agora (&lt;500 notas) mas precisa de índice quando
-// o projeto escalar. Ver ADR-003 para contexto da decisão.
+// o projeto escalar. Ver ADR-003 para contexto da decisêo.
 // Issue: github.com/user/project/issues/42
 function parseAllNotes(vault: string) {
-  // ...implementação atual...
+  // ...implementaçêo atual...
 }</code></pre>
 </div>
 <div class="bg-primary/10 border border-primary/30 rounded-xl p-5">
@@ -489,8 +489,8 @@ function parseAllNotes(vault: string) {
 <li>• Semver: MAJOR.MINOR.PATCH com semântica</li>
 <li>• CHANGELOG no formato Keep a Changelog</li>
 <li>• Estratégias de rollback por cenário</li>
-<li>• Refatoração em passos com testes</li>
-<li>• Testes como documentação viva</li>
+<li>• Refatoraçêo em passos com testes</li>
+<li>• Testes como documentaçêo viva</li>
 <li>• Rastreamento de dívida técnica</li>
 </ul>
 </div>

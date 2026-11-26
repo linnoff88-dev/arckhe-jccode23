@@ -98,7 +98,7 @@
 <h1 class="text-2xl font-bold mb-3">🏗️ Arquitectura de un proyecto</h1>
 <p class="text-neutral-300">Estructurar un proyecto duradero: carpetas, módulos, separación de responsabilidades, elección de stack, documentación de decisiones y estrategia de crecimiento incremental.</p>
 </div>
-<!-- SEÇÃO 1 — Estrutura de pastas -->
+<!-- SEÇêO 1 — Estrutura de pastas -->
 <section class="mb-16" id="topico-1">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 📁 Estructura de carpetas que tiene sentido</h2>
 <!-- SVG inline -->
@@ -157,7 +157,7 @@
 </div>
 <pre class="font-mono text-sm text-teal-300 overflow-x-auto"><code>my-project/
 ├── src/
-│   ├── components/     # UI e lógica de apresentação
+│   ├── components/     # UI e lógica de apresentaçêo
 │   ├── lib/            # Utilitários puros
 │   ├── types/          # TypeScript interfaces
 │   └── data/           # Artefatos JSON gerados
@@ -206,7 +206,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — Separação de responsabilidades -->
+<!-- SEÇêO 2 — Separaçêo de responsabilidades -->
 <section class="mb-16" id="topico-2">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> 🔩 Separación de responsabilidades</h2>
 <p class="text-neutral-300 mb-6">Cada módulo debe tener una razón para existir y una razón para cambiar. Cuando esto no se respeta, cualquier cambio propaga efectos inesperados a todo el sistema.</p>
@@ -278,7 +278,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Escolha de stack -->
+<!-- SEÇêO 3 — Escolha de stack -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 🧱 Elección de stack</h2>
 <p class="text-neutral-300 mb-6">El stack es una decisión a largo plazo. Cambiar de runtime a mitad de un proyecto es costoso. Elegir bien al inicio ahorra meses de trabajo.</p>
@@ -319,7 +319,7 @@
 ## Status: Aceito (2026-05-01)
 
 ## Contexto
-Projeto precisa de: TypeScript nativo, execução rápida
+Projeto precisa de: TypeScript nativo, execuçêo rápida
 de scripts, bundler integrado, compatibilidade Node.js.
 
 ## Opções consideradas
@@ -327,12 +327,12 @@ de scripts, bundler integrado, compatibilidade Node.js.
 - Deno: boa DX, mas ecossistema menor
 - Bun: startup 3x mais rápido, bundler nativo, TS out-of-box
 
-## Decisão
+## Decisêo
 Usar Bun como runtime principal.
 
 ## Consequências
 + Scripts de build ~200ms (vs ~600ms com Node)
-+ Sem configuração adicional de TypeScript
++ Sem configuraçêo adicional de TypeScript
 - Alguns pacotes npm com compatibilidade parcial
 - Equipe precisa instalar Bun (curl ... | bash)</code></pre>
 </div>
@@ -346,7 +346,7 @@ Usar Bun como runtime principal.
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — Documentar decisões -->
+<!-- SEÇêO 4 — Documentar decisões -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📝 Documentar decisiones con ADRs</h2>
 <p class="text-neutral-300 mb-6">Los Architecture Decision Records (ADRs) son documentos breves que registran por qué se tomó una decisión, qué opciones se consideraron y cuáles son las consecuencias esperadas.</p>
@@ -379,11 +379,11 @@ Usar Bun como runtime principal.
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — Começar pequeno -->
+<!-- SEÇêO 5 — Começar pequeno -->
 <section class="mb-16" id="topico-5">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 🌱 Empezar poco a poco y crecer</h2>
 <p class="text-neutral-300 mb-6">Los proyectos con Claude evolucionan rápido. La trampa es planificar una arquitectura compleja antes de validar el núcleo. Primero, un walking skeleton; después, los detalles.</p>
-<!-- Timeline de evolução -->
+<!-- Timeline de evoluçêo -->
 <div class="mb-8">
 <h3 class="font-semibold mb-4 text-neutral-200">Ciclo de crecimiento saludable</h3>
 <div class="space-y-4">
@@ -428,7 +428,7 @@ Usar Bun como runtime principal.
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Visão de longo prazo -->
+<!-- SEÇêO 6 — Visêo de longo prazo -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔭 Visión a largo plazo</h2>
 <p class="text-neutral-300 mb-6">Los proyectos perduran cuando tienen rituales de mantenimiento, no solo features. Lo que haces cada semana importa más que la arquitectura inicial.</p>

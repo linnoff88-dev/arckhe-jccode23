@@ -223,12 +223,12 @@
 </div>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Sintaxis de glob en los patrones</h4>
-<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Ferramentas disponíveis para permissão:</span>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Ferramentas disponíveis para permissêo:</span>
 <span class="text-emerald-400">Read(**)</span>          <span class="text-neutral-500"># Leitura de qualquer arquivo</span>
 <span class="text-emerald-400">Read(src/**)</span>      <span class="text-neutral-500"># Leitura apenas em src/</span>
 <span class="text-emerald-400">Write(**)</span>         <span class="text-neutral-500"># Escrita em qualquer lugar</span>
 <span class="text-emerald-400">Write(src/**)</span>     <span class="text-neutral-500"># Escrita apenas em src/</span>
-<span class="text-emerald-400">Edit(**)</span>          <span class="text-neutral-500"># Edição de arquivos</span>
+<span class="text-emerald-400">Edit(**)</span>          <span class="text-neutral-500"># Ediçêo de arquivos</span>
 <span class="text-emerald-400">Bash(*)</span>           <span class="text-neutral-500"># Qualquer comando bash</span>
 <span class="text-emerald-400">Bash(git *)</span>       <span class="text-neutral-500"># Apenas comandos git</span>
 <span class="text-emerald-400">Bash(npm test)</span>    <span class="text-neutral-500"># Apenas npm test</span>
@@ -249,8 +249,8 @@
   <span class="text-blue-400">"permissions"</span>: {
     <span class="text-blue-400">"allow"</span>: [
       <span class="text-emerald-400">"Read(**)"</span>,                   <span class="text-neutral-500">// leitura sempre segura</span>
-      <span class="text-emerald-400">"Edit(src/**)"</span>,              <span class="text-neutral-500">// edição dentro de src/</span>
-      <span class="text-emerald-400">"Write(src/**)"</span>,             <span class="text-neutral-500">// criação em src/</span>
+      <span class="text-emerald-400">"Edit(src/**)"</span>,              <span class="text-neutral-500">// ediçêo dentro de src/</span>
+      <span class="text-emerald-400">"Write(src/**)"</span>,             <span class="text-neutral-500">// criaçêo em src/</span>
       <span class="text-emerald-400">"Bash(git status)"</span>,          <span class="text-neutral-500">// git somente leitura</span>
       <span class="text-emerald-400">"Bash(git diff*)"</span>,
       <span class="text-emerald-400">"Bash(git log*)"</span>,
@@ -261,7 +261,7 @@
     <span class="text-blue-400">"deny"</span>: [
       <span class="text-red-400">"Bash(rm -rf*)"</span>,             <span class="text-neutral-500">// nunca deletar recursivo</span>
       <span class="text-red-400">"Bash(sudo*)"</span>,               <span class="text-neutral-500">// sem sudo</span>
-      <span class="text-red-400">"Bash(git push*)"</span>,           <span class="text-neutral-500">// push requer revisão humana</span>
+      <span class="text-red-400">"Bash(git push*)"</span>,           <span class="text-neutral-500">// push requer revisêo humana</span>
       <span class="text-red-400">"Bash(git reset --hard*)"</span>    <span class="text-neutral-500">// destrutivo</span>
     ]
   }
@@ -291,7 +291,7 @@
 </div>
 </div>
 </section>
-<!-- TÓPICO 4: Modos de permissão -->
+<!-- TÓPICO 4: Modos de permissêo -->
 <section class="mb-16" id="topico-4">
 <div class="flex items-center space-x-4 mb-6">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
@@ -328,7 +328,7 @@
 <h4 class="font-semibold text-white mb-1">Modo dangerously-skip-permissions</h4>
 <p class="text-sm text-neutral-400 mb-2"><strong class="text-red-400">Solo desarrollo local</strong> — ejecuta todo sin confirmación</p>
 <pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-2"><code>claude --dangerously-skip-permissions
-<span class="text-neutral-500"># ⚠️  NUNCA usar em produção ou máquinas compartilhadas</span></code></pre>
+<span class="text-neutral-500"># ⚠️  NUNCA usar em produçêo ou máquinas compartilhadas</span></code></pre>
 </div>
 </div>
 </div>
@@ -338,7 +338,7 @@
 claude --print --model claude-sonnet-4-5 \
   "Analise os testes que falharam e sugira correções"
 
-<span class="text-blue-400"># Modo não-interativo com permissões via settings</span>
+<span class="text-blue-400"># Modo nêo-interativo com permissões via settings</span>
 <span class="text-neutral-500"># (settings.json já tem allow para as ações necessárias)</span>
 echo "rode os testes e corrija falhas" | claude --print
 
@@ -375,7 +375,7 @@ Deploy: Railway. Domínio: api.meu-projeto.com
 <span class="text-blue-400">## Convenções de código</span>
 - Arquivos em camelCase, pastas em kebab-case
 - Imports absolutos via tsconfig paths (@/src/...)
-- Testes com Vitest, não Jest
+- Testes com Vitest, nêo Jest
 - Commits em português, formato: feat/fix/chore: mensagem
 
 <span class="text-blue-400">## Comandos úteis</span>
@@ -445,7 +445,7 @@ Deploy: Railway. Domínio: api.meu-projeto.com
 }
 
 <span class="text-blue-400"># ~/projetos/app-trabalho/.claude/settings.json</span>
-<span class="text-neutral-500">// mais restritivo — código de produção</span>
+<span class="text-neutral-500">// mais restritivo — código de produçêo</span>
 {
   "permissions": {
     "allow": ["Read(**)", "Edit(src/**)", "Bash(npm test)"],

@@ -99,7 +99,7 @@
 <h1 class="text-2xl font-bold mb-3">🖥️ Estudio de caso: ClaudeOS (Hermes)</h1>
 <p class="text-neutral-300">Analizar en detalle un proyecto real de largo plazo: un dashboard personal de IA con Bun + TanStack/React + Vite + Tailwind, con deploy en Cloudflare. V2.3 — may/2026.</p>
 </div>
-<!-- SEÇÃO 1 — Visão geral -->
+<!-- SEÇêO 1 — Visêo geral -->
 <section class="mb-16" id="topico-1">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">1</span> 🗺️ Descripción general del proyecto</h2>
 <p class="text-neutral-300 mb-6">ClaudeOS (nombre en clave Hermes) es un dashboard personal <strong>read-only</strong> para quien ejecuta un stack de IA local. Consolida datos de múltiples fuentes en una interfaz única, sin modificar ninguna de ellas.</p>
@@ -201,7 +201,7 @@
 </div>
 </div>
 </section>
-<!-- SEÇÃO 2 — aggregate.ts -->
+<!-- SEÇêO 2 — aggregate.ts -->
 <section class="mb-16" id="topico-2">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">2</span> ⚙️ scripts/aggregate.ts — el corazón del sistema</h2>
 <p class="text-neutral-300 mb-6">El archivo más importante de ClaudeOS no es un componente de React: es un script TypeScript que se ejecuta fuera del navegador. Lee fuentes heterogéneas y produce un único JSON que consume el dashboard.</p>
@@ -222,7 +222,7 @@ import { join } from 'path'
 
 async function aggregateClaudeHistory() {
   const historyDir = join(process.env.HOME!, '.claude', 'history')
-  // Lê arquivos de sessão dos últimos 30 dias
+  // Lê arquivos de sessêo dos últimos 30 dias
   // Extrai: tokens usados, projetos, modelos
   return { sessions: [...], tokenTotal: 0 }
 }
@@ -284,7 +284,7 @@ main()</code></pre>
 </div>
 </div>
 </section>
-<!-- SEÇÃO 3 — Skill /dream -->
+<!-- SEÇêO 3 — Skill /dream -->
 <section class="mb-16" id="topico-3">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">3</span> 💤 Skill /dream — auditoría de 24h</h2>
 <p class="text-neutral-300 mb-6">La skill /dream es un ejemplo de skill con <strong>output estructurado</strong>. No responde en prosa: escribe un archivo JSON que el dashboard muestra como tarjetas de acción.</p>
@@ -304,7 +304,7 @@ Gerar as 4 prescrições de maior impacto em JSON.
 
 ## Buckets de sinal
 1. Tokens consumidos vs budget diário
-2. Projetos mais ativos (por sessão)
+2. Projetos mais ativos (por sessêo)
 3. Skills mais invocadas
 4. Notas Obsidian criadas/modificadas
 5. Queries Pinecone (tópicos consultados)
@@ -374,7 +374,7 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 </div>
 </section>
-<!-- SEÇÃO 4 — CLAUDE.md do projeto -->
+<!-- SEÇêO 4 — CLAUDE.md do projeto -->
 <section class="mb-16" id="topico-4">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">4</span> 📜 CLAUDE.md de ClaudeOS — ejemplo real</h2>
 <p class="text-neutral-300 mb-6">El CLAUDE.md de ClaudeOS es un ejemplo de instrucciones de nivel de producción. Cada regla tiene una razón clara de existir.</p>
@@ -388,13 +388,13 @@ Ao terminar análise, escrever em src/data/dream-output.json:
 </div>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code># ClaudeOS (Hermes) — Instruções do agente
 
-## Saudação de onboarding
+## Saudaçêo de onboarding
 Bem-vindo ao ClaudeOS! Você está trabalhando no dashboard
 pessoal de IA. Antes de qualquer task, leia este arquivo.
 
 ## O que é este projeto
 Dashboard read-only que consolida dados de Claude Code,
-Obsidian, OpenRouter e Pinecone para visualização pessoal.
+Obsidian, OpenRouter e Pinecone para visualizaçêo pessoal.
 Stack: Bun + React 19 + TanStack Query + Vite + Tailwind 4
 Deploy: Cloudflare Pages (wrangler)
 
@@ -404,13 +404,13 @@ Deploy: Cloudflare Pages (wrangler)
 - NUNCA ler ou escrever diretamente em ~/.claude/
   → Dados chegam via scripts/aggregate.ts e src/data/live-data.json
 - NUNCA enviar dados do usuário para serviços externos
-- Anonimização LIGADA — remove PII de outputs
+- Anonimizaçêo LIGADA — remove PII de outputs
 - Sem telemetria — sem analytics, sem tracking
 
 ### Arquitetura
 - Dashboard é READ-ONLY — NUNCA modificar fontes de dados
-- Código novo vai em src/ — scripts de dados vão em scripts/
-- Não criar arquivos na raiz do projeto
+- Código novo vai em src/ — scripts de dados vêo em scripts/
+- Nêo criar arquivos na raiz do projeto
 
 ### Segurança
 - API keys SEMPRE via variáveis de ambiente (.env)
@@ -419,7 +419,7 @@ Deploy: Cloudflare Pages (wrangler)
 ## Estrutura do projeto
 src/
   components/   → UI React
-  data/         → live-data.json (gerado, não editado)
+  data/         → live-data.json (gerado, nêo editado)
 scripts/
   aggregate.ts  → coleta dados das fontes
   setup.ts      → setup inicial (roda uma vez)</code></pre>
@@ -445,7 +445,7 @@ scripts/
 </div>
 </div>
 </section>
-<!-- SEÇÃO 5 — CHANGELOG V2.3 -->
+<!-- SEÇêO 5 — CHANGELOG V2.3 -->
 <section class="mb-16" id="topico-5">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">5</span> 📦 CHANGELOG V2.3 — el historial como espejo</h2>
 <p class="text-neutral-300 mb-6">El CHANGELOG de ClaudeOS cuenta la historia de un proyecto que evolucionó de un script simple a un dashboard completo. Cada versión es un hito.</p>
@@ -515,7 +515,7 @@ scripts/
 </div>
 </div>
 </section>
-<!-- SEÇÃO 6 — Mock do dashboard + lições -->
+<!-- SEÇêO 6 — Mock do dashboard + lições -->
 <section class="mb-12" id="topico-6">
 <h2 class="text-xl font-bold text-teal-400 mb-6 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-sm font-bold">6</span> 🔗 Mock del dashboard y lecciones para tu proyecto</h2>
 <!-- Mock dashboard HTML -->

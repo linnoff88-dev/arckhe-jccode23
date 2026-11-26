@@ -162,10 +162,10 @@ npm -v
 bun -v
 <span class="text-neutral-500"># Output esperado: 1.x.x</span>
 
-<span class="text-blue-400"># Se Node.js não estiver instalado (macOS com Homebrew):</span>
+<span class="text-blue-400"># Se Node.js nêo estiver instalado (macOS com Homebrew):</span>
 brew install node
 
-<span class="text-blue-400"># Se Node.js não estiver instalado (Ubuntu/Debian):</span>
+<span class="text-blue-400"># Se Node.js nêo estiver instalado (Ubuntu/Debian):</span>
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs</code></pre>
 </div>
@@ -175,7 +175,7 @@ sudo apt-get install -y nodejs</code></pre>
 <p class="text-neutral-300">O <strong>nvm</strong> (Node Version Manager) lets you install and switch between Node.js versions without conflicts. Ideal if you work on multiple projects. Install with <code class="font-mono bg-dark-700 px-1.5 py-0.5 rounded text-sm">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash</code> and use <code class="font-mono bg-dark-700 px-1.5 py-0.5 rounded text-sm">nvm install --lts</code> to the latest LTS version.</p>
 </div>
 </section>
-<!-- TÓPICO 2: Instalação -->
+<!-- TÓPICO 2: Instalaçêo -->
 <section class="mb-16" id="topico-2">
 <div class="flex items-center space-x-4 mb-6">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
@@ -211,7 +211,7 @@ sudo apt-get install -y nodejs</code></pre>
 <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
 <h4 class="font-semibold text-white mb-1">Wait for completion</h4>
 <p class="text-sm text-neutral-400 mb-3">Installation takes 30–90 seconds, depending on the network.</p>
-<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code><span class="text-neutral-500"># Output esperado durante instalação:</span>
+<pre class="font-mono text-sm text-neutral-300 bg-dark-900/50 rounded-lg p-3 overflow-x-auto"><code><span class="text-neutral-500"># Output esperado durante instalaçêo:</span>
 added 247 packages in 45s
 <span class="text-emerald-400">+ @anthropic-ai/claude-code@1.x.x</span></code></pre>
 </div>
@@ -231,7 +231,7 @@ which claude
 </div>
 </div>
 </div>
-<!-- SVG: diagrama de instalação -->
+<!-- SVG: diagrama de instalaçêo -->
 <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
 <svg aria-label="Installation flow: terminal → npm install → global binary → PATH → claude available" class="w-full h-auto" role="img" viewbox="0 0 800 160">
 <defs>
@@ -266,7 +266,7 @@ which claude
 </svg>
 </div>
 </section>
-<!-- TÓPICO 3: Verificação -->
+<!-- TÓPICO 3: Verificaçêo -->
 <section class="mb-16" id="topico-3">
 <div class="flex items-center space-x-4 mb-6">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
@@ -275,7 +275,7 @@ which claude
 <p class="text-neutral-300 mb-6 leading-relaxed">After installing, three commands confirm that everything is set up correctly. Run them in order—they test the installation, PATH, and basic functionality.</p>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
 <h4 class="text-sm font-semibold text-neutral-400 mb-3 uppercase tracking-wide">Post-installation verification checklist</h4>
-<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># 1. Versão instalada</span>
+<pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># 1. Versêo instalada</span>
 claude --version
 <span class="text-neutral-500"># ✓ Claude Code 1.x.x</span>
 
@@ -288,7 +288,7 @@ which claude
 claude --help
 <span class="text-neutral-500"># ✓ Lista de flags e subcomandos</span>
 
-<span class="text-blue-400"># 4. Se 'claude' não for encontrado:</span>
+<span class="text-blue-400"># 4. Se 'claude' nêo for encontrado:</span>
 <span class="text-neutral-500"># Verificar se ~/.npm/bin está no PATH</span>
 echo $PATH | grep npm
 
@@ -305,7 +305,7 @@ export PATH="$HOME/.npm/bin:$PATH"</code></pre>
 </ul>
 </div>
 </section>
-<!-- TÓPICO 4: Atualização -->
+<!-- TÓPICO 4: Atualizaçêo -->
 <section class="mb-16" id="topico-4">
 <div class="flex items-center space-x-4 mb-6">
 <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
@@ -321,16 +321,16 @@ export PATH="$HOME/.npm/bin:$PATH"</code></pre>
 <pre class="font-mono text-sm text-neutral-300 overflow-x-auto"><code><span class="text-blue-400"># Atualizar via npm</span>
 npm update -g @anthropic-ai/claude-code
 
-<span class="text-blue-400"># Ou reinstalar para garantir última versão</span>
+<span class="text-blue-400"># Ou reinstalar para garantir última versêo</span>
 npm install -g @anthropic-ai/claude-code@latest
 
 <span class="text-blue-400"># Atualizar via Bun</span>
 bun update -g @anthropic-ai/claude-code
 
-<span class="text-blue-400"># Verificar versão atual vs mais recente</span>
+<span class="text-blue-400"># Verificar versêo atual vs mais recente</span>
 npm outdated -g @anthropic-ai/claude-code
 
-<span class="text-blue-400"># Verificar versão após atualização</span>
+<span class="text-blue-400"># Verificar versêo após atualizaçêo</span>
 claude --version</code></pre>
 </div>
 <!-- Grid ✓/✗ -->
@@ -410,13 +410,13 @@ claude --version</code></pre>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">
 <h4 class="font-semibold text-red-400 mb-2">EACCES: permission denied</h4>
 <p class="text-sm text-neutral-400 mb-3">npm doesn’t have permission to write to the global folder</p>
-<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 overflow-x-auto"><code><span class="text-neutral-500"># Solução 1: configurar npm para usar diretório do usuário</span>
+<pre class="font-mono text-xs text-neutral-300 bg-dark-900/50 rounded p-3 overflow-x-auto"><code><span class="text-neutral-500"># Soluçêo 1: configurar npm para usar diretório do usuário</span>
 mkdir ~/.npm-global
 npm config set prefix '~/.npm-global'
 echo 'export PATH=~/.npm-global/bin:$PATH' &gt;&gt; ~/.bashrc
 source ~/.bashrc
 
-<span class="text-neutral-500"># Solução 2: usar nvm (recomendado — evita sudo)</span>
+<span class="text-neutral-500"># Soluçêo 2: usar nvm (recomendado — evita sudo)</span>
 nvm install --lts &amp;&amp; npm i -g @anthropic-ai/claude-code</code></pre>
 </div>
 <div class="bg-dark-800 rounded-xl border border-dark-600 p-5">

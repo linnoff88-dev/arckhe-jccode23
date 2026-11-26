@@ -1,4 +1,4 @@
-﻿# ðŸ¤– Claude Code â€” Do Zero ao Projeto
+ï»¿# ê°Å¸Â¤â Claude Code ê¢â¬â Do Zero ao Projeto
 
 <div align="center">
   <img src="capa/logo.svg" alt="Arckhé AI" height="48" />
@@ -6,7 +6,7 @@
 </div>
 
 
-Curso completo de **Claude Code** no formato INEMA.CLUB â€” dos fundamentos Ã  instalaÃ§Ã£o, criando skills e automaÃ§Ãµes, atÃ© desenvolver e publicar projetos reais de longo prazo.
+Curso completo de **Claude Code** no formato INEMA.CLUB ê¢â¬â dos fundamentos êÂ  instalaêÂ§êÂ£o, criando skills e automaêÂ§êÂµes, atêÂ© desenvolver e publicar projetos reais de longo prazo.
 
 **No ar:** https://inematds.github.io/jccode23/
 
@@ -14,24 +14,24 @@ Curso completo de **Claude Code** no formato INEMA.CLUB â€” dos fundamentos
 
 | # | Trilha | Cobre |
 |---|--------|-------|
-| T1 ðŸ§­ | Fundamentos | O que Ã© Claude Code, como o agente pensa, contexto/tokens, terminal |
-| T2 âš™ï¸ | InstalaÃ§Ã£o & Setup | Instalar, autenticar, `settings.json`, permissÃµes, MCP, 1Âº projeto |
-| T3 ðŸ§© | Skills | Anatomia da `SKILL.md`, triggers, scripts â€” case **ads-skill** (Arcads) |
-| T4 ðŸ” | AutomaÃ§Ã£o | Subagents, hooks, slash commands, workflows, cron |
-| T5 ðŸ—ï¸ | Projetos de longo prazo | Arquitetura, `CLAUDE.md`, memÃ³ria, manutenÃ§Ã£o â€” case **ClaudeOS** |
-| T6 ðŸš€ | Deploy & PortfÃ³lio | Git, GitHub, GitHub Pages, publicar e evoluir |
+| T1 ê°Å¸Â§Â­ | Fundamentos | O que êÂ© Claude Code, como o agente pensa, contexto/tokens, terminal |
+| T2 ê¢Å¡â¢ê¯Â¸Â | InstalaêÂ§êÂ£o & Setup | Instalar, autenticar, `settings.json`, permissêÂµes, MCP, 1êÂº projeto |
+| T3 ê°Å¸Â§Â© | Skills | Anatomia da `SKILL.md`, triggers, scripts ê¢â¬â case **ads-skill** (Arcads) |
+| T4 ê°Å¸âÂ | AutomaêÂ§êÂ£o | Subagents, hooks, slash commands, workflows, cron |
+| T5 ê°Å¸Ââê¯Â¸Â | Projetos de longo prazo | Arquitetura, `CLAUDE.md`, memêÂ³ria, manutenêÂ§êÂ£o ê¢â¬â case **ClaudeOS** |
+| T6 ê°Å¸Å¡â¬ | Deploy & PortfêÂ³lio | Git, GitHub, GitHub Pages, publicar e evoluir |
 
-6 trilhas Â· 24 mÃ³dulos Â· 144 tÃ³picos.
+6 trilhas êÂ· 24 mêÂ³dulos êÂ· 144 têÂ³picos.
 
 ## Estrutura
 
 ```
 index.html              # Landing
 curso/trilhaN/index.html    # Index da trilha
-curso/trilhaN/modulo-N-X.html  # MÃ³dulos
+curso/trilhaN/modulo-N-X.html  # MêÂ³dulos
 ```
 
-HTML estÃ¡tico puro (Tailwind via CDN). Dark/light mode. Sem build.
+HTML estêÂ¡tico puro (Tailwind via CDN). Dark/light mode. Sem build.
 
 ---
 Feito para [INEMA.CLUB](https://inema.club).
